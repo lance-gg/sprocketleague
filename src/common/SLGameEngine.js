@@ -31,7 +31,7 @@ class SLGameEngine extends GameEngine {
 
     gameInit() {
         this.sumoRing = new SumoRing(++this.world.idCount, this);
-        this.sumoRing.position.y = -4;
+        this.sumoRing.position.z = -10;
         this.addObjectToWorld(this.sumoRing);
     }
 
