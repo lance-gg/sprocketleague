@@ -1,17 +1,10 @@
 'use strict';
 
-const Renderer = require('incheon').render.Renderer;
-const THREE = window.THREE = require('three');
-const TWEEN = require('tween');
-
-// todo switch from browserify so we could require this
-// const OBJLoader = require('../../node_modules/three/src/loaders/ObjectLoader');
-
-const OrbitControls = require('../../node_modules/three/examples/js/controls/OrbitControls');
+const AFrameRenderer = require('incheon').render.AFrameRenderer;
 
 const DEBUG__SHOW_CANNON_FRAMES = false;
 
-class SLRenderer extends Renderer {
+class SLRenderer extends AFrameRenderer {
 
     // constructor
     constructor(gameEngine, clientEngine) {
@@ -27,58 +20,9 @@ class SLRenderer extends Renderer {
 
         super.init();
 
-        console.log('setting up client-side scene');
-
-        // setup the scene
-        this.scene = new THREE.Scene();
-
-        // setup camera
-        this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.set(0, 45, 100);
-        this.camera.up = new THREE.Vector3(0, 1, 0);
-        this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-        this.scene.add(this.camera);
-
-        this.roamingCamera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.roamingCamera.up = new THREE.Vector3(0, 1, 0);
-        this.scene.add(this.roamingCamera);
-
-        this.currentCamera = this.roamingCamera;
-
-        // setup light
-        this.scene.add(new THREE.AmbientLight(0x606060));
-        this.pointLight = new THREE.PointLight(0xffffff, 2, 100);
-        this.pointLight.position.set(15, 40, 15);
-        this.pointLight.castShadow = true;
-        this.pointLight.shadowDarkness = 0.15;
-        this.pointLight.shadow.camera.near = 1;
-        this.pointLight.shadow.camera.far = 100;
-        this.pointLight.shadow.bias = 0.01;
-        this.scene.add(this.pointLight);
-        
-        // setup the renderer and add the canvas to the body
-        this.renderer = new THREE.WebGLRenderer({ antialias: true });
-        this.renderer.setPixelRatio(window.devicePixelRatio);
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.BasicShadowMap;
-        document.getElementById('viewport').appendChild(this.renderer.domElement);
-
-
-        // controls
-
-        this.cameraControls = new THREE.OrbitControls( this.roamingCamera );
-        // this.cameraControls.userPan = false;
-
-        this.objLoader = new THREE.OBJLoader();
-
-        // a local raycaster
-        this.raycaster = new THREE.Raycaster();
-
-
         // setup events for camera
-        this.on("ready", () => {
-            let onDocumentMouseDown  = ( event ) => {
+        this.on('ready', () => {
+            let onDocumentMouseDown = ( event ) => {
                 event.preventDefault();
                 this.lookAround = true;
                 this.cameraControls.center.copy( this.playerCar.position );
@@ -90,13 +34,13 @@ class SLRenderer extends Renderer {
                 document.removeEventListener( 'mouseup', onDocumentMouseUp );
             };
 
-            document.addEventListener( 'mousedown', onDocumentMouseDown, false )
+            document.addEventListener( 'mousedown', onDocumentMouseDown, false );
         });
 
         return new Promise((resolve, reject) => {
 
             if (!DEBUG__SHOW_CANNON_FRAMES) {
-                this.emit("ready");
+                this.emit('ready');
                 this.isReady = true;
                 resolve();
                 return;
@@ -110,7 +54,7 @@ class SLRenderer extends Renderer {
             script.src = '/src/lib/CannonDebugRenderer.js';
             script.onload = () => {
                 this.cannonDebugRenderer = new THREE.CannonDebugRenderer( this.scene, this.gameEngine.physicsEngine.world );
-                this.emit("ready");
+                this.emit('ready');
                 this.isReady = true;
                 resolve();
             };
@@ -140,26 +84,6 @@ class SLRenderer extends Renderer {
     // single step
     draw() {
         super.draw();
-        
-        if (this.currentCamera === this.roamingCamera && this.playerCar){
-            TWEEN.update();
-            this.cameraControls.update();
-
-            let relativeCameraOffset = new THREE.Vector3( 0, 35, -100 );
-            let cameraOffset = relativeCameraOffset.applyMatrix4( this.playerCar.matrixWorld );
-            // Camera TWEEN.
-            if (!this.lookAround) {
-                new TWEEN.Tween( this.roamingCamera.position ).to( {
-                    x: cameraOffset.x,
-                    y: cameraOffset.y,
-                    z: cameraOffset.z }, 90 )
-                    .interpolation( TWEEN.Interpolation.Bezier )
-                    .easing( TWEEN.Easing.Sinusoidal.InOut ).start();
-                this.roamingCamera.lookAt( this.playerCar.position );
-            }
-        }
-
-        this.renderer.render(this.scene, this.currentCamera);
         if (this.cannonDebugRenderer)
             this.cannonDebugRenderer.update();
     }
@@ -181,23 +105,17 @@ class SLRenderer extends Renderer {
         let b = Math.max(0, 1 - r - g);
         let objColor = new THREE.Color(r, g, b);
 
-        // create the visual object
-        // let sphereMaterial = new THREE.MeshPhongMaterial({
-        //     color: objColor,
-        //     wireframe: false,
-        //     shininess: 10
-        // });
 
         let renderObj = new THREE.Object3D();
 
-        //keep a reference to the player car 
-        if (this.gameEngine.world.objects[id].playerId == this.clientEngine.playerId){
+        // keep a reference to the player car
+        if (this.gameEngine.world.objects[id].playerId == this.clientEngine.playerId) {
             this.playerCar = renderObj;
         }
 
-        this.objLoader.load( 'resources/models/modelt.obj', function ( object ) {
+        this.objLoader.load( 'resources/models/modelt.obj', function( object ) {
 
-            object.traverse( child => {
+            object.traverse( (child) => {
                 if ( child instanceof THREE.Mesh ) {
                     child.material.color = objColor;
                     child.castShadow = true;
@@ -205,7 +123,7 @@ class SLRenderer extends Renderer {
                 }
             } );
 
-            object.scale.set(7.7,7.7,7.7);
+            object.scale.set(7.7, 7.7, 7.7);
             renderObj.add(object);
         });
 

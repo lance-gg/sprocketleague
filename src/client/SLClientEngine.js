@@ -3,16 +3,13 @@ const KeyboardControls = require('../client/KeyboardControls');
 const SLRenderer = require('./SLRenderer');
 
 
-// The Sumo client-side engine
+// The SoccerLeague client-side engine
 class SLClientEngine extends ClientEngine {
 
     // constructor
     constructor(gameEngine, options) {
         super(gameEngine, options, SLRenderer);
 
-        // TODO: 1. shouldn't be necessary to register ThreeVector and Quternion
-        // TODO: 2. on the original sumo I registered the classes in the gameEngine
-        //          instead of doing it twice (clientEngine and serverEngine)
         this.serializer.registerClass(require('../common/Car'));
         this.serializer.registerClass(require('../common/SumoRing'));
         this.serializer.registerClass(require('incheon').serialize.ThreeVector);
@@ -27,16 +24,15 @@ class SLClientEngine extends ClientEngine {
         super.start();
         if (this.verbose) console.log(`starting client, registering input handlers`);
 
-        if (this.renderer.isReady){
+        if (this.renderer.isReady) {
             this.onRendererReady();
-        }
-        else{
+        } else {
             this.renderer.once('ready', this.onRendererReady, this);
         }
 
     }
 
-    onRendererReady(){
+    onRendererReady() {
         this.controls = new KeyboardControls();
 
         this.controls.on('fire', () => {
