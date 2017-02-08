@@ -3,7 +3,7 @@
 const GameEngine = require('incheon').GameEngine;
 const ThreeVector = require('incheon').serialize.ThreeVector;
 const Car = require('./Car');
-const SumoRing = require('./SumoRing');
+const Arena = require('./Arena');
 const IMPULSE_STRENGTH = 12;
 
 //todo check if this should be global
@@ -30,9 +30,9 @@ class SLGameEngine extends GameEngine {
     }
 
     gameInit() {
-        this.sumoRing = new SumoRing(++this.world.idCount, this);
-        this.sumoRing.position.z = -10;
-        this.addObjectToWorld(this.sumoRing);
+        this.arena = new Arena(++this.world.idCount, this);
+        this.arena.position.y = -4;
+        this.addObjectToWorld(this.arena);
     }
 
     start() {
