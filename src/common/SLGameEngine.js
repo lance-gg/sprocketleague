@@ -17,11 +17,11 @@ class SLGameEngine extends GameEngine {
         CANNON = this.physicsEngine.CANNON;
 
         this.qRight = new CANNON.Quaternion();
-        this.qRight.setFromAxisAngle(new CANNON.Vec3(0,1,0), -Math.PI/160);
+        this.qRight.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI/160);
         this.mRight = (new CANNON.Mat3()).setRotationFromQuaternion(this.qRight);
 
         this.qLeft = new CANNON.Quaternion();
-        this.qLeft.setFromAxisAngle(new CANNON.Vec3(0,1,0), Math.PI/160);
+        this.qLeft.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI/160);
         this.mLeft = (new CANNON.Mat3()).setRotationFromQuaternion(this.qLeft);
 
         this.on('server__playerJoined', this.makeCar.bind(this));
