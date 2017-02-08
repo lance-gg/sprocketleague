@@ -1,0 +1,5 @@
+dist/bundle.js
+node_modules/
+yarn.lock
+*.trace
+.idea

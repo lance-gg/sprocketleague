@@ -1,0 +1,45 @@
+{
+  "name": "aframe-soccer-league",
+  "version": "1.0.0",
+  "engines": {
+    "node": "4.3.0"
+  },
+  "description": "A sample A-Frame multiplayer with networked physics",
+  "main": "main.js",
+  "dependencies": {
+    "browserify": "^13.0.1",
+    "eventemitter3": "^1.2.0",
+    "express": "^4.14.0",
+    "incheon": "Opherv/Incheon.git",
+    "query-string": "^4.2.3",
+    "socket.io": "^1.4.8",
+    "three": "^0.84.0",
+    "tween": "^0.9.0"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "eslint": "^3.14.1",
+    "eslint-config-google": "^0.7.1",
+    "watchify": "^3.9.0"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "build": "browserify src/client/clientMain.js -o dist/bundle.js -t [ babelify --presets [ es2015 ]]",
+    "watch": "watchify src/client/clientMain.js -o dist/bundle.js -v -d -t [ babelify --presets [ es2015 ]]",
+    "postinstall": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/namel/aframe-soccer-league.git"
+  },
+  "keywords": [
+    "game",
+    "websockets"
+  ],
+  "author": "Gary Weiss",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/namel/aframe-soccer-league/issues"
+  },
+  "homepage": "https://github.com/namel/aframe-soccer-league#readme"
+}
