@@ -74,7 +74,7 @@ class SLGameEngine extends GameEngine {
         console.log(`adding car of player`, player);
 
         // create a fighter for this client
-        let position = new ThreeVector(0, 25, 0);
+        let position = new ThreeVector(0, 25, -5);
         let car = new Car(++this.world.idCount, this, position);
         car.playerId = player.playerId;
         this.addObjectToWorld(car);

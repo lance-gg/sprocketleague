@@ -14,12 +14,12 @@ class Car extends PhysicalObject {
 
         // create the physics body
         this.gameEngine = gameEngine;
-        this.physicsObj = gameEngine.physicsEngine.addBox(10, 10, 20, 1, 0);
+        this.physicsObj = gameEngine.physicsEngine.addBox(2, 2, 4, 1, 0);
         this.physicsObj.position.set(this.position.x, this.position.y, this.position.z);
 
         let scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
         if (scene) {
-            let el = document.createElement('a-entity');
+            let el = this.renderEl = document.createElement('a-entity');
             scene.appendChild(el);
             el.setAttribute('position', `${this.position.x} ${this.position.y} ${this.position.z}`);
             el.setAttribute('quaternion', `${this.quaternion.w} ${this.quaternion.x} ${this.quaternion.y} ${this.quaternion.z}`);

@@ -20,7 +20,7 @@ class Arena extends PhysicalObject {
 
         let scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
         if (scene) {
-            let el = document.createElement('a-entity');
+            let el = this.renderEl = document.createElement('a-entity');
             scene.appendChild(el);
             el.setAttribute('position', `${this.position.x} ${this.position.y} ${this.position.z}`);
             el.setAttribute('quaternion', `${this.quaternion.w} ${this.quaternion.x} ${this.quaternion.y} ${this.quaternion.z}`);
