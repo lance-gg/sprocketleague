@@ -99,10 +99,10 @@ class SLGameEngine extends GameEngine {
 
         let playerCar = this.world.getPlayerObject(playerId);
 
-        if (playerCar){
-            if (inputData.input == 'up') {
+        if (playerCar) {
+            if (inputData.input === 'up') {
                 //todo probably bad perf
-                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0,0,1));
+                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, 0.05));
                 // console.log(newVec);
                 playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
             } else if (inputData.input === 'right') {
@@ -111,8 +111,10 @@ class SLGameEngine extends GameEngine {
             } else if (inputData.input === 'left') {
                 this.mLeft.vmult(playerCar.physicsObj.velocity, playerCar.physicsObj.velocity);
                 this.qLeft.mult(playerCar.physicsObj.quaternion, playerCar.physicsObj.quaternion);
-            }  else if (inputData.input === 'down') {
-                playerCar.physicsObj.velocity.mult(0.9, playerCar.physicsObj.velocity);
+            } else if (inputData.input === 'down') {
+                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, -0.05));
+                // console.log(newVec);
+                playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
 
             }
 
