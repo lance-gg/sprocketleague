@@ -4,9 +4,9 @@ const GameEngine = require('incheon').GameEngine;
 const ThreeVector = require('incheon').serialize.ThreeVector;
 const Car = require('./Car');
 const Arena = require('./Arena');
-const IMPULSE_STRENGTH = 12;
+const TURN_IMPULSE = 0.04;
 
-//todo check if this should be global
+// todo check if this should be global
 let CANNON = null;
 
 class SLGameEngine extends GameEngine {
@@ -91,11 +91,6 @@ class SLGameEngine extends GameEngine {
     processInput(inputData, playerId) {
         super.processInput(inputData, playerId);
 
-        // apply a central impulse
-        // let moveDirection = new CANNON.Vec3(inputData.input.x, 0, inputData.input.z);
-        // moveDirection.normalize();
-        // moveDirection = moveDirection.scale(IMPULSE_STRENGTH);
-        // console.log(inputData, playerId);
 
         let playerCar = this.world.getPlayerObject(playerId);
 
@@ -107,11 +102,11 @@ class SLGameEngine extends GameEngine {
                 playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
             } else if (inputData.input === 'right') {
                 let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                deltaAngularVelocity.scale(-0.04, deltaAngularVelocity);
+                deltaAngularVelocity.scale(-TURN_IMPULSE, deltaAngularVelocity);
                 playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
             } else if (inputData.input === 'left') {
                 let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                deltaAngularVelocity.scale(0.04, deltaAngularVelocity);
+                deltaAngularVelocity.scale(TURN_IMPULSE, deltaAngularVelocity);
                 playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
             } else if (inputData.input === 'down') {
                 let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, -0.05));
