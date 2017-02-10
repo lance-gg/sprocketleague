@@ -14,7 +14,6 @@ class Car extends PhysicalObject {
     onAddToWorld(gameEngine) {
 
         // TODO: convert to rotation using aframe/system.js
-        // function rad2deg(r) { return r*180/Math.PI; }
 
         // create the physics body
         this.gameEngine = gameEngine;
@@ -26,11 +25,10 @@ class Car extends PhysicalObject {
         if (scene) {
             let el = this.renderEl = document.createElement('a-entity');
             scene.appendChild(el);
-            // let eulerRotation = (new THREE.Euler()).setFromQuaternion(this.quaternion);
-            // let r = { x: rad2deg(eulerRotation.x), y: rad2deg(eulerRotation.y), z: rad2deg(eulerRotation.z) };
-            el.setAttribute('position', `${this.position.x} ${this.position.y} ${this.position.z}`);
-            el.setAttribute('quaternion', `${this.quaternion.w} ${this.quaternion.x} ${this.quaternion.y} ${this.quaternion.z}`);
-            // el.setAttribute('rotation', `${r.x} ${r.y} ${r.z}`);
+            let p = this.position;
+            let q = this.quaternion;
+            el.setAttribute('position', `${p.x} ${p.y} ${p.z}`);
+            el.object3D.quaternion.set(q.x, q.y, q.z, q.w);
             el.setAttribute('material', 'color: red');
             el.setAttribute('obj-model', 'obj: #car-obj');
             el.setAttribute('game-object-id', this.id);
