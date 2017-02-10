@@ -26,6 +26,7 @@ class Arena extends PhysicalObject {
             el.setAttribute('quaternion', `${this.quaternion.w} ${this.quaternion.x} ${this.quaternion.y} ${this.quaternion.z}`);
             el.setAttribute('material', 'color: blue');
             el.setAttribute('geometry', 'primitive: box; width: 60; height: 0.5; depth: 60');
+            el.setAttribute('game-object-id', this.id);
         }
     }
 

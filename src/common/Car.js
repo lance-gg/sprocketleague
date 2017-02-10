@@ -16,6 +16,7 @@ class Car extends PhysicalObject {
         this.gameEngine = gameEngine;
         this.physicsObj = gameEngine.physicsEngine.addBox(2, 2, 4, 1, 0);
         this.physicsObj.position.set(this.position.x, this.position.y, this.position.z);
+        this.physicsObj.angularDamping = 0.1;
 
         let scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
         if (scene) {
@@ -25,8 +26,8 @@ class Car extends PhysicalObject {
             el.setAttribute('quaternion', `${this.quaternion.w} ${this.quaternion.x} ${this.quaternion.y} ${this.quaternion.z}`);
             el.setAttribute('material', 'color: red');
             el.setAttribute('obj-model', 'obj: #car-obj');
+            el.setAttribute('game-object-id', this.id);
         }
-
     }
 
     toString() {
