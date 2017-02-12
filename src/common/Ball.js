@@ -2,7 +2,7 @@
 
 const PhysicalObject = require('incheon').serialize.PhysicalObject;
 const RADIUS = 1;
-const MASS = 2;
+const MASS = 1;
 let CANNON = null;
 
 class Ball extends PhysicalObject {
@@ -30,7 +30,7 @@ class Ball extends PhysicalObject {
             let q = this.quaternion;
             el.setAttribute('position', `${p.x} ${p.y} ${p.z}`);
             el.setAttribute('material', 'color: green');
-            el.setAttribute('geometry', 'primitive: sphere; radius: 1; segmentsWidth: 10; segmentsHeight: 8');
+            el.setAttribute('geometry', 'primitive: sphere; radius: 2; segmentsWidth: 32; segmentsHeight: 16');
             el.setAttribute('game-object-id', this.id);
         }
     }
