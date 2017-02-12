@@ -61,7 +61,6 @@ class Car extends PhysicalObject {
         XZPlaneOrientation.normalize();
         XZPlaneVelocity.normalize();
         let length = XZPlaneOrientation.dot(XZPlaneVelocity);
-        console.log(`orientation=${XZPlaneOrientation} velocity=${XZPlaneVelocity} new-length=${length}`);
 
         // if they are close just take the orientation
         if (length > 0.9) {
