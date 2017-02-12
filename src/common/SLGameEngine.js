@@ -3,6 +3,7 @@
 const GameEngine = require('incheon').GameEngine;
 const ThreeVector = require('incheon').serialize.ThreeVector;
 const Car = require('./Car');
+const Ball = require('./Ball');
 const Arena = require('./Arena');
 const TURN_IMPULSE = 0.04;
 
@@ -23,6 +24,7 @@ class SLGameEngine extends GameEngine {
         this.qLeft = new CANNON.Quaternion();
         this.qLeft.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI/160);
         this.mLeft = (new CANNON.Mat3()).setRotationFromQuaternion(this.qLeft);
+        this.numCars = 0;
 
         this.on('server__playerJoined', this.makeCar.bind(this));
         this.on('server__playerDisconnected', this.removeCar.bind(this));
@@ -81,18 +83,33 @@ class SLGameEngine extends GameEngine {
         console.log(`adding car of player`, player);
 
         // create a fighter for this client
-        let position = new ThreeVector(0, 25, -5);
+        let x = Math.random() * 20 - 10;
+        let z = Math.random() * 20 - 10;
+        let position = new ThreeVector(x, 25, z);
         let car = new Car(++this.world.idCount, this, position);
         car.playerId = player.playerId;
         this.addObjectToWorld(car);
+        this.numCars++;
+
+        if (this.numCars === 2)
+            this.makeBall();
 
         return car;
+    }
+
+    makeBall() {
+        console.log(`adding ball`);
+        let position = new ThreeVector(0, 25, 0);
+        let ball = new Ball(++this.world.idCount, this, position);
+        ball.playerId = 0;
+        this.addObjectToWorld(ball);
     }
 
     removeCar(player) {
         console.log(`removing car of player`, player);
         let o = this.world.getPlayerObject(player.playerId);
         this.removeObjectFromWorld(o.id);
+        this.numCars--;
     }
 
     processInput(inputData, playerId) {
