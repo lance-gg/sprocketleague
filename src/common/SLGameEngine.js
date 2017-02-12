@@ -60,6 +60,13 @@ class SLGameEngine extends GameEngine {
                 this.resetFighter({ playerId: objId });
             }
         }
+
+        // car physics
+        this.world.forEachObject((id, o) => {
+            if (o.class === Car) {
+                o.adjustCarMovement();
+            }
+        });
     }
 
     resetFighter(fighter) {
@@ -101,18 +108,25 @@ class SLGameEngine extends GameEngine {
                 // console.log(newVec);
                 playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
             } else if (inputData.input === 'right') {
-                let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                deltaAngularVelocity.scale(-TURN_IMPULSE, deltaAngularVelocity);
-                playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
+
+                // only turn if the car is advancing
+                if (playerCar.physicsObj.velocity.length() > 0.2) {
+                    let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
+                    deltaAngularVelocity.scale(-TURN_IMPULSE, deltaAngularVelocity);
+                    playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
+                }
             } else if (inputData.input === 'left') {
-                let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                deltaAngularVelocity.scale(TURN_IMPULSE, deltaAngularVelocity);
-                playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
+
+                // only turn if the car is advancing
+                if (playerCar.physicsObj.velocity.length() > 0.2) {
+                    let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
+                    deltaAngularVelocity.scale(TURN_IMPULSE, deltaAngularVelocity);
+                    playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
+                }
             } else if (inputData.input === 'down') {
                 let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, -0.05));
                 // console.log(newVec);
                 playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
-
             }
 
             playerCar.refreshFromPhysics();

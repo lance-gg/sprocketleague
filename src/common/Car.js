@@ -2,6 +2,7 @@
 
 const PhysicalObject = require('incheon').serialize.PhysicalObject;
 const MASS = 2;
+let CANNON = null;
 
 class Car extends PhysicalObject {
 
@@ -17,6 +18,7 @@ class Car extends PhysicalObject {
 
         // create the physics body
         this.gameEngine = gameEngine;
+        CANNON = this.gameEngine.physicsEngine.CANNON;
         this.physicsObj = gameEngine.physicsEngine.addBox(2, 2, 4, MASS, 0);
         this.physicsObj.position.set(this.position.x, this.position.y, this.position.z);
         this.physicsObj.angularDamping = 0.1;
@@ -33,6 +35,51 @@ class Car extends PhysicalObject {
             el.setAttribute('obj-model', 'obj: #car-obj');
             el.setAttribute('game-object-id', this.id);
         }
+    }
+
+    // reduce the perpendicular component of the velocity
+    adjustCarMovement() {
+
+        // gradually slow down the angular velocity
+        this.physicsObj.angularVelocity.scale(0.95, this.physicsObj.angularVelocity);
+
+        // ignore very small velocities
+        if (this.physicsObj.velocity.length() < 0.05)
+            return;
+
+        // grab velocity and orientation on the XZ plane
+        let XZPlaneOrientation = this.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, 1));
+        let XZPlaneVelocity = this.physicsObj.velocity.clone();
+        XZPlaneOrientation.y = 0;
+        XZPlaneVelocity.y = 0;
+
+        // ignore very small velocities
+        if (XZPlaneVelocity.length() < 0.1)
+            return;
+
+        // calculate the projection of the two vectors
+        XZPlaneOrientation.normalize();
+        XZPlaneVelocity.normalize();
+        let length = XZPlaneOrientation.dot(XZPlaneVelocity);
+        console.log(`orientation=${XZPlaneOrientation} velocity=${XZPlaneVelocity} new-length=${length}`);
+
+        // if they are close just take the orientation
+        if (length > 0.9) {
+            XZPlaneVelocity = this.physicsObj.velocity.clone();
+            XZPlaneVelocity.y = 0;
+            let XZPlaneVelocityLength = XZPlaneVelocity.length();
+            XZPlaneOrientation.scale(XZPlaneVelocityLength, XZPlaneOrientation);
+            this.physicsObj.velocity.x = XZPlaneOrientation.x;
+            this.physicsObj.velocity.z = XZPlaneOrientation.z;
+        } else {
+            // apply the dot product as a factor
+            XZPlaneVelocity = this.physicsObj.velocity.clone();
+            XZPlaneVelocity.scale(length, XZPlaneVelocity);
+            this.physicsObj.velocity.x = XZPlaneVelocity.x;
+            this.physicsObj.velocity.z = XZPlaneVelocity.z;
+        }
+
+        this.refreshFromPhysics();
     }
 
     toString() {
