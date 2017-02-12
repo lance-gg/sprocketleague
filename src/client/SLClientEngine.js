@@ -11,6 +11,7 @@ class SLClientEngine extends ClientEngine {
         super(gameEngine, options, SLRenderer);
 
         this.serializer.registerClass(require('../common/Car'));
+        this.serializer.registerClass(require('../common/Ball'));
         this.serializer.registerClass(require('../common/Arena'));
         this.serializer.registerClass(require('incheon').serialize.ThreeVector);
         this.serializer.registerClass(require('incheon').serialize.Quaternion);
