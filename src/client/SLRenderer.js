@@ -13,11 +13,30 @@ class SLRenderer extends AFrameRenderer {
     // setup the 3D scene
     init() {
 
-        super.init();
-        this.emit('ready');
-        this.isReady = true;
+        return super.init().then(() =>{
 
-        return Promise.resolve();
+            // show cannon objects
+            window.CANNON = this.gameEngine.physicsEngine.CANNON;
+            let head = document.getElementsByTagName('head')[0];
+            let script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = '/src/lib/CannonDebugRenderer.js';
+            script.onload = () => {
+                this.cannonDebugRenderer = new THREE.CannonDebugRenderer( this.scene.object3D, this.gameEngine.physicsEngine.world );
+            };
+            head.appendChild(script);
+
+
+            this.emit('ready');
+            this.isReady = true;
+        });
+
+    }
+
+    draw(){
+        super.draw();
+        if (this.cannonDebugRenderer)
+            this.cannonDebugRenderer.update();
     }
 
 }
