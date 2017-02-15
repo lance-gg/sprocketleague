@@ -5,8 +5,10 @@ const ThreeVector = require('incheon').serialize.ThreeVector;
 const Car = require('./Car');
 const Ball = require('./Ball');
 const Arena = require('./Arena');
-const TURN_IMPULSE = 0.04;
-const FORWARD_IMPULSE = 0.1;
+const TURN_IMPULSE = 0.14;
+const FORWARD_IMPULSE = 0.3;
+const BACKWARD_IMPULSE = -0.7;
+const MAX_VELOCITY = 25;
 
 // todo check if this should be global
 let CANNON = null;
@@ -126,10 +128,22 @@ class SLGameEngine extends GameEngine {
 
         if (playerCar) {
             if (inputData.input === 'up') {
-                // todo probably bad perf
-                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, FORWARD_IMPULSE));
-                // console.log(newVec);
-                playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
+
+                let curVel = playerCar.physicsObj.velocity.length();
+                if (curVel < MAX_VELOCITY) {
+
+                    // todo probably bad perf
+                    let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, FORWARD_IMPULSE));
+                    if ( curVel < 3) {
+                        newVec.scale(3, newVec);
+                    }
+                    playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
+                    if (playerCar.physicsObj.velocity.length() < 1) {
+                        newVec.scale(2, newVec);
+                        playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
+                    }
+                }
+
             } else if (inputData.input === 'right') {
 
                 // only turn if the car is advancing
@@ -147,7 +161,7 @@ class SLGameEngine extends GameEngine {
                     playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
                 }
             } else if (inputData.input === 'down') {
-                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, -FORWARD_IMPULSE));
+                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, BACKWARD_IMPULSE));
                 // console.log(newVec);
                 playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
             }
