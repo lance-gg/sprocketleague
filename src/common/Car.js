@@ -19,7 +19,7 @@ class Car extends PhysicalObject {
         // create the physics body
         this.gameEngine = gameEngine;
         CANNON = this.gameEngine.physicsEngine.CANNON;
-        this.physicsObj = gameEngine.physicsEngine.addBox(2, 2, 4, MASS, 0);
+        this.physicsObj = gameEngine.physicsEngine.addBox(1, 1, 2, MASS, 0);
         this.physicsObj.position.set(this.position.x, this.position.y, this.position.z);
         this.physicsObj.angularDamping = 0.1;
 
