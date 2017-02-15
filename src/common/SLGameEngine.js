@@ -9,7 +9,8 @@ const TURN_IMPULSE = 0.14;
 const FORWARD_IMPULSE = 0.3;
 const BACKWARD_IMPULSE = -0.7;
 const MAX_VELOCITY = 25;
-
+const MIN_TURNING_VELOCITY = 4.0;
+const SMALL_TURNING_VELOCITY = 8.0;
 // todo check if this should be global
 let CANNON = null;
 
@@ -134,6 +135,10 @@ class SLGameEngine extends GameEngine {
 
                     // todo probably bad perf
                     let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, FORWARD_IMPULSE));
+
+                    // TODO: the following adjustments improve game-play, but they
+                    // are completely arbitrary.  The idea is to accelerate faster at lower velocities.
+                    // consider applying an analytical function
                     if ( curVel < 3) {
                         newVec.scale(3, newVec);
                     }
@@ -144,26 +149,39 @@ class SLGameEngine extends GameEngine {
                     }
                 }
 
-            } else if (inputData.input === 'right') {
+            } else if (inputData.input === 'down') {
+                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, BACKWARD_IMPULSE));
+                playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
+            }
+
+            if (inputData.input === 'right') {
 
                 // only turn if the car is advancing
-                if (playerCar.physicsObj.velocity.length() > 0.2) {
+                let curVel = playerCar.physicsObj.velocity.length();
+                if (curVel > MIN_TURNING_VELOCITY) {
                     let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                    deltaAngularVelocity.scale(-TURN_IMPULSE, deltaAngularVelocity);
+                    let impulse = TURN_IMPULSE;
+                    if (curVel < SMALL_TURNING_VELOCITY) {
+                        impulse *= 0.6;
+                    }
+                    deltaAngularVelocity.scale(-impulse, deltaAngularVelocity);
+                    //console.log(`angular vel = ${deltaAngularVelocity.length()} at velocity ${curVel}`);
                     playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
                 }
             } else if (inputData.input === 'left') {
 
                 // only turn if the car is advancing
-                if (playerCar.physicsObj.velocity.length() > 0.2) {
+                let curVel = playerCar.physicsObj.velocity.length();
+                if (curVel > MIN_TURNING_VELOCITY) {
                     let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                    deltaAngularVelocity.scale(TURN_IMPULSE, deltaAngularVelocity);
+                    let impulse = TURN_IMPULSE;
+                    if (curVel < SMALL_TURNING_VELOCITY) {
+                        impulse *= 0.6;
+                    }
+                    deltaAngularVelocity.scale(impulse, deltaAngularVelocity);
+                    //console.log(`angular vel = ${deltaAngularVelocity.length()} at velocity ${curVel}`);
                     playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
                 }
-            } else if (inputData.input === 'down') {
-                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, BACKWARD_IMPULSE));
-                // console.log(newVec);
-                playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
             }
 
             playerCar.refreshFromPhysics();
