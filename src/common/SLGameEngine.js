@@ -154,35 +154,21 @@ class SLGameEngine extends GameEngine {
                 playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
             }
 
-            if (inputData.input === 'right') {
-
+            function doTurn(direction) {
                 // only turn if the car is advancing
                 let curVel = playerCar.physicsObj.velocity.length();
                 if (curVel > MIN_TURNING_VELOCITY) {
                     let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
                     let impulse = TURN_IMPULSE;
-                    if (curVel < SMALL_TURNING_VELOCITY) {
-                        impulse *= 0.6;
-                    }
-                    deltaAngularVelocity.scale(-impulse, deltaAngularVelocity);
-                    //console.log(`angular vel = ${deltaAngularVelocity.length()} at velocity ${curVel}`);
-                    playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
-                }
-            } else if (inputData.input === 'left') {
-
-                // only turn if the car is advancing
-                let curVel = playerCar.physicsObj.velocity.length();
-                if (curVel > MIN_TURNING_VELOCITY) {
-                    let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                    let impulse = TURN_IMPULSE;
-                    if (curVel < SMALL_TURNING_VELOCITY) {
-                        impulse *= 0.6;
-                    }
+                    if (direction === 'right') impulse *= -1;
+                    if (curVel < SMALL_TURNING_VELOCITY) impulse *= 0.6;
                     deltaAngularVelocity.scale(impulse, deltaAngularVelocity);
-                    //console.log(`angular vel = ${deltaAngularVelocity.length()} at velocity ${curVel}`);
                     playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
                 }
             }
+
+            if (['right', 'left'].includes(inputData.input))
+                doTurn(inputData.input)
 
             playerCar.refreshFromPhysics();
         }
