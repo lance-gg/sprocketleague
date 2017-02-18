@@ -15,17 +15,17 @@
         <a-scene networked-physics>
             <a-assets>
                 <a-asset-item id="car-obj" src="resources/models/modelt.obj"></a-asset-item>
-                <a-asset-item id="stadium" src="resources/models/stadium.obj"></a-asset-item>
-                <!--<a-asset-item id="stadiummtl" src="resources/models/stadium.mtl"></a-asset-item>-->
+                <a-asset-item id="stadium" src="resources/models/stadium.gltf"></a-asset-item>
             </a-assets>
 
             <!-- Camera -->
             <a-entity camera position="80 30 0" rotation="0 90 0" look-controls></a-entity>
-            <a-entity scale="2 2 5" position="0 -4.5 0" obj-model="obj: #stadium;" material="shader: standard; side: double;"></a-entity>
+            <a-gltf-model src="#stadium" scale="50 0 50" position="0 -3 0"></a-gltf-model>
+
 
             <a-entity light="type: ambient; color: #BBB"></a-entity>
             <a-entity light="type: hemisphere; color: #33C; groundColor: #3C3; intensity: 0.2"></a-entity>
-            <a-entity light="type: directional; color: #f296cc; intensity: 0.6" position="-0.5 1 1"></a-entity>
+            <!--<a-entity light="type: directional; color: #f296cc; intensity: 0.6" position="-0.5 1 1"></a-entity>-->
 
             <a-entity cubemap="folder: resources/images/flame/; edgeLength: 1000"></a-entity>
 
