@@ -1,6 +1,7 @@
 'use strict';
 
 const AFrameRenderer = require('incheon').render.AFrameRenderer;
+const aframeCubeMapComponent = require('aframe-cubemap-component');
 
 class SLRenderer extends AFrameRenderer {
 
