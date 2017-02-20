@@ -2,12 +2,13 @@
 
 const PhysicalObject = require('incheon').serialize.PhysicalObject;
 const MASS = 0;
-const ARENA_SCALE = 0.4;
+const ARENA_SCALE = 0.1;
 
 // width, depth, and height specified in half-segements
 const ARENA_DEPTH = 375 * ARENA_SCALE;
 const ARENA_WIDTH = 700 * ARENA_SCALE;
 const ARENA_HEIGHT = 80 * ARENA_SCALE;
+const ARENA_MODEL_SCALE = 125 * ARENA_SCALE;
 const WALL_WIDTH = 10;
 
 class Arena extends PhysicalObject {
@@ -51,7 +52,7 @@ class Arena extends PhysicalObject {
             scene.appendChild(el);
             el.setAttribute('position', `${this.position.x} ${this.position.y} ${this.position.z}`);
             el.setAttribute('src', `#stadium`);
-            el.setAttribute('scale', `50 0 50`);
+            el.setAttribute('scale', `${ARENA_MODEL_SCALE} 0 ${ARENA_MODEL_SCALE}`);
             el.setAttribute('rotate', `0 90 0`);
             el.setAttribute('game-object-id', this.id);
         }

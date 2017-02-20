@@ -2,15 +2,11 @@
 
 const GameEngine = require('incheon').GameEngine;
 const ThreeVector = require('incheon').serialize.ThreeVector;
+const CarControl = require('./CarControl');
 const Car = require('./Car');
 const Ball = require('./Ball');
 const Arena = require('./Arena');
-const TURN_IMPULSE = 0.14;
-const FORWARD_IMPULSE = 0.3;
-const BACKWARD_IMPULSE = -0.7;
-const MAX_VELOCITY = 25;
-const MIN_TURNING_VELOCITY = 4.0;
-const SMALL_TURNING_VELOCITY = 8.0;
+
 // todo check if this should be global
 let CANNON = null;
 
@@ -20,6 +16,7 @@ class SLGameEngine extends GameEngine {
         super(options);
 
         CANNON = this.physicsEngine.CANNON;
+        this.carControl = new CarControl({ CANNON });
 
         this.qRight = new CANNON.Quaternion();
         this.qRight.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI/160);
@@ -90,7 +87,7 @@ class SLGameEngine extends GameEngine {
         // create a fighter for this client
         let x = Math.random() * 20 - 10;
         let z = Math.random() * 20 - 10;
-        let position = new ThreeVector(x, 25, z);
+        let position = new ThreeVector(x, 10, z);
         let car = new Car(++this.world.idCount, this, position);
         car.playerId = player.playerId;
         this.addObjectToWorld(car);
@@ -123,61 +120,13 @@ class SLGameEngine extends GameEngine {
 
     processInput(inputData, playerId) {
         super.processInput(inputData, playerId);
-
-
         let playerCar = this.world.getPlayerObject(playerId);
-
         if (playerCar) {
-            if (inputData.input === 'up') {
-
-                let curVel = playerCar.physicsObj.velocity.length();
-                if (curVel < MAX_VELOCITY) {
-
-                    // todo probably bad perf
-                    let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, FORWARD_IMPULSE));
-
-                    // TODO: the following adjustments improve game-play, but they
-                    // are completely arbitrary.  The idea is to accelerate faster at lower velocities.
-                    // consider applying an analytical function
-                    if ( curVel < 3) {
-                        newVec.scale(3, newVec);
-                    }
-                    playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
-                    if (playerCar.physicsObj.velocity.length() < 1) {
-                        newVec.scale(2, newVec);
-                        playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
-                    }
-                }
-
-            } else if (inputData.input === 'down') {
-                let newVec = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, BACKWARD_IMPULSE));
-                playerCar.physicsObj.velocity.vadd(newVec, playerCar.physicsObj.velocity);
-            }
-
-            function doTurn(direction) {
-                // only turn if the car is advancing
-                let curVel = playerCar.physicsObj.velocity.length();
-                if (curVel > MIN_TURNING_VELOCITY) {
-                    let deltaAngularVelocity = playerCar.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
-                    let impulse = TURN_IMPULSE;
-                    if (direction === 'right') impulse *= -1;
-                    if (curVel < SMALL_TURNING_VELOCITY) impulse *= 0.6;
-                    deltaAngularVelocity.scale(impulse, deltaAngularVelocity);
-                    playerCar.physicsObj.angularVelocity.vadd(deltaAngularVelocity, playerCar.physicsObj.angularVelocity);
-                }
-            }
-
-            if (['right', 'left'].includes(inputData.input))
-                doTurn(inputData.input)
-
+            if (['up', 'down'].includes(inputData.input)) this.carControl.accelerate(playerCar, inputData.input);
+            if (['right', 'left'].includes(inputData.input)) this.carControl.turn(playerCar, inputData.input);
             playerCar.refreshFromPhysics();
         }
-
-        // let sphere = playerSumo.physicsObj;
-        // let playerSumoCenter = sphere.position.clone();
-        // sphere.applyImpulse(moveDirection, playerSumoCenter);
     }
-
 }
 
 module.exports = SLGameEngine;

@@ -63,10 +63,10 @@ class Car extends PhysicalObject {
         let length = XZPlaneOrientation.dot(XZPlaneVelocity);
 
         // if they are close just take the orientation
-        if (length > 0.9) {
+        if (Math.abs(length) > 0.9) {
             XZPlaneVelocity = this.physicsObj.velocity.clone();
             XZPlaneVelocity.y = 0;
-            let XZPlaneVelocityLength = XZPlaneVelocity.length();
+            let XZPlaneVelocityLength = XZPlaneVelocity.length() * Math.sign(length);
             XZPlaneOrientation.scale(XZPlaneVelocityLength, XZPlaneOrientation);
             this.physicsObj.velocity.x = XZPlaneOrientation.x;
             this.physicsObj.velocity.z = XZPlaneOrientation.z;
