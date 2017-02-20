@@ -2,7 +2,7 @@
 
 const PhysicalObject = require('incheon').serialize.PhysicalObject;
 const RADIUS = 3;
-const MASS = 0.5;
+const MASS = 0.2;
 let CANNON = null;
 
 class Ball extends PhysicalObject {

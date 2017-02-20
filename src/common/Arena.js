@@ -5,7 +5,7 @@ const MASS = 0;
 const ARENA_SCALE = 0.1;
 
 // width, depth, and height specified in half-segements
-const ARENA_DEPTH = 375 * ARENA_SCALE;
+const ARENA_DEPTH = 470 * ARENA_SCALE;
 const ARENA_WIDTH = 700 * ARENA_SCALE;
 const ARENA_HEIGHT = 100 * ARENA_SCALE;
 const ARENA_MODEL_SCALE = 125 * ARENA_SCALE;

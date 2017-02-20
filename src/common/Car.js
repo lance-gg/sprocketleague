@@ -42,10 +42,14 @@ class Car extends PhysicalObject {
 
         // gradually slow down the angular velocity
         this.physicsObj.angularVelocity.scale(0.95, this.physicsObj.angularVelocity);
+        this.physicsObj.velocity.scale(0.995, this.physicsObj.velocity);
 
         // ignore very small velocities
-        if (this.physicsObj.velocity.length() < 0.05)
+        if (this.physicsObj.velocity.length() < 0.4) {
+            this.physicsObj.velocity.scale(0.5, this.physicsObj.velocity);
+            this.refreshFromPhysics();
             return;
+        }
 
         // grab velocity and orientation on the XZ plane
         let XZPlaneOrientation = this.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, 1));
