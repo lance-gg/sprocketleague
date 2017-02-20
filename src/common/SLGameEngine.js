@@ -104,7 +104,7 @@ class SLGameEngine extends GameEngine {
             return;
 
         console.log(`adding ball`);
-        let position = new ThreeVector(0, 25, -25);
+        let position = new ThreeVector(0, 10, 0);
         let ball = new Ball(++this.world.idCount, this, position);
         ball.playerId = 0;
         this.numBalls++;
