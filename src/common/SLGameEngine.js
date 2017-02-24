@@ -35,7 +35,7 @@ class SLGameEngine extends GameEngine {
 
     gameInit() {
         this.arena = new Arena(++this.world.idCount, this);
-        this.arena.position.y = -4;
+        this.arena.position.y = -15.4;
         this.addObjectToWorld(this.arena);
     }
 
@@ -50,7 +50,7 @@ class SLGameEngine extends GameEngine {
     }
 
 
-    // the Sumo Game Engine Step.
+    // the Sprocket League Game Engine Step.
     step() {
 
         super.step();
