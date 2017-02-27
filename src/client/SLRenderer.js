@@ -2,6 +2,8 @@
 
 const AFrameRenderer = require('incheon').render.AFrameRenderer;
 const aframeCubeMapComponent = require('aframe-cubemap-component');
+const aframeParticleSystemComponent = require('aframe-particle-system-component');
+const aframeChaseLookControls = require('./chase-look-controls');
 const debugWireframes = false;
 
 class SLRenderer extends AFrameRenderer {
@@ -10,11 +12,12 @@ class SLRenderer extends AFrameRenderer {
     constructor(gameEngine, clientEngine) {
         super(gameEngine, clientEngine);
         this.scene = null;
+
+        this.gameEngine.on('objectAdded', this.addObject.bind(this));
     }
 
     // setup the 3D scene
     init() {
-
         return super.init().then(() =>{
 
             // show cannon objects
@@ -30,7 +33,6 @@ class SLRenderer extends AFrameRenderer {
                 head.appendChild(script);
             }
 
-
             this.emit('ready');
             this.isReady = true;
         });
@@ -41,6 +43,13 @@ class SLRenderer extends AFrameRenderer {
         super.draw();
         if (this.cannonDebugRenderer)
             this.cannonDebugRenderer.update();
+    }
+
+    addObject(objData, options) {
+        
+        if (this.clientEngine.isOwnedByPlayer(objData)) {
+            document.querySelector('a-entity[camera]').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);
+        }
     }
 
 }

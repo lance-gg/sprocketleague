@@ -7,7 +7,9 @@
   "description": "A sample A-Frame multiplayer with networked physics",
   "main": "main.js",
   "dependencies": {
+    "aframe": "^0.5.0",
     "aframe-cubemap-component": "^0.1.1",
+    "aframe-particle-system-component": "^1.0.6",
     "browserify": "^13.0.1",
     "eventemitter3": "^1.2.0",
     "express": "^4.14.0",
