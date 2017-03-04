@@ -12,6 +12,7 @@ module.exports = AFRAME.registerComponent('chase-look-controls', {
     init: function () {
         this.camera = this.el.object3D.children[0];
         this.cameraControls = new THREE.OrbitControls(this.camera);
+        this.cameraControls.maxPolarAngle = Math.PI/2;
 
         this.setupMouseControls();
         this.bindMethods();
@@ -22,12 +23,13 @@ module.exports = AFRAME.registerComponent('chase-look-controls', {
 
         if (this.data.enabled && this.data.target){
                 // TWEEN.update();
-                this.cameraControls.update();
-
                 let relativeCameraOffset = new THREE.Vector3( 0, 5, -10 );
                 let cameraOffset = relativeCameraOffset.applyMatrix4( this.data.target.object3D.matrixWorld );
                 // Camera TWEEN.
-                if (!this.lookAround) {
+                if (this.lookAround) {
+                    this.cameraControls.target.copy(this.data.target.object3D.position);
+                    this.cameraControls.update();
+                } else {
                     new TWEEN.Tween( this.camera.position ).to( {
                             x: cameraOffset.x,
                             y: cameraOffset.y,
@@ -36,6 +38,7 @@ module.exports = AFRAME.registerComponent('chase-look-controls', {
                         .easing( TWEEN.Easing.Sinusoidal.InOut ).start();
                     this.camera.lookAt( this.data.target.object3D.position );
                 }
+
             }
     },
 
@@ -68,16 +71,13 @@ module.exports = AFRAME.registerComponent('chase-look-controls', {
 
     addEventListeners: function () {
         let sceneEl = this.el.sceneEl;
-        let canvasEl = sceneEl.canvas;
+        sceneEl.addEventListener('renderstart', ()=>{
+            let canvasEl = sceneEl.canvas;
 
-        // listen for canvas to load.
-        if (!canvasEl) {
-            return;
-        }
-
-        // Mouse Events
-        canvasEl.addEventListener('mousedown', this.onMouseDown, false);
-        window.addEventListener('mouseup', this.releaseMouse, false);
+            // Mouse Events
+            canvasEl.addEventListener('mousedown', this.onMouseDown, false);
+            window.addEventListener('mouseup', this.releaseMouse, false);
+        });
     },
 
     removeEventListeners: function () {
@@ -94,7 +94,7 @@ module.exports = AFRAME.registerComponent('chase-look-controls', {
 
     onMouseDown: function (event) {
         this.lookAround = true;
-        this.cameraControls.center.copy( this.target.object3D.position);
+        this.cameraControls.maxDistance = this.data.target.object3D.position.distanceTo(this.camera.position);
     },
 
     releaseMouse: function () {
