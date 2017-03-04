@@ -72,6 +72,14 @@ class Arena extends PhysicalObject {
         }
     }
 
+    isObjInGoal1(obj) {
+        return obj.position.x < -ARENA_WIDTH;
+    }
+
+    isObjInGoal2(obj) {
+        return obj.position.x > ARENA_WIDTH;
+    }
+
     toString() {
         return `Arena::${super.toString()}`;
     }

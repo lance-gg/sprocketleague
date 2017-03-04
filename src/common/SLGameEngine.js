@@ -52,18 +52,7 @@ class SLGameEngine extends GameEngine {
 
     // the Sprocket League Game Engine Step.
     step() {
-
         super.step();
-
-        // on server-side:
-        // decide if fighter has died
-        for (let objId of Object.keys(this.world.objects)) {
-            let obj = this.world.objects[objId];
-            if (this.isServer && obj.y < -100) {
-                console.log(`object ${objId} has fallen off the board`);
-                this.resetFighter({ playerId: objId });
-            }
-        }
 
         // car physics
         this.world.forEachObject((id, o) => {
@@ -71,13 +60,19 @@ class SLGameEngine extends GameEngine {
                 o.adjustCarMovement();
             }
         });
-    }
 
-    resetFighter(fighter) {
-        fighter.x = Math.random() * 20 - 10;
-        fighter.y = Math.random() * 20 - 10;
-        fighter.initPhysicsObject(this.physicsEngine);
-        console.log(`reset Fighter#${newGuy.playerId} at ${fighter.x},${fighter.y},${fighter.z}`);
+        // check if a goal has been made
+        if (this.ball) {
+            if (this.arena.isObjInGoal1(this.ball)) {
+                console.log('Ball in goal 1');
+                this.resetBall();
+            }
+
+            if (this.arena.isObjInGoal2(this.ball)) {
+                console.log('Ball in goal 2');
+                this.resetBall();
+            }
+        }
     }
 
     // server-side function to add a new player
@@ -93,7 +88,7 @@ class SLGameEngine extends GameEngine {
         this.addObjectToWorld(car);
         this.numCars++;
 
-        if (this.numCars === 2)
+        if (this.numCars === 1)
             this.makeBall();
 
         return car;
@@ -105,10 +100,17 @@ class SLGameEngine extends GameEngine {
 
         console.log(`adding ball`);
         let position = new ThreeVector(0, 10, 0);
-        let ball = new Ball(++this.world.idCount, this, position);
-        ball.playerId = 0;
+        this.ball = new Ball(++this.world.idCount, this, position);
+        this.ball.playerId = 0;
         this.numBalls++;
-        this.addObjectToWorld(ball);
+        this.addObjectToWorld(this.ball);
+    }
+
+    resetBall() {
+        this.ball.position.set(0, 10, 0);
+        this.ball.velocity.set(0, 0, 0);
+        this.ball.angularVelocity.set(0, 0, 0);
+        this.ball.refreshToPhysics();
     }
 
     removeCar(player) {
