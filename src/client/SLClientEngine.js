@@ -33,11 +33,6 @@ class SLClientEngine extends ClientEngine {
 
     onRendererReady() {
         this.controls = new KeyboardControls();
-
-        this.controls.on('fire', () => {
-            this.sendInput('space');
-        });
-
     }
 
     // our pre-step is to process inputs that are "currently pressed" during the game step
