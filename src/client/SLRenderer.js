@@ -2,7 +2,6 @@
 
 const AFrameRenderer = require('incheon').render.AFrameRenderer;
 const aframeCubeMapComponent = require('aframe-cubemap-component');
-const aframeParticleSystemComponent = require('aframe-particle-system-component');
 const aframeChaseLookControls = require('./chase-look-controls');
 const debugWireframes = false;
 

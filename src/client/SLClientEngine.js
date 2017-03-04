@@ -2,7 +2,6 @@ const ClientEngine = require('incheon').ClientEngine;
 const KeyboardControls = require('../client/KeyboardControls');
 const SLRenderer = require('./SLRenderer');
 
-
 // The SoccerLeague client-side engine
 class SLClientEngine extends ClientEngine {
 
@@ -28,6 +27,16 @@ class SLClientEngine extends ClientEngine {
         } else {
             this.renderer.once('ready', this.onRendererReady, this);
         }
+
+        // save reference to the ball
+        this.gameEngine.on('objectAdded', obj => {
+            if(obj.constructor.name == 'Ball'){
+                this.gameEngine.ball = obj;
+            }
+            if(obj.constructor.name == 'Arena'){
+                this.gameEngine.arena = obj;
+            }
+        });
 
     }
 

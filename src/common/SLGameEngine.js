@@ -60,16 +60,18 @@ class SLGameEngine extends GameEngine {
                 o.adjustCarMovement();
             }
         });
-
+        
         // check if a goal has been made
-        if (this.ball) {
+        if (this.ball && this.arena) {
             if (this.arena.isObjInGoal1(this.ball)) {
                 console.log('Ball in goal 1');
+                this.ball.showExplosion();
                 this.resetBall();
             }
 
             if (this.arena.isObjInGoal2(this.ball)) {
                 console.log('Ball in goal 2');
+                this.ball.showExplosion();
                 this.resetBall();
             }
         }
