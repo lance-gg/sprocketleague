@@ -176,7 +176,7 @@ class Ball extends PhysicalObject {
         scene.add( this.emitterGroup.mesh );
 
         // for debug
-        window.showExplosion = () => { this.showExplosion() };
+        // window.showExplosion = () => { this.showExplosion() };
     }
 
     showExplosion(){
