@@ -6,13 +6,13 @@ const ARENA_SCALE = 0.2;
 
 // width, depth, and height specified in half-segements
 const ARENA_BASELINE = 10;
-const ARENA_DEPTH = 410 * ARENA_SCALE;
+const ARENA_DEPTH = 390 * ARENA_SCALE;
 const ARENA_WIDTH = 700 * ARENA_SCALE;
 const ARENA_HEIGHT = 250 * ARENA_SCALE;
 const ARENA_MODEL_SCALE = 125 * ARENA_SCALE;
 const WALL_WIDTH = 5;
 
-const GOAL_DEPTH = 17;
+const GOAL_DEPTH = 18;
 const GOAL_WIDTH = 20;
 const GOALSIDE_WIDTH = (ARENA_DEPTH - GOAL_WIDTH) / 2;
 
@@ -52,13 +52,13 @@ class Arena extends PhysicalObject {
 
         //add walls for goal 1: backplate, left plate, right plate
         this.walls.push(this.addWall(x - ARENA_WIDTH - GOAL_DEPTH, y + ARENA_BASELINE +ARENA_HEIGHT, z, WALL_WIDTH, ARENA_HEIGHT, GOAL_WIDTH ));
-        this.walls.push(this.addWall(x - ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z - GOALSIDE_WIDTH - GOAL_WIDTH, WALL_WIDTH, ARENA_HEIGHT, GOALSIDE_WIDTH ));
-        this.walls.push(this.addWall(x - ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z + GOALSIDE_WIDTH + GOAL_WIDTH, WALL_WIDTH, ARENA_HEIGHT, GOALSIDE_WIDTH ));
+        this.walls.push(this.addWall(x - ARENA_WIDTH - 11, y + ARENA_BASELINE + ARENA_HEIGHT, z - GOALSIDE_WIDTH - GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
+        this.walls.push(this.addWall(x - ARENA_WIDTH - 11, y + ARENA_BASELINE + ARENA_HEIGHT, z + GOALSIDE_WIDTH + GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
 
 
         this.walls.push(this.addWall(x + ARENA_WIDTH + GOAL_DEPTH, y + ARENA_BASELINE +ARENA_HEIGHT, z, WALL_WIDTH, ARENA_HEIGHT, GOAL_WIDTH ));
-        this.walls.push(this.addWall(x + ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z - GOALSIDE_WIDTH - GOAL_WIDTH, WALL_WIDTH, ARENA_HEIGHT, GOALSIDE_WIDTH ));
-        this.walls.push(this.addWall(x + ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z + GOALSIDE_WIDTH + GOAL_WIDTH, WALL_WIDTH, ARENA_HEIGHT, GOALSIDE_WIDTH ));
+        this.walls.push(this.addWall(x + ARENA_WIDTH + 11, y + ARENA_BASELINE + ARENA_HEIGHT, z - GOALSIDE_WIDTH - GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
+        this.walls.push(this.addWall(x + ARENA_WIDTH + 11, y + ARENA_BASELINE + ARENA_HEIGHT, z + GOALSIDE_WIDTH + GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
 
         let scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
         if (scene) {
