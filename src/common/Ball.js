@@ -1,8 +1,8 @@
 'use strict';
 
 const PhysicalObject = require('incheon').serialize.PhysicalObject;
-const RADIUS = 3;
-const MASS = 0.2;
+const RADIUS = 4;
+const MASS = 0.1;
 let CANNON = null;
 
 class Ball extends PhysicalObject {
