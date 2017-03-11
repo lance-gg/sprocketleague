@@ -15,7 +15,7 @@
         <script type="text/javascript" src="dist/bundle.js"></script>
         <a-scene networked-physics>
             <a-assets>
-                <a-asset-item id="car-obj" src="resources/models/modelt.obj"></a-asset-item>
+                <a-asset-item id="car-obj" src="resources/models/volks.gltf"></a-asset-item>
                 <a-asset-item id="stadium" src="resources/models/stadium.gltf"></a-asset-item>
                 <a-asset-item id="ball" src="resources/images/football_equi.jpg"></a-asset-item>
             </a-assets>
@@ -23,7 +23,11 @@
             <!-- Camera -->
             <a-entity camera="fov: 80;" position="0 0 0" rotation="0 0 0"></a-entity>
             
-            <a-entity light="type: directional; color: #f13d3d; intensity: 1;" position="100 -160 -100"></a-entity>
+            <a-entity light="type: ambient; color: #f13d3d; intensity: 0.1;" position="100 -160 -100"></a-entity>
+            <a-entity light="type: directional; color: #fff; intensity: 1;" position="12.05 46.83 111.89"></a-entity>
+
+            <a-entity light="type: spot; angle: 27" position="-291 91 153" rotation="-15 -53 0"></a-entity>
+
 
             <a-entity cubemap="folder: resources/images/flame/; edgeLength: 1000"></a-entity>
 

@@ -19,21 +19,34 @@ class Car extends PhysicalObject {
         // create the physics body
         this.gameEngine = gameEngine;
         CANNON = this.gameEngine.physicsEngine.CANNON;
-        this.physicsObj = gameEngine.physicsEngine.addBox(1, 1, 2, MASS, 0);
+        this.physicsObj = gameEngine.physicsEngine.addBox(1, 1, 2.9, MASS, 0);
         this.physicsObj.position.set(this.position.x, this.position.y, this.position.z);
         this.physicsObj.angularDamping = 0.1;
 
         let scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
         if (scene) {
             let el = this.renderEl = document.createElement('a-entity');
-            scene.appendChild(el);
+
+            this.carEl = document.createElement('a-gltf-model');
+            this.carEl.setAttribute('gltf-model', '#car-obj');
+            this.carEl.setAttribute('position', '0 0 0.4');
+            this.carEl.setAttribute('rotation', '0 180 0');
+
+            // change car color
+            // todo find out how to do this on gltf asset load
+            setTimeout(() => {
+                this.setColor(105, 171, 252);
+            }, 1000);
+
             let p = this.position;
             let q = this.quaternion;
             el.setAttribute('position', `${p.x} ${p.y} ${p.z}`);
             el.object3D.quaternion.set(q.x, q.y, q.z, q.w);
-            el.setAttribute('material', 'color: red');
-            el.setAttribute('obj-model', 'obj: #car-obj');
             el.setAttribute('game-object-id', this.id);
+
+            el.appendChild(this.carEl);
+            scene.appendChild(el);
+
         }
     }
 
@@ -83,6 +96,13 @@ class Car extends PhysicalObject {
         }
 
         this.refreshFromPhysics();
+    }
+
+    setColor(r,g,b){
+        console.log('ff',this.carEl.object3D);
+        this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.r = r / 255;
+        this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.g = g / 255;
+        this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.b = b / 255;
     }
 
     toString() {
