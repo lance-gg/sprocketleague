@@ -23,7 +23,7 @@ class Car extends PhysicalObject {
         this.physicsObj.position.set(this.position.x, this.position.y, this.position.z);
         this.physicsObj.angularDamping = 0.1;
 
-        let scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
+        let scene = this.scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
         if (scene) {
             let el = this.renderEl = document.createElement('a-entity');
 
@@ -34,9 +34,11 @@ class Car extends PhysicalObject {
 
             // change car color
             // todo find out how to do this on gltf asset load
-            setTimeout(() => {
-                this.setColor(105, 171, 252);
-            }, 1000);
+            if (this.carEl.components['gltf-model'].model){
+                this.onModelLoaded();
+            } else {
+                this.carEl.addEventListener('model-loaded',this.onModelLoaded.bind(this));
+            }
 
             let p = this.position;
             let q = this.quaternion;
@@ -48,6 +50,11 @@ class Car extends PhysicalObject {
             scene.appendChild(el);
 
         }
+    }
+    
+    onModelLoaded(){
+        this.backLightMaterial = this.carEl.object3D.children[0].children[0].children[0].children[8].material;
+        this.setColor(105, 171, 252);
     }
 
     // reduce the perpendicular component of the velocity
@@ -96,13 +103,38 @@ class Car extends PhysicalObject {
         }
 
         this.refreshFromPhysics();
+
+        if (this.scene){
+            if(this.isMovingForwards){
+                this.turnOffReverseLight();
+            }
+            else{
+                this.turnOnReverseLight();
+            }
+        }
     }
 
     setColor(r,g,b){
-        console.log('ff',this.carEl.object3D);
+        //0 chasis
+        //6 lights
+        //7 bumper
+        //8 backlights
+
         this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.r = r / 255;
         this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.g = g / 255;
         this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.b = b / 255;
+    }
+
+    turnOnReverseLight(){
+        this.backLightMaterial.emissive.r = 200 / 255;
+        this.backLightMaterial.emissive.g = 200 / 255;
+        this.backLightMaterial.emissive.b = 200 / 255;
+    }
+
+    turnOffReverseLight(){
+        this.backLightMaterial.emissive.r = 166 / 255;
+        this.backLightMaterial.emissive.g = 44 / 255;
+        this.backLightMaterial.emissive.b = 44 / 255;
     }
 
     toString() {

@@ -21,10 +21,12 @@ class CarControl {
         // TODO: probably bad perf
         let impulse = FORWARD_IMPULSE;
         if (direction === 'down') impulse *= -1;
-        let move = this.isMovingForwards(car)?'up':'down';
+        let movingForwards = this.isMovingForwards(car);
+        let move = movingForwards?'up':'down';
         if (curVel < BOOST_VELOCITY && direction === move) impulse *= 3;
         let newVec = car.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 0, impulse));
 
+        car.isMovingForwards = movingForwards;
         car.physicsObj.velocity.vadd(newVec, car.physicsObj.velocity);
     }
 
