@@ -55,7 +55,17 @@ class SLRenderer extends AFrameRenderer {
     addObject(objData, options) {
         
         if (this.clientEngine.isOwnedByPlayer(objData)) {
-            document.querySelector('a-entity[camera]').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);
+            //setup chase camera, disable default camera controls
+            document.querySelector('.chaseCamera').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);
+            document.querySelector('.chaseCamera').setAttribute('camera', 'active', true);
+
+            document.querySelector('.spectatorCamera').setAttribute('camera','active', false);
+            // document.querySelector('a-entity[camera]').removeAttribute('look-controls');
+            // document.querySelector('a-entity[camera]').removeAttribute('wasd-controls');
+
+            document.body.classList.add('gameActive');
+            document.querySelector('#joinGame').disabled = true;
+            document.querySelector('#joinGame').style.opacity = 0;
         }
     }
 

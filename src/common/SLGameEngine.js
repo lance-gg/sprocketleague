@@ -17,19 +17,10 @@ class SLGameEngine extends GameEngine {
 
         CANNON = this.physicsEngine.CANNON;
         this.carControl = new CarControl({ CANNON });
-
-        this.qRight = new CANNON.Quaternion();
-        this.qRight.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), -Math.PI/160);
-        this.mRight = (new CANNON.Mat3()).setRotationFromQuaternion(this.qRight);
-
-        this.qLeft = new CANNON.Quaternion();
-        this.qLeft.setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI/160);
-        this.mLeft = (new CANNON.Mat3()).setRotationFromQuaternion(this.qLeft);
+        
         this.numCars = 0;
         this.numBalls = 0;
-
-        this.on('server__playerJoined', this.makeCar.bind(this));
-        this.on('server__playerDisconnected', this.removeCar.bind(this));
+        
         this.on('server__init', this.gameInit.bind(this));
     }
 
@@ -72,15 +63,15 @@ class SLGameEngine extends GameEngine {
     }
 
     // server-side function to add a new player
-    makeCar(player) {
-        console.log(`adding car of player`, player);
+    makeCar(playerId) {
+        console.log(`adding car of player`, playerId);
 
         // create a fighter for this client
         let x = Math.random() * 20 - 10;
         let z = Math.random() * 20 - 10;
         let position = new ThreeVector(x, 10, z);
         let car = new Car(++this.world.idCount, this, position);
-        car.playerId = player.playerId;
+        car.playerId = playerId;
         this.addObjectToWorld(car);
         this.numCars++;
 
@@ -109,11 +100,13 @@ class SLGameEngine extends GameEngine {
         this.ball.refreshToPhysics();
     }
 
-    removeCar(player) {
-        console.log(`removing car of player`, player);
-        let o = this.world.getPlayerObject(player.playerId);
-        this.removeObjectFromWorld(o.id);
-        this.numCars--;
+    removeCar(playerId) {
+        console.log(`removing car of player`, playerId);
+        let o = this.world.getPlayerObject(playerId);
+        if (o) {
+            this.removeObjectFromWorld(o.id);
+            this.numCars--;
+        }
     }
 
     processInput(inputData, playerId) {

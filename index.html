@@ -21,8 +21,9 @@
             </a-assets>
 
             <!-- Camera -->
-            <a-entity camera="fov: 80;" position="0 0 0" rotation="0 0 0"></a-entity>
-            
+            <a-entity class="chaseCamera" camera="fov: 80; active: false;" position="0 0 0" rotation="0 0 0"></a-entity>
+            <a-entity class="spectatorCamera" camera="fov: 85; active: true;" look-controls wasd-controls="fly: true; acceleration: 500;" position="0 44 75" rotation="-51.3 0 0"></a-entity>
+
             <a-entity light="type: ambient; color: #f13d3d; intensity: 0.1;" position="100 -160 -100"></a-entity>
             <a-entity light="type: directional; color: #fff; intensity: 1;" position="12.05 46.83 111.89"></a-entity>
 

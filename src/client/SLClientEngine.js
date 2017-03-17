@@ -42,6 +42,23 @@ class SLClientEngine extends ClientEngine {
 
     }
 
+    // extend ClientEngine connect to add own events
+    connect() {
+        return super.connect().then(() => {
+            
+            this.socket.on('disconnect', (e) => {
+                console.log('disconnected');
+                document.body.classList.add('disconnected');
+                document.body.classList.remove('gameActive');
+                document.querySelector('#reconnect').disabled = false;
+            });
+
+            if ('autostart' in Utils.getUrlVars()) {
+                this.socket.emit('requestRestart');
+            }
+        });
+    }
+
     onRendererReady() {
         //  Game input
         if (Utils.isTouchDevice()){
@@ -49,6 +66,17 @@ class SLClientEngine extends ClientEngine {
         } else {
             this.controls = new KeyboardControls(this.renderer);
         }
+
+        document.querySelector('#joinGame').addEventListener('click', () => {
+            if (Utils.isTouchDevice()){
+                this.renderer.enableFullScreen();
+            }
+            this.socket.emit('requestRestart');
+        });
+
+        document.querySelector('#reconnect').addEventListener('click', () => {
+            window.location.reload();
+        });
     }
 
     // our pre-step is to process inputs that are "currently pressed" during the game step
