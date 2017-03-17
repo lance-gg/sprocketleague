@@ -41,12 +41,6 @@ class SLGameEngine extends GameEngine {
 
     start() {
         super.start();
-
-        // TODO: refactor world settings
-        this.worldSettings = {
-            width: 800,
-            height: 600
-        };
     }
 
 
