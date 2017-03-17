@@ -1,0 +1,230 @@
+@import "./../../node_modules/breakpoint-sass/stylesheets/breakpoint";
+
+$breakpoint-mobile: (max-width 568px) (orientation portrait);
+$breakpoint-mobile-landscape: (max-width 568px) (orientation landscape);
+$breakpoint-tablet: 569px 1280px;
+$breakpoint-desktop: min-width 1281px;
+
+html,body{
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  font-family: "proxima-nova", sans-serif;
+}
+
+#guiContainer{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+canvas{
+  position: relative;
+  z-index: 1;
+}
+
+canvas:before{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAD0lEQVQYV2NgYGD4zwACAAYEAQAVghy+AAAAAElFTkSuQmCC);
+  opacity: 0.8;
+  transition: opacity 0.5s ease-in;
+}
+
+
+#joinGame, #reconnect{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+#joinGame {
+  pointer-events: all;
+  opacity: 0;
+}
+
+button{
+
+  position: relative;
+  background-color: rgba(#68b2f8, 0.2);
+  padding: 0.2rem 1.8rem 0.1rem 1.8rem;
+  margin: 2rem auto;
+  font-size: 1.2rem;
+  transition: all 0.5s ease-out;
+  margin-right: 1.5rem;
+  border: 0;
+  color: white;
+  outline: none;
+  white-space: nowrap;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+  &:before{
+    content: "";
+    position: absolute;
+    z-index: 10;
+    left: -3rem;
+    top: -2.4rem;
+    width: 6rem;
+    height: 7rem;
+    background-image: url(assets/images/cta_glow_left.png);
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: auto;
+    pointer-events: none;
+  }
+
+  &:after{
+    content: "";
+    position: absolute;
+    z-index: 10;
+    right: -3rem;
+    top: -2.4rem;
+    width: 6rem;
+    height: 7rem;
+    background-image: url(assets/images/cta_glow_left.png);
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: auto;
+    transform: scaleX(-1);
+    pointer-events: none;
+  }
+
+  a{
+    width: 100%;
+    padding: 0.2rem 0.5rem;
+    color: #fff;
+    transition: all 0.1s ease-in;
+  }
+
+  &:hover{
+    background: rgba(#68b2f8, 0.4);
+    a{
+      padding: 0.2rem 0.8rem;
+    }
+  }
+}
+
+.lostGame #tryAgain{
+  opacity: 1;
+  pointer-events: all;
+}
+
+.hud{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20rem;
+  font-size: 12px;
+  padding: 1rem;
+  color: #fff;
+  font-family: arial, sans-serif;
+  opacity: 0;
+
+  transition: all 0.5s ease-in;
+}
+
+.score{
+
+}
+
+
+.breakButton, .gasButton{
+  pointer-events: none;
+  opacity: 0;
+
+  transition: all 0.5s ease-in;
+
+  background: #fff;
+  width: 4rem;
+  height: 4rem;
+  position: absolute;
+  bottom: 1rem;
+  transform: translateX(-50%);
+  border: 3px solid #b2b1b5;
+  border-radius: 5rem;
+  font-size: 0.8rem;
+
+  &:before{
+    position: absolute;
+    color: #ff2f95;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+.gasButton{
+  right: 0%;
+
+  &:before{
+    content: "GAS";
+  }
+}
+
+.breakButton{
+  left: 10%;
+
+  &:before{
+    content: "REVERSE";
+  }
+}
+
+
+h2{
+  position: absolute;
+  box-sizing: border-box;
+  top: 29%;
+  font-weight: 300;
+  font-size: 25px;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  transition: all 0.5s ease-in;
+  padding: 0 3rem;
+
+  @include breakpoint(($breakpoint-desktop)){
+    top: 40%;
+  }
+}
+
+body.gameActive{
+  .hud { opacity: 0.3;}
+  .score { opacity: 1;}
+  .offscreenIndicator{ opacity: 0.8}
+
+}
+
+body.touch{
+
+  .gasButton, .breakButton {
+    opacity: 0.6;
+    pointer-events: all;
+  }
+}
+
+.disconnected{
+  #reconnect{
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  #tryAgain, #joinGame{
+    opacity: 0;
+    pointer-events: none;
+  }
+}

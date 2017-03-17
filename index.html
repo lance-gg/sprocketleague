@@ -13,7 +13,7 @@
     </head>
     <body>
         <script type="text/javascript" src="dist/bundle.js"></script>
-        <a-scene networked-physics>
+        <a-scene networked-physics vr-mode-ui="enabled: false">
             <a-assets>
                 <a-asset-item id="car-obj" src="resources/models/volks.gltf"></a-asset-item>
                 <a-asset-item id="stadium" src="resources/models/stadium.gltf"></a-asset-item>
@@ -32,5 +32,20 @@
             <a-entity cubemap="folder: resources/images/flame/; edgeLength: 1000"></a-entity>
 
         </a-scene>
+
+        <div id="guiContainer">
+            <button id="joinGame">Join Game</button>
+            <button id="reconnect" disabled>Reconnect</button>
+
+            <div class="hud">
+                <div>Latency: <span class="latencyData">N/A</span></div>
+                <div>Latency (avg): <span class="averageLatencyData">N/A</span></div>
+            </div>
+            <div class="score"></div>
+
+
+            <div class="gasButton"></div>
+            <div class="breakButton"></div>
+        </div>
     </body>
 </html>

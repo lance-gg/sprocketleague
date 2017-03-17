@@ -1,6 +1,8 @@
 const ClientEngine = require('incheon').ClientEngine;
+const MobileControls = require('../client/MobileControls');
 const KeyboardControls = require('../client/KeyboardControls');
 const SLRenderer = require('./SLRenderer');
+const Utils = require('./Utils');
 
 // The SoccerLeague client-side engine
 class SLClientEngine extends ClientEngine {
@@ -41,7 +43,12 @@ class SLClientEngine extends ClientEngine {
     }
 
     onRendererReady() {
-        this.controls = new KeyboardControls();
+        //  Game input
+        if (Utils.isTouchDevice()){
+            this.controls = new MobileControls(this.renderer);
+        } else {
+            this.controls = new KeyboardControls(this.renderer);
+        }
     }
 
     // our pre-step is to process inputs that are "currently pressed" during the game step

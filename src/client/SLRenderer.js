@@ -3,7 +3,10 @@
 const AFrameRenderer = require('incheon').render.AFrameRenderer;
 const aframeCubeMapComponent = require('aframe-cubemap-component');
 const aframeChaseLookControls = require('./chase-look-controls');
+const Utils = require('./Utils');
+
 const debugWireframes = false;
+
 
 class SLRenderer extends AFrameRenderer {
 
@@ -18,6 +21,9 @@ class SLRenderer extends AFrameRenderer {
     // setup the 3D scene
     init() {
         return super.init().then(() =>{
+            if (Utils.isTouchDevice()){
+                document.body.classList.add('touch');
+            }
 
             // show cannon objects
             if (debugWireframes) {
@@ -32,6 +38,7 @@ class SLRenderer extends AFrameRenderer {
                 head.appendChild(script);
             }
 
+            this.frameNum = 0;
             this.emit('ready');
             this.isReady = true;
         });
@@ -40,6 +47,7 @@ class SLRenderer extends AFrameRenderer {
 
     draw(){
         super.draw();
+        this.frameNum++;
         if (this.cannonDebugRenderer)
             this.cannonDebugRenderer.update();
     }

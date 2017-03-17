@@ -2,6 +2,7 @@ const qsOptions = require('query-string').parse(location.search);
 const SLClientEngine = require('./SLClientEngine');
 const SLGameEngine = require('../common/SLGameEngine');
 const CannonPhysicsEngine = require('incheon').physics.CannonPhysicsEngine;
+require('../../resources/sass/main.scss');
 
 // default options, overwritten by query-string options
 // is sent to both game engine and client engine
