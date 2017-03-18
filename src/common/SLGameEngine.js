@@ -65,6 +65,7 @@ class SLGameEngine extends GameEngine {
                 this.ball.showExplosion();
                 this.resetBall();
                 this.metaData.teams.red.score++;
+                this.emit('scoreChange');
             }
 
             if (this.arena.isObjInGoal2(this.ball)) {
@@ -72,6 +73,7 @@ class SLGameEngine extends GameEngine {
                 this.ball.showExplosion();
                 this.resetBall();
                 this.metaData.teams.blue.score++;
+                this.emit('scoreChange');
             }
         }
     }

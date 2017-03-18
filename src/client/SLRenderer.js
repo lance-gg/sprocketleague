@@ -99,6 +99,9 @@ class SLRenderer extends AFrameRenderer {
                 // console.log(`no player car for player ${playerId}`);
             }
         }
+
+        qs('.scoreBoard .teamRed').innerHTML = metaData.teams.red.score;
+        qs('.scoreBoard .teamBlue').innerHTML = metaData.teams.blue.score;
     }
 
     updateHUD(data){

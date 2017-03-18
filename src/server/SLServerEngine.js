@@ -8,6 +8,8 @@ class SLServerEngine extends ServerEngine {
         this.serializer.registerClass(require('../common/Car'));
         this.serializer.registerClass(require('../common/Ball'));
         this.serializer.registerClass(require('../common/Arena'));
+
+        gameEngine.on('scoreChange', this.updateMetaData, this);
     }
 
     onPlayerConnected(socket) {
