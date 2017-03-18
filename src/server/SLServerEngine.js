@@ -18,7 +18,7 @@ class SLServerEngine extends ServerEngine {
         let makePlayerCar = (team) => {
             let playerTeam;
             if (team == 'red'){ playerTeam = 'red'}
-            else if (team == 'blue'){ playerTeam = 'else'}
+            else if (team == 'blue'){ playerTeam = 'blue'}
             else {
                 //make sure players join the right team
                 if (this.gameEngine.metaData.teams.red.players.length < this.gameEngine.metaData.teams.blue.players.length){
@@ -26,13 +26,18 @@ class SLServerEngine extends ServerEngine {
                 }
                 else{
                     playerTeam = 'blue'
-                }
+                }                                               
             }
 
             // console.log('add car', playerTeam, socket.playerId);
-            this.gameEngine.metaData.teams[playerTeam].players.push(socket.playerId);
-            this.gameEngine.makeCar(socket.playerId, playerTeam);
-            this.updateMetaData();
+            if (this.gameEngine.metaData.teams[playerTeam]) {
+                this.gameEngine.metaData.teams[playerTeam].players.push(socket.playerId);
+                this.gameEngine.makeCar(socket.playerId, playerTeam);
+                this.updateMetaData();
+            }
+            else{
+                console.error('no such team', playerTeam);
+            }
         };
 
         // handle client restart requests

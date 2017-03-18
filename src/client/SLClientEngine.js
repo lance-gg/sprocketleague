@@ -66,6 +66,11 @@ class SLClientEngine extends ClientEngine {
             if ('autostart' in Utils.getUrlVars()) {
                 this.socket.emit('requestRestart');
             }
+
+            // join a specific team
+            if ('jointeam' in Utils.getUrlVars()) {
+                this.socket.emit('requestRestart', Utils.getUrlVars().jointeam);
+            }
         });
     }
 

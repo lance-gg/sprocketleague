@@ -20,6 +20,9 @@ class SLRenderer extends AFrameRenderer {
 
     // setup the 3D scene
     init() {
+        if ('presentation' in Utils.getUrlVars())
+            document.body.classList.add('presentation');
+
         return super.init().then(() =>{
             if (Utils.isTouchDevice()){
                 document.body.classList.add('touch');

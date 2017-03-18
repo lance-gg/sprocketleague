@@ -213,20 +213,25 @@ button{
 }
 
 
-h2{
-  position: absolute;
-  box-sizing: border-box;
-  top: 29%;
-  font-weight: 300;
-  font-size: 25px;
-  text-align: center;
-  width: 100%;
-  color: #fff;
-  transition: all 0.5s ease-in;
-  padding: 0 3rem;
+.presentationContainer{
+  display: none;
+  
+  div{
+    position: absolute;
+    bottom: 0;
+    font-size: 1.3rem;
+    color: white;
+    padding: 1rem;
+  }
 
-  @include breakpoint(($breakpoint-desktop)){
-    top: 40%;
+  .blueTeam{
+    left: 0;
+    background: #242b91;
+  }
+
+  .redTeam{
+    right: 0;
+    background: #994142;
   }
 }
 
@@ -242,6 +247,10 @@ body.touch.gameActive{
     opacity: 0.6;
     pointer-events: all;
   }
+}
+
+body.presentation .presentationContainer{
+  display: block;
 }
 
 .disconnected{
