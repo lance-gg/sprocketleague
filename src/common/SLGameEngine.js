@@ -124,6 +124,10 @@ class SLGameEngine extends GameEngine {
             this.removeObjectFromWorld(o.id);
             this.numCars--;
         }
+        if (this.numCars == 0){
+            this.metaData.teams.red.score = 0;
+            this.metaData.teams.blue.score = 0;
+        }
     }
 
     processInput(inputData, playerId) {
