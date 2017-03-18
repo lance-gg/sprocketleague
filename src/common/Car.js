@@ -55,6 +55,8 @@ class Car extends PhysicalObject {
     onModelLoaded(){
         this.modelLoaded = true;
         this.backLightMaterial = this.carEl.object3D.children[0].children[0].children[0].children[8].material;
+        this.windowMaterial = this.carEl.object3D.children[0].children[0].children[0].children[9].material;
+        this.chasisMaterial = this.carEl.object3D.children[0].children[0].children[0].children[0].material;
 
         if (this.team) {
             this.updateTeamColor();
@@ -135,11 +137,38 @@ class Car extends PhysicalObject {
         //6 lights
         //7 bumper
         //8 backlights
+        //9 windows
 
         if (this.modelLoaded) {
-            this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.r = r / 255;
-            this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.g = g / 255;
-            this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.b = b / 255;
+            this.chasisMaterial.color.r = r / 255;
+            this.chasisMaterial.color.g = g / 255;
+            this.chasisMaterial.color.b = b / 255;
+
+            //refractive windows
+            
+            let refracCubeTexture;
+            if (this.gameEngine.renderer.cubeTexture) {
+                let cubeTexture = this.gameEngine.renderer.cubeTexture;
+            } else {
+                let path = "resources/images/flame/";
+                let format = '.jpg';
+                let urls = [
+                    path + 'posx' + format, path + 'negx' + format,
+                    path + 'posy' + format, path + 'negy' + format,
+                    path + 'posz' + format, path + 'negz' + format
+                ];
+
+                refracCubeTexture = this.gameEngine.renderer.cubeTexture = new THREE.CubeTextureLoader().load(urls);
+                refracCubeTexture.mapping = THREE.CubeRefractionMapping;
+                refracCubeTexture.format = THREE.RGBFormat;
+            }
+
+            this.windowMaterial.color.r = 29 / 255;
+            this.windowMaterial.color.g = 74 / 255;
+            this.windowMaterial.color.b = 129 / 255;
+            this.windowMaterial.envMap = refracCubeTexture;
+            this.windowMaterial.combine = THREE.MixOperation;
+            this.windowMaterial.reflectivity = 0.4;
         }
     }
 
