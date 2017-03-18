@@ -217,11 +217,12 @@ button{
   display: none;
   
   div{
+    opacity: 0.6;
     position: absolute;
     bottom: 0;
-    font-size: 1.3rem;
+    font-size: 3rem;
     color: white;
-    padding: 1rem;
+    padding: 2rem;
   }
 
   .blueTeam{
@@ -249,8 +250,10 @@ body.touch.gameActive{
   }
 }
 
-body.presentation .presentationContainer{
-  display: block;
+body.presentation{
+  .presentationContainer {
+    display: block;
+  }
 
   #joinGame{
     display: none;
