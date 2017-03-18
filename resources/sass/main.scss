@@ -12,6 +12,15 @@ html,body{
   font-family: "proxima-nova", sans-serif;
 }
 
+* {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
 #guiContainer{
   position: absolute;
   top: 0;
@@ -65,13 +74,6 @@ button{
   color: white;
   outline: none;
   white-space: nowrap;
-
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
 
   &:before{
     content: "";
