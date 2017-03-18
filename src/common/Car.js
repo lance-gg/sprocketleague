@@ -2,7 +2,7 @@
 
 const PhysicalObject = require('incheon').serialize.PhysicalObject;
 const MASS = 2;
-const Utils = require('../Client/Utils');
+const Utils = require('../client/Utils');
 
 let CANNON = null;
 
