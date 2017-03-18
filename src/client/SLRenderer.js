@@ -101,6 +101,22 @@ class SLRenderer extends AFrameRenderer {
         }
     }
 
+    updateHUD(data){
+        if (data.RTT){ qs('.latencyData').innerHTML = data.RTT;}
+        if (data.RTTAverage){ qs('.averageLatencyData').innerHTML = truncateDecimals(data.RTTAverage, 2);}
+    }
+
 }
+
+// convenience function
+function qs(selector) { return document.querySelector(selector);}
+
+function truncateDecimals(number, digits) {
+    let multiplier = Math.pow(10, digits);
+    let adjustedNum = number * multiplier;
+    let truncatedNum = Math[adjustedNum < 0 ? 'ceil' : 'floor'](adjustedNum);
+
+    return truncatedNum / multiplier;
+};
 
 module.exports = SLRenderer;

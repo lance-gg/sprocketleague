@@ -40,6 +40,10 @@ class SLClientEngine extends ClientEngine {
             }
         });
 
+        this.networkMonitor.on('RTTUpdate', (e) => {
+            this.renderer.updateHUD(e);
+        });
+
     }
 
     // extend ClientEngine connect to add own events
