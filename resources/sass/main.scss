@@ -209,8 +209,7 @@ body.gameActive{
 
 }
 
-body.touch{
-
+body.touch.gameActive{
   .gasButton, .breakButton {
     opacity: 0.6;
     pointer-events: all;
