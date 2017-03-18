@@ -2,6 +2,8 @@
 
 const PhysicalObject = require('incheon').serialize.PhysicalObject;
 const MASS = 2;
+const Utils = require('../Client/Utils');
+
 let CANNON = null;
 
 class Car extends PhysicalObject {
@@ -144,31 +146,34 @@ class Car extends PhysicalObject {
             this.chasisMaterial.color.g = g / 255;
             this.chasisMaterial.color.b = b / 255;
 
-            //refractive windows
-            
-            let refracCubeTexture;
-            if (this.gameEngine.renderer.cubeTexture) {
-                let cubeTexture = this.gameEngine.renderer.cubeTexture;
-            } else {
-                let path = "resources/images/flame/";
-                let format = '.jpg';
-                let urls = [
-                    path + 'posx' + format, path + 'negx' + format,
-                    path + 'posy' + format, path + 'negy' + format,
-                    path + 'posz' + format, path + 'negz' + format
-                ];
+            //too costly for performance on mobile
+            if (Utils.isTouchDevice() == false) {
 
-                refracCubeTexture = this.gameEngine.renderer.cubeTexture = new THREE.CubeTextureLoader().load(urls);
-                refracCubeTexture.mapping = THREE.CubeRefractionMapping;
-                refracCubeTexture.format = THREE.RGBFormat;
+                //refractive windows
+                let refracCubeTexture;
+                if (this.gameEngine.renderer.cubeTexture) {
+                    let cubeTexture = this.gameEngine.renderer.cubeTexture;
+                } else {
+                    let path = "resources/images/flame/";
+                    let format = '.jpg';
+                    let urls = [
+                        path + 'posx' + format, path + 'negx' + format,
+                        path + 'posy' + format, path + 'negy' + format,
+                        path + 'posz' + format, path + 'negz' + format
+                    ];
+
+                    refracCubeTexture = this.gameEngine.renderer.cubeTexture = new THREE.CubeTextureLoader().load(urls);
+                    refracCubeTexture.mapping = THREE.CubeRefractionMapping;
+                    refracCubeTexture.format = THREE.RGBFormat;
+                }
+
+                this.windowMaterial.color.r = 29 / 255;
+                this.windowMaterial.color.g = 74 / 255;
+                this.windowMaterial.color.b = 129 / 255;
+                this.windowMaterial.envMap = refracCubeTexture;
+                this.windowMaterial.combine = THREE.MixOperation;
+                this.windowMaterial.reflectivity = 0.4;
             }
-
-            this.windowMaterial.color.r = 29 / 255;
-            this.windowMaterial.color.g = 74 / 255;
-            this.windowMaterial.color.b = 129 / 255;
-            this.windowMaterial.envMap = refracCubeTexture;
-            this.windowMaterial.combine = THREE.MixOperation;
-            this.windowMaterial.reflectivity = 0.4;
         }
     }
 
