@@ -20,6 +20,18 @@ class SLGameEngine extends GameEngine {
         
         this.numCars = 0;
         this.numBalls = 0;
+        this.metaData= {
+            teams: {
+                red: {
+                    players: [],
+                    score: 0
+                },
+                blue: {
+                    players: [],
+                    score: 0
+                }
+            }
+        };
         
         this.on('server__init', this.gameInit.bind(this));
     }
@@ -52,26 +64,29 @@ class SLGameEngine extends GameEngine {
                 console.log('Ball in goal 1');
                 this.ball.showExplosion();
                 this.resetBall();
+                this.metaData.teams.red.score++;
             }
 
             if (this.arena.isObjInGoal2(this.ball)) {
                 console.log('Ball in goal 2');
                 this.ball.showExplosion();
                 this.resetBall();
+                this.metaData.teams.blue.score++;
             }
         }
     }
 
     // server-side function to add a new player
-    makeCar(playerId) {
+    makeCar(playerId, team) {
         console.log(`adding car of player`, playerId);
 
-        // create a fighter for this client
+        // create a car for this client
         let x = Math.random() * 20 - 10;
         let z = Math.random() * 20 - 10;
         let position = new ThreeVector(x, 10, z);
         let car = new Car(++this.world.idCount, this, position);
         car.playerId = playerId;
+        car.team = team;
         this.addObjectToWorld(car);
         this.numCars++;
 

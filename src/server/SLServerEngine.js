@@ -13,17 +13,67 @@ class SLServerEngine extends ServerEngine {
     onPlayerConnected(socket) {
         super.onPlayerConnected(socket);
 
-        let makePlayerCar = () => {
-            this.gameEngine.makeCar(socket.playerId);
+        let makePlayerCar = (team) => {
+            let playerTeam;
+            if (team == 'red'){ playerTeam = 'red'}
+            else if (team == 'blue'){ playerTeam = 'else'}
+            else {
+                //make sure players join the right team
+                if (this.gameEngine.metaData.teams.red.players.length < this.gameEngine.metaData.teams.blue.players.length){
+                    playerTeam = 'red'
+                }
+                else{
+                    playerTeam = 'blue'
+                }
+            }
+
+            // console.log('add car', playerTeam, socket.playerId);
+            this.gameEngine.metaData.teams[playerTeam].players.push(socket.playerId);
+            this.gameEngine.makeCar(socket.playerId, playerTeam);
+            this.updateMetaData();
         };
 
         // handle client restart requests
         socket.on('requestRestart', makePlayerCar);
+        socket.on('requestMetaDataUpdate', ()=>{
+            this.updateMetaData(socket);
+        });
+
+        this.updateMetaData();
     }
 
     onPlayerDisconnected(socketId, playerId) {
         super.onPlayerDisconnected(socketId, playerId);
         this.gameEngine.removeCar(playerId);
+
+        //remove player from team
+        let redTeam = this.gameEngine.metaData.teams['red'];
+        let blueTeam = this.gameEngine.metaData.teams['blue'];
+
+        let redTeamIndex = redTeam.players.indexOf(playerId);
+        if (redTeamIndex > -1) {
+            redTeam.players.splice(redTeamIndex, 1);
+        }
+
+        let blueTeamIndex = blueTeam.players.indexOf(playerId);
+        if (blueTeamIndex > -1) {
+            blueTeam.players.splice(blueTeamIndex, 1);
+        }
+
+        this.updateMetaData();
+    }
+
+
+    updateMetaData(socket){
+        if (socket){
+            socket.emit('metaDataUpdate', this.gameEngine.metaData);
+        } else{
+            //emit to all
+            // delay so player socket can catch up
+            setTimeout(() => {
+                this.io.sockets.emit('metaDataUpdate', this.gameEngine.metaData);
+            }, 100);
+        }
     }
 }
 

@@ -39,8 +39,13 @@ class SLRenderer extends AFrameRenderer {
             }
 
             this.frameNum = 0;
-            this.emit('ready');
-            this.isReady = true;
+
+            document.querySelector("a-assets").addEventListener('loaded', ()=>{
+                console.log('assets loaded');
+
+                this.emit('ready');
+                this.isReady = true;
+            });
         });
 
     }
@@ -66,6 +71,33 @@ class SLRenderer extends AFrameRenderer {
             document.body.classList.add('gameActive');
             document.querySelector('#joinGame').disabled = true;
             document.querySelector('#joinGame').style.opacity = 0;
+        }
+    }
+
+    onMetaDataUpdate(){
+        //update player teams
+        let metaData = this.gameEngine.metaData;
+
+        for(let x=0; x<metaData.teams.red.players.length;x++){
+            let playerId = metaData.teams.red.players[x];
+            let playerCar = this.gameEngine.world.getPlayerObject(playerId);
+            if (playerCar) {
+                playerCar.team = 'red';
+                playerCar.updateTeamColor();
+            }
+        }
+
+        for(let x=0; x<metaData.teams.blue.players.length;x++){
+            let playerId = metaData.teams.blue.players[x];
+            let playerCar = this.gameEngine.world.getPlayerObject(playerId);
+            if (playerCar) {
+                playerCar.team = 'blue';
+                playerCar.updateTeamColor();
+                // console.log(`changing player car of ${playerId} to blue`);
+            }
+            else{
+                // console.log(`no player car for player ${playerId}`);
+            }
         }
     }
 

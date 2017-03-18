@@ -46,11 +46,17 @@ class SLClientEngine extends ClientEngine {
     connect() {
         return super.connect().then(() => {
             
-            this.socket.on('disconnect', (e) => {
+            this.socket.on('disconnect', e => {
                 console.log('disconnected');
                 document.body.classList.add('disconnected');
                 document.body.classList.remove('gameActive');
                 document.querySelector('#reconnect').disabled = false;
+            });
+            
+            this.socket.on('metaDataUpdate', e => {
+                console.log('metaDataUpdate', e);
+                this.gameEngine.metaData = e;
+                this.renderer.onMetaDataUpdate();
             });
 
             if ('autostart' in Utils.getUrlVars()) {

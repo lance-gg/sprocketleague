@@ -53,8 +53,15 @@ class Car extends PhysicalObject {
     }
     
     onModelLoaded(){
+        this.modelLoaded = true;
         this.backLightMaterial = this.carEl.object3D.children[0].children[0].children[0].children[8].material;
-        this.setColor(105, 171, 252);
+
+        if (this.team) {
+            this.updateTeamColor();
+        } else {
+        //team color is unknown yet, set to neutral color
+            this.setColor(220, 220, 200);
+        }
     }
 
     // reduce the perpendicular component of the velocity
@@ -114,27 +121,42 @@ class Car extends PhysicalObject {
         }
     }
 
+    updateTeamColor(){
+        if (this.team =='red'){
+            this.setColor(213, 63, 63);
+        }
+        else{
+            this.setColor(105, 171, 252);
+        }
+    }
+
     setColor(r,g,b){
         //0 chasis
         //6 lights
         //7 bumper
         //8 backlights
 
-        this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.r = r / 255;
-        this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.g = g / 255;
-        this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.b = b / 255;
+        if (this.modelLoaded) {
+            this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.r = r / 255;
+            this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.g = g / 255;
+            this.carEl.object3D.children[0].children[0].children[0].children[0].material.color.b = b / 255;
+        }
     }
 
     turnOnReverseLight(){
-        this.backLightMaterial.emissive.r = 200 / 255;
-        this.backLightMaterial.emissive.g = 200 / 255;
-        this.backLightMaterial.emissive.b = 200 / 255;
+        if (this.modelLoaded) {
+            this.backLightMaterial.emissive.r = 200 / 255;
+            this.backLightMaterial.emissive.g = 200 / 255;
+            this.backLightMaterial.emissive.b = 200 / 255;
+        }
     }
 
     turnOffReverseLight(){
-        this.backLightMaterial.emissive.r = 166 / 255;
-        this.backLightMaterial.emissive.g = 44 / 255;
-        this.backLightMaterial.emissive.b = 44 / 255;
+        if (this.modelLoaded) {
+            this.backLightMaterial.emissive.r = 166 / 255;
+            this.backLightMaterial.emissive.g = 44 / 255;
+            this.backLightMaterial.emissive.b = 44 / 255;
+        }
     }
 
     toString() {
