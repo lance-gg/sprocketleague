@@ -251,6 +251,10 @@ body.touch.gameActive{
 
 body.presentation .presentationContainer{
   display: block;
+
+  #joinGame{
+    display: none;
+  }
 }
 
 .disconnected{

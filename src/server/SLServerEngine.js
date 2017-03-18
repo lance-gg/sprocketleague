@@ -46,6 +46,10 @@ class SLServerEngine extends ServerEngine {
             this.updateMetaData(socket);
         });
 
+        socket.on('keepAlive', ()=>{
+            this.resetIdleTimeout(socket);
+        });
+
         this.updateMetaData();
     }
 

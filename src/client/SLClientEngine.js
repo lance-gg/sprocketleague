@@ -71,6 +71,13 @@ class SLClientEngine extends ClientEngine {
             if ('jointeam' in Utils.getUrlVars()) {
                 this.socket.emit('requestRestart', Utils.getUrlVars().jointeam);
             }
+
+            //in presentation mode make sure to not idle
+            if ('presentation' in Utils.getUrlVars()) {
+                setInterval(() =>{
+                    this.socket.emit('keepAlive');
+                }, 1000 * 10)
+            }
         });
     }
 
