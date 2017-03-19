@@ -31,8 +31,13 @@ class Car extends PhysicalObject {
 
             this.carEl = document.createElement('a-gltf-model');
             this.carEl.setAttribute('gltf-model', '#car-obj');
-            this.carEl.setAttribute('position', '0 0 0.4');
+            this.carEl.setAttribute('position', '0 -1.7 0.4');
             this.carEl.setAttribute('rotation', '0 180 0');
+
+            this.headLight = document.createElement('a-entity');
+            this.headLight.setAttribute('light', 'type: spot; color: #ffffff; intensity: 1; angle: 47; penumbra: 0.26');
+            this.headLight.setAttribute('position', '0 -1.86 2.36');
+            this.headLight.setAttribute('rotation', '0 180 0');
 
             // change car color
             // todo find out how to do this on gltf asset load
@@ -48,17 +53,30 @@ class Car extends PhysicalObject {
             el.object3D.quaternion.set(q.x, q.y, q.z, q.w);
             el.setAttribute('game-object-id', this.id);
 
+            el.appendChild(this.headLight);
             el.appendChild(this.carEl);
             scene.appendChild(el);
 
         }
     }
-    
+
     onModelLoaded(){
+        //0 chasis
+        //6 lights
+        //7 bumper
+        //8 backlights
+        //9 windows
+
         this.modelLoaded = true;
         this.backLightMaterial = this.carEl.object3D.children[0].children[0].children[0].children[8].material;
         this.windowMaterial = this.carEl.object3D.children[0].children[0].children[0].children[9].material;
         this.chasisMaterial = this.carEl.object3D.children[0].children[0].children[0].children[0].material;
+        this.headLightsMaterial = this.carEl.object3D.children[0].children[0].children[0].children[6].material;
+
+        //set headlights color
+        this.headLightsMaterial.emissive.r = 255 / 255;
+        this.headLightsMaterial.emissive.g = 235 / 255;
+        this.headLightsMaterial.emissive.b = 16 / 255;
 
         if (this.team) {
             this.updateTeamColor();
@@ -135,12 +153,6 @@ class Car extends PhysicalObject {
     }
 
     setColor(r,g,b){
-        //0 chasis
-        //6 lights
-        //7 bumper
-        //8 backlights
-        //9 windows
-
         if (this.modelLoaded) {
             this.chasisMaterial.color.r = r / 255;
             this.chasisMaterial.color.g = g / 255;
