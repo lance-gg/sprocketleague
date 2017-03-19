@@ -196,6 +196,22 @@ button{
   }
 }
 
+.wheel{
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  width: 4rem;
+  height: 4rem;
+  opacity: 0.6;
+  transform: translateX(-50%);
+
+  svg{
+    width: 100%;
+    height: 100%
+  }
+}
+
 .gasButton{
   right: 0%;
 
@@ -247,6 +263,9 @@ body.touch.gameActive{
   .gasButton, .breakButton {
     opacity: 0.6;
     pointer-events: all;
+  }
+  .wheel{
+    display: block;
   }
 }
 

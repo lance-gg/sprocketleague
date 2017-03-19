@@ -60,10 +60,12 @@ class MobileControls{
         this.activeInput.right = false;
 
         //prevent hypesensitive steering on mobile
-        let frameThreshold = 6;
+        let frameThreshold = 4;
         let x = Math.abs(steerValue);
         let frameStep = Math.round(frameThreshold-x*x*frameThreshold);
         let shouldSteer = this.renderer.frameNum % frameStep == 0;
+
+        this.renderer.updateWheelRotation(steerValue);
         
         if (shouldSteer) {
             if (steerValue < -steerThreshold) {

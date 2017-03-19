@@ -129,6 +129,11 @@ class SLRenderer extends AFrameRenderer {
         }
     }
 
+    updateWheelRotation(amount){
+        let rotation = amount * 60;
+        qs('.wheel svg').style.transform = `rotate(${rotation}deg)`;
+    }
+
 }
 
 // convenience function
