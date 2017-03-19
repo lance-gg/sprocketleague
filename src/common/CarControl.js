@@ -18,6 +18,13 @@ class CarControl {
         if (curVel > MAX_VELOCITY)
             return;
 
+        // if car is flipped, re-orient and raise it
+        if (this.isFlipped(car)) {
+            car.physicsObj.quaternion.set(0, 0, 0, 1);
+            car.physicsObj.position.y = 10;
+            return;
+        }
+
         // TODO: probably bad perf
         let impulse = FORWARD_IMPULSE;
         if (direction === 'down') impulse *= -1;
@@ -28,6 +35,11 @@ class CarControl {
 
         car.isMovingForwards = movingForwards;
         car.physicsObj.velocity.vadd(newVec, car.physicsObj.velocity);
+    }
+
+    isFlipped(car) {
+        let upVec = car.physicsObj.quaternion.vmult(new CANNON.Vec3(0, 1, 0));
+        return upVec.y < 0.1;
     }
 
     isMovingForwards(car) {
