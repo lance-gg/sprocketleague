@@ -1,7 +1,7 @@
 'use strict';
 
-const GameEngine = require('incheon').GameEngine;
-const ThreeVector = require('incheon').serialize.ThreeVector;
+const GameEngine = require('lance-gg').GameEngine;
+const ThreeVector = require('lance-gg').serialize.ThreeVector;
 const CarControl = require('./CarControl');
 const Car = require('./Car');
 const Ball = require('./Ball');
@@ -17,7 +17,7 @@ class SLGameEngine extends GameEngine {
 
         CANNON = this.physicsEngine.CANNON;
         this.carControl = new CarControl({ CANNON });
-        
+
         this.numCars = 0;
         this.numBalls = 0;
         this.metaData= {
@@ -32,7 +32,7 @@ class SLGameEngine extends GameEngine {
                 }
             }
         };
-        
+
         this.on('server__init', this.gameInit.bind(this));
     }
 
@@ -57,7 +57,7 @@ class SLGameEngine extends GameEngine {
                 o.adjustCarMovement();
             }
         });
-        
+
         // check if a goal has been made
         if (this.ball && this.arena) {
             if (this.arena.isObjInGoal1(this.ball)) {

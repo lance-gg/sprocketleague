@@ -31,7 +31,7 @@
     "tween": "^0.9.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
-    "incheon": "opherv/incheon#develop"
+    "lance-gg": "~1.0.0"
   },
   "devDependencies": {
     "babelify": "^7.3.0",
@@ -51,6 +51,8 @@
   },
   "keywords": [
     "game",
+    "lance",
+    "lance-gg",
     "websockets"
   ],
   "author": "Gary Weiss",

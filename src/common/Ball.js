@@ -1,6 +1,6 @@
 'use strict';
 
-const PhysicalObject = require('incheon').serialize.PhysicalObject;
+const PhysicalObject = require('lance-gg').serialize.PhysicalObject;
 const RADIUS = 4;
 const MASS = 0.1;
 let CANNON = null;
@@ -60,7 +60,7 @@ class Ball extends PhysicalObject {
             blending: THREE.AdditiveBlending,
             scale: 600
         } );
-        
+
 
         this.shockwaveGroup = new SPE.Group( {
             texture: {

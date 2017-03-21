@@ -1,4 +1,4 @@
-const ClientEngine = require('incheon').ClientEngine;
+const ClientEngine = require('lance-gg').ClientEngine;
 const MobileControls = require('../client/MobileControls');
 const KeyboardControls = require('../client/KeyboardControls');
 const SLRenderer = require('./SLRenderer');
@@ -49,14 +49,14 @@ class SLClientEngine extends ClientEngine {
     // extend ClientEngine connect to add own events
     connect() {
         return super.connect().then(() => {
-            
+
             this.socket.on('disconnect', e => {
                 console.log('disconnected');
                 document.body.classList.add('disconnected');
                 document.body.classList.remove('gameActive');
                 document.querySelector('#reconnect').disabled = false;
             });
-            
+
             this.socket.on('metaDataUpdate', e => {
                 console.log('metaDataUpdate', e);
                 this.gameEngine.metaData = e;

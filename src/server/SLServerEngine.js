@@ -1,6 +1,6 @@
 'use strict';
 
-const ServerEngine = require('incheon').ServerEngine;
+const ServerEngine = require('lance-gg').ServerEngine;
 
 class SLServerEngine extends ServerEngine {
     constructor(io, gameEngine, inputOptions) {
@@ -26,7 +26,7 @@ class SLServerEngine extends ServerEngine {
                 }
                 else{
                     playerTeam = 'blue'
-                }                                               
+                }
             }
 
             // console.log('add car', playerTeam, socket.playerId);

@@ -1,6 +1,6 @@
 'use strict';
 
-const AFrameRenderer = require('incheon').render.AFrameRenderer;
+const AFrameRenderer = require('lance-gg').render.AFrameRenderer;
 const aframeCubeMapComponent = require('aframe-cubemap-component');
 const aframeChaseLookControls = require('./chase-look-controls');
 const Utils = require('./Utils');
@@ -61,7 +61,7 @@ class SLRenderer extends AFrameRenderer {
     }
 
     addObject(objData, options) {
-        
+
         if (this.clientEngine.isOwnedByPlayer(objData)) {
             //setup chase camera, disable default camera controls
             document.querySelector('.chaseCamera').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);

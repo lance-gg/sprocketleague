@@ -1,6 +1,6 @@
 'use strict';
 
-const PhysicalObject = require('incheon').serialize.PhysicalObject;
+const PhysicalObject = require('lance-gg').serialize.PhysicalObject;
 const MASS = 0;
 const ARENA_SCALE = 0.2;
 

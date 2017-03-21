@@ -18,7 +18,7 @@ const io = socketIO(requestHandler);
 // get game classes
 const SLServerEngine = require('./src/server/SLServerEngine.js');
 const SLGameEngine = require('./src/common/SLGameEngine.js');
-const CannonPhysicsEngine = require('incheon').physics.CannonPhysicsEngine;
+const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
 
 // create instances
 const physicsEngine = new CannonPhysicsEngine();

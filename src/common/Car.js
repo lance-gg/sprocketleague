@@ -1,6 +1,6 @@
 'use strict';
 
-const PhysicalObject = require('incheon').serialize.PhysicalObject;
+const PhysicalObject = require('lance-gg').serialize.PhysicalObject;
 const MASS = 2;
 const Utils = require('../client/Utils');
 
