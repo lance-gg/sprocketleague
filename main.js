@@ -24,7 +24,7 @@ const physicsEngine = new CannonPhysicsEngine();
 const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 0 });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6 });
 new MatchMaker(server, serverEngine, {
-    pollPeriod: 10,
+    pollPeriod: 10000,
     domain: 'herokuapp.com',
     hostname: 'sprocketleagueus',
     matchmakerPath: '/'
