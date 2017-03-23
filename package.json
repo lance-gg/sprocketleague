@@ -31,7 +31,7 @@
     "tween": "^0.9.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
-    "lance-gg": "OpherV/incheon.git#feature/lance-gg"
+    "lance-gg": "OpherV/incheon.git#feature/lance-matchmaker"
   },
   "devDependencies": {
     "babelify": "^7.3.0",
