@@ -25,7 +25,11 @@ const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
 const physicsEngine = new CannonPhysicsEngine();
 const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 0 });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6 });
-new MatchMaker(server, serverEngine, { pollPeriod: 10 });
+new MatchMaker(server, serverEngine, {
+    pollPeriod: 10,
+    domain: 'herokuapp.com',
+    hostname: 'sprocketleagueus'
+});
 
 // start the game
 serverEngine.start();
