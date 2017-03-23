@@ -8,10 +8,8 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, './index.html');
 
-// network servers and routes
+// network servers
 const server = express();
-server.get('/', (req, res) => { res.sendFile(INDEX); });
-server.use('/', express.static(path.join(__dirname, '.')));
 const requestHandler = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
 const io = socketIO(requestHandler);
 
@@ -28,8 +26,13 @@ const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate:
 new MatchMaker(server, serverEngine, {
     pollPeriod: 10,
     domain: 'herokuapp.com',
-    hostname: 'sprocketleagueus'
+    hostname: 'sprocketleagueus',
+    matchmakerPath: '/'
 });
+
+// can define routes after the matchmaker
+server.get('/', (req, res) => { res.sendFile(INDEX); });
+server.use('/', express.static(path.join(__dirname, '.')));
 
 // start the game
 serverEngine.start();
