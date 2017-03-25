@@ -27,7 +27,8 @@ new MatchMaker(server, serverEngine, {
     pollPeriod: 10000,
     domain: 'herokuapp.com',
     hostname: 'sprocketleagueus',
-    matchmakerPath: '/'
+    matchmakerPath: '/',
+    verbose: true
 });
 
 // can define routes after the matchmaker
