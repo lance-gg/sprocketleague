@@ -14,7 +14,7 @@ const requestHandler = server.listen(PORT, () => console.log(`Listening on ${POR
 const io = socketIO(requestHandler);
 
 // get game classes
-const MatchMaker = require('lance-gg').MatchMaker;
+
 const SLServerEngine = require('./src/server/SLServerEngine.js');
 const SLGameEngine = require('./src/common/SLGameEngine.js');
 const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
@@ -26,6 +26,7 @@ const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate:
 
 // create the matchmaker
 if (process.env.MATCHMAKER) {
+    const MatchMaker = require('lance-pro').MatchMaker;
     new MatchMaker(server, serverEngine, {
         pollPeriod: 10000,
         domain: 'herokuapp.com',
@@ -36,6 +37,7 @@ if (process.env.MATCHMAKER) {
 }
 
 // can define routes after the matchmaker
+server.get('/gameStatus', (req, res) => { res.send(serverEngine.gameStatus()); });
 server.get('/', (req, res) => { res.sendFile(INDEX); });
 server.use('/', express.static(path.join(__dirname, '.')));
 
