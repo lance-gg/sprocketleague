@@ -15,7 +15,14 @@ const WALL_WIDTH = 5;
 const GOAL_DEPTH = 18;
 const GOAL_WIDTH = 20;
 const GOALSIDE_WIDTH = (ARENA_DEPTH - GOAL_WIDTH) / 2;
+const CORNER_RADIUS = 80 * ARENA_SCALE;
 
+// The Arena
+//
+// Orientation: The 3D world is represented with a right-handed coordinate system.
+// The X and Z axis are the floor of the arena, and the Y axis is the height.
+// Using the X axis as the North, the Arena is laid out so that it is wide is along
+// the X axis, and the goals are at the North end and the South end.
 class Arena extends PhysicalObject {
 
     constructor(id, gameEngine, position) {
@@ -29,8 +36,15 @@ class Arena extends PhysicalObject {
     // (x, y, z) are position
     // (dx, dy, dz) are dimensions
     addWall(x, y, z, dx, dy, dz) {
-        let wall = this.gameEngine.physicsEngine.addBox(dx, dy, dz);
+        let wall = this.gameEngine.physicsEngine.addBox(dx, dy, dz, 0, 0.01);
         wall.position.set(x, y, z);
+        return wall;
+    }
+
+    addCorner(x, y, z) {
+        let wall = this.addWall(x, y, z, CORNER_RADIUS, ARENA_HEIGHT, CORNER_RADIUS);
+        wall.fixedRotation = true;
+        wall.quaternion.setFromEuler(0, Math.PI / 4, 0, 'XYZ');
         return wall;
     }
 
@@ -44,21 +58,26 @@ class Arena extends PhysicalObject {
         let y = this.position.y;
         let z = this.position.z;
 
-        // add walls: left, right, ceiling
+        // add walls: West, East, and ceiling
         this.walls.push(this.addWall(x, y + ARENA_BASELINE + ARENA_HEIGHT, z - ARENA_DEPTH, ARENA_WIDTH, ARENA_HEIGHT, WALL_WIDTH));
         this.walls.push(this.addWall(x, y + ARENA_BASELINE + ARENA_HEIGHT, z + ARENA_DEPTH, ARENA_WIDTH, ARENA_HEIGHT, WALL_WIDTH));
         this.walls.push(this.addWall(x, y + ARENA_BASELINE + ARENA_HEIGHT * 2, z, ARENA_WIDTH, WALL_WIDTH, ARENA_DEPTH));
 
-
-        //add walls for goal 1: backplate, left plate, right plate
+        // add walls for South goal: backplate, left plate, right plate
         this.walls.push(this.addWall(x - ARENA_WIDTH - GOAL_DEPTH, y + ARENA_BASELINE +ARENA_HEIGHT, z, WALL_WIDTH, ARENA_HEIGHT, GOAL_WIDTH ));
         this.walls.push(this.addWall(x - ARENA_WIDTH - 11, y + ARENA_BASELINE + ARENA_HEIGHT, z - GOALSIDE_WIDTH - GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
         this.walls.push(this.addWall(x - ARENA_WIDTH - 11, y + ARENA_BASELINE + ARENA_HEIGHT, z + GOALSIDE_WIDTH + GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
 
-
+        // add walls for North goal: backplate, left plate, right plate
         this.walls.push(this.addWall(x + ARENA_WIDTH + GOAL_DEPTH, y + ARENA_BASELINE +ARENA_HEIGHT, z, WALL_WIDTH, ARENA_HEIGHT, GOAL_WIDTH ));
         this.walls.push(this.addWall(x + ARENA_WIDTH + 11, y + ARENA_BASELINE + ARENA_HEIGHT, z - GOALSIDE_WIDTH - GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
         this.walls.push(this.addWall(x + ARENA_WIDTH + 11, y + ARENA_BASELINE + ARENA_HEIGHT, z + GOALSIDE_WIDTH + GOAL_WIDTH, WALL_WIDTH * 2, ARENA_HEIGHT, GOALSIDE_WIDTH ));
+
+        // add corner angled-walls, NorthWest, NorthEast, SouthEast, SouthWest
+        this.walls.push(this.addCorner(x + ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z - ARENA_DEPTH));
+        this.walls.push(this.addCorner(x + ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z + ARENA_DEPTH));
+        this.walls.push(this.addCorner(x - ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z + ARENA_DEPTH));
+        this.walls.push(this.addCorner(x - ARENA_WIDTH, y + ARENA_BASELINE + ARENA_HEIGHT, z - ARENA_DEPTH));
 
         let scene = gameEngine.renderer ? gameEngine.renderer.scene : null;
         if (scene) {

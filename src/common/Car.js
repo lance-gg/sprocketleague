@@ -21,7 +21,7 @@ class Car extends PhysicalObject {
         // create the physics body
         this.gameEngine = gameEngine;
         CANNON = this.gameEngine.physicsEngine.CANNON;
-        this.physicsObj = gameEngine.physicsEngine.addBox(1, 1, 2.9, MASS, 0);
+        this.physicsObj = gameEngine.physicsEngine.addBox(1, 1, 2.9, MASS, 0.01);
         this.physicsObj.position.set(this.position.x, this.position.y, this.position.z);
         this.physicsObj.angularDamping = 0.1;
 
@@ -41,10 +41,10 @@ class Car extends PhysicalObject {
 
             // change car color
             // todo find out how to do this on gltf asset load
-            if (this.carEl.components['gltf-model'].model){
+            if (this.carEl.components['gltf-model'].model) {
                 this.onModelLoaded();
             } else {
-                this.carEl.addEventListener('model-loaded',this.onModelLoaded.bind(this));
+                this.carEl.addEventListener('model-loaded', this.onModelLoaded.bind(this));
             }
 
             let p = this.position;
@@ -60,12 +60,12 @@ class Car extends PhysicalObject {
         }
     }
 
-    onModelLoaded(){
-        //0 chasis
-        //6 lights
-        //7 bumper
-        //8 backlights
-        //9 windows
+    onModelLoaded() {
+        // 0 chasis
+        // 6 lights
+        // 7 bumper
+        // 8 backlights
+        // 9 windows
 
         this.modelLoaded = true;
         this.backLightMaterial = this.carEl.object3D.children[0].children[0].children[0].children[8].material;
@@ -73,7 +73,7 @@ class Car extends PhysicalObject {
         this.chasisMaterial = this.carEl.object3D.children[0].children[0].children[0].children[0].material;
         this.headLightsMaterial = this.carEl.object3D.children[0].children[0].children[0].children[6].material;
 
-        //set headlights color
+        // set headlights color
         this.headLightsMaterial.emissive.r = 255 / 255;
         this.headLightsMaterial.emissive.g = 235 / 255;
         this.headLightsMaterial.emissive.b = 16 / 255;
@@ -81,7 +81,7 @@ class Car extends PhysicalObject {
         if (this.team) {
             this.updateTeamColor();
         } else {
-        //team color is unknown yet, set to neutral color
+        // team color is unknown yet, set to neutral color
             this.setColor(220, 220, 200);
         }
     }
@@ -133,40 +133,38 @@ class Car extends PhysicalObject {
 
         this.refreshFromPhysics();
 
-        if (this.scene){
-            if(this.isMovingForwards){
+        if (this.scene) {
+            if(this.isMovingForwards) {
                 this.turnOffReverseLight();
-            }
-            else{
+            } else{
                 this.turnOnReverseLight();
             }
         }
     }
 
-    updateTeamColor(){
-        if (this.team =='red'){
+    updateTeamColor() {
+        if (this.team =='red') {
             this.setColor(213, 63, 63);
-        }
-        else{
+        } else{
             this.setColor(105, 171, 252);
         }
     }
 
-    setColor(r,g,b){
+    setColor(r, g, b) {
         if (this.modelLoaded) {
             this.chasisMaterial.color.r = r / 255;
             this.chasisMaterial.color.g = g / 255;
             this.chasisMaterial.color.b = b / 255;
 
-            //too costly for performance on mobile
+            // too costly for performance on mobile
             if (Utils.isTouchDevice() == false) {
 
-                //refractive windows
+                // refractive windows
                 let refracCubeTexture;
                 if (this.gameEngine.renderer.cubeTexture) {
                     let cubeTexture = this.gameEngine.renderer.cubeTexture;
                 } else {
-                    let path = "resources/images/flame/";
+                    let path = 'resources/images/flame/';
                     let format = '.jpg';
                     let urls = [
                         path + 'posx' + format, path + 'negx' + format,
@@ -189,7 +187,7 @@ class Car extends PhysicalObject {
         }
     }
 
-    turnOnReverseLight(){
+    turnOnReverseLight() {
         if (this.modelLoaded) {
             this.backLightMaterial.emissive.r = 200 / 255;
             this.backLightMaterial.emissive.g = 200 / 255;
@@ -197,7 +195,7 @@ class Car extends PhysicalObject {
         }
     }
 
-    turnOffReverseLight(){
+    turnOffReverseLight() {
         if (this.modelLoaded) {
             this.backLightMaterial.emissive.r = 166 / 255;
             this.backLightMaterial.emissive.g = 44 / 255;

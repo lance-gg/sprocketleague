@@ -27,7 +27,7 @@ const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate:
 // create the matchmaker
 if (process.env.MATCHMAKER) {
     const MatchMaker = require('lance-pro').MatchMaker;
-    new MatchMaker(server, serverEngine, {
+    new MatchMaker(server, {
         pollPeriod: 10000,
         domain: 'herokuapp.com',
         hostname: 'sprocketleagueus',
