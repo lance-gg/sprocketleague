@@ -290,3 +290,29 @@ body.presentation{
     pointer-events: none;
   }
 }
+
+.lanceLink{
+  width: 8rem;
+  height: 2rem;
+  color: white;
+  display: block;
+  position: absolute;
+  right: 2rem;
+  bottom: 1rem;
+  background-image: url(https://cloud.githubusercontent.com/assets/3951311/24590486/aa78b3a0-17f6-11e7-887f-8357b6906b03.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center 18px;
+  padding-top: 4rem;
+  z-index: 100;
+  font-size: 0.6rem;
+  text-decoration: none;
+}
+
+body.touch .lanceLink{
+  width: 6rem;
+  height: 2rem;
+  top: -0.2rem;
+  right: 1rem;
+  padding-top: 3.5rem;
+}
