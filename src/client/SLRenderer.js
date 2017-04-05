@@ -45,6 +45,7 @@ class SLRenderer extends AFrameRenderer {
 
             document.querySelector("a-assets").addEventListener('loaded', ()=>{
                 console.log('assets loaded');
+                document.body.classList.remove('loading');
 
                 this.emit('ready');
                 this.isReady = true;

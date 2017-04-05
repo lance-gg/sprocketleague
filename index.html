@@ -11,7 +11,7 @@
             }
         </style>
     </head>
-    <body>
+    <body class="loading">
         <script type="text/javascript" src="dist/bundle.js"></script>
         <a-scene networked-physics vr-mode-ui="enabled: false">
             <a-assets>
@@ -39,6 +39,16 @@
         <div id="guiContainer">
             <button id="joinGame">Join Game</button>
             <button id="reconnect" disabled>Reconnect</button>
+
+            <div class="loading">
+                <div class="caption">Loading...</div>
+                <div class="spinner">
+                    <div class="ball ball-1"></div>
+                    <div class="ball ball-2"></div>
+                    <div class="ball ball-3"></div>
+                    <div class="ball ball-4"></div>
+                </div>
+            </div>
 
             <div class="hud">
                 <div>Latency: <span class="latencyData">N/A</span></div>
