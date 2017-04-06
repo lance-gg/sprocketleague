@@ -18,6 +18,7 @@ const defaults = {
     }
 };
 let options = Object.assign(defaults, qsOptions);
+if (window.hasOwnProperty('serverURL')) { options.serverURL = window.serverURL; }
 
 // create the singletons
 const physicsEngine = new CannonPhysicsEngine();
