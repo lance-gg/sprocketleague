@@ -29,7 +29,7 @@ if (process.env.MATCHMAKER) {
     const MatchMaker = require('lance-pro').MatchMaker;
     new MatchMaker(server, {
         pollPeriod: 10000,
-        domain: 'herokuapp.com',
+        domain: 'lance.gg',
         hostname: 'sprocketleagueus',
         matchmakerPath: '/',
         verbose: true
