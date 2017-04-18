@@ -6,6 +6,7 @@ const aframeChaseLookControls = require('./chase-look-controls');
 const Utils = require('./Utils');
 
 const debugWireframes = false;
+const SLOW_RENDER_MESSAGE = 'Your frame rate is too low.  Run this game with a graphics card, or shrink the window size.';
 
 
 class SLRenderer extends AFrameRenderer {
@@ -16,6 +17,7 @@ class SLRenderer extends AFrameRenderer {
         this.scene = null;
 
         this.gameEngine.on('objectAdded', this.addObject.bind(this));
+        this.gameEngine.on('client__slowFrameRate', this.reportSlowness.bind(this));
     }
 
     // setup the 3D scene
@@ -59,6 +61,15 @@ class SLRenderer extends AFrameRenderer {
         this.frameNum++;
         if (this.cannonDebugRenderer)
             this.cannonDebugRenderer.update();
+    }
+
+    reportSlowness() {
+        if (this.slownessReportedOnce)
+            return;
+
+        this.slownessReportedOnce = true;
+        alert(SLOW_RENDER_MESSAGE);
+        console.log('ERROR: ' + SLOW_RENDER_MESSAGE);
     }
 
     addObject(objData, options) {
