@@ -24,7 +24,7 @@ const physicsEngine = new CannonPhysicsEngine();
 const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 0 });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6 });
 new LancePro.StatsCollector(gameEngine);
-new LancePro.MatchMakerTarget(server);
+new LancePro.MatchMakerTarget(server, serverEngine);
 
 // can define routes after the matchmaker
 server.get('/gameStatus', (req, res) => { res.send(serverEngine.gameStatus()); });
