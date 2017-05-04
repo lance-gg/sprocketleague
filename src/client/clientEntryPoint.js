@@ -4,12 +4,19 @@ const SLGameEngine = require('../common/SLGameEngine');
 const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
 require('../../resources/sass/main.scss');
 
+// the official Lance.gg sprocketleague uses a matchmaker
+let matchmaker = null;
+if (window.location.hostname === 'sprocketleagueus.lance.gg')
+    matchmaker = 'http://srv.lance.gg/' + window.location.hostname;
+
+
 // default options, overwritten by query-string options
 // is sent to both game engine and client engine
 const defaults = {
     traceLevel: 1000,
     delayInputCount: 3,
     clientIDSpace: 1000000,
+    matchmaker: matchmaker,
     syncOptions: {
         sync: qsOptions.sync || 'extrapolate',
         localObjBending: 0.6,
@@ -18,7 +25,6 @@ const defaults = {
     }
 };
 let options = Object.assign(defaults, qsOptions);
-if (window.hasOwnProperty('serverURL')) { options.serverURL = window.serverURL; }
 
 // create the singletons
 const physicsEngine = new CannonPhysicsEngine();
