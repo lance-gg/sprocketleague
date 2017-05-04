@@ -7,8 +7,7 @@ require('../../resources/sass/main.scss');
 // the official Lance.gg sprocketleague uses a matchmaker
 let matchmaker = null;
 if (window.location.hostname === 'sprocketleagueus.lance.gg')
-    matchmaker = 'http://srv.lance.gg/' + window.location.hostname;
-
+    matchmaker = 'http://srv.lance.gg/sprocketleagueus.lance.gg/matchmaker';
 
 // default options, overwritten by query-string options
 // is sent to both game engine and client engine
