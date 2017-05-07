@@ -68,7 +68,7 @@ class SLRenderer extends AFrameRenderer {
             return;
 
         this.slownessReportedOnce = true;
-        alert(SLOW_RENDER_MESSAGE);
+        // alert(SLOW_RENDER_MESSAGE);
         console.log('ERROR: ' + SLOW_RENDER_MESSAGE);
     }
 
