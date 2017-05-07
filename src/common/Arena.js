@@ -89,6 +89,9 @@ class Arena extends PhysicalObject {
             el.setAttribute('rotate', `0 90 0`);
             el.setAttribute('game-object-id', this.id);
         }
+        else{
+            console.log("Tried to add arena object but renderer not ready")
+        }
     }
 
     isObjInGoal1(obj) {
