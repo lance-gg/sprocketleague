@@ -21,7 +21,8 @@ const defaults = {
         localObjBending: 0.6,
         remoteObjBending: 0.8,
         bendingIncrements: 6
-    }
+    },
+    autoConnect: false
 };
 let options = Object.assign(defaults, qsOptions);
 

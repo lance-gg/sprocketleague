@@ -82,6 +82,8 @@ class SLClientEngine extends ClientEngine {
     }
 
     onRendererReady() {
+        this.connect();
+        
         //  Game input
         if (Utils.isTouchDevice()){
             this.controls = new MobileControls(this.renderer);
