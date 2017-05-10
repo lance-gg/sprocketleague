@@ -232,25 +232,14 @@ button{
 
 .presentationContainer{
   display: none;
-  
-  div{
-    opacity: 0.6;
-    position: absolute;
-    bottom: 0;
-    font-size: 3rem;
-    color: white;
-    padding: 2rem;
-  }
+  position: absolute;
+  opacity: 0.6;
+  left: 0;
+  bottom: 0;
+  font-size: 3rem;
+  color: white;
+  padding: 2rem;
 
-  .blueTeam{
-    left: 0;
-    background: #242b91;
-  }
-
-  .redTeam{
-    right: 0;
-    background: #994142;
-  }
 }
 
 body.gameActive{
