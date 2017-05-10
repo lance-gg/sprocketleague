@@ -6,7 +6,7 @@ const aframeChaseLookControls = require('./chase-look-controls');
 const Utils = require('./Utils');
 
 const debugWireframes = false;
-const SLOW_RENDER_MESSAGE = 'Your frame rate is too low.  Run this game with a graphics card, or shrink the window size.';
+const SLOW_RENDER_MESSAGE = 'Frame rate appears to be low. Try to shrink the window size. Maybe that will help? ¯\_(ツ)_/¯';
 
 
 class SLRenderer extends AFrameRenderer {
