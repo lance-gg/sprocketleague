@@ -87,10 +87,14 @@ class SLServerEngine extends ServerEngine {
         }
     }
 
-    gameStatus() {
-        let lanceStatus = JSON.parse(super.gameStatus());
-        lanceStatus.log = this.gameEngine.log;
-        return JSON.stringify(lanceStatus);
+    gameStatus(statusQuery) {
+        let statusString = super.gameStatus();
+        if (statusQuery && statusQuery.debug) {
+            let lanceStatus = JSON.parse(statusString);
+            lanceStatus.log = this.gameEngine.log;
+            statusString = JSON.stringify(lanceStatus);
+        }
+        return statusString;
     }
 }
 
