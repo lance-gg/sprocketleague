@@ -85,7 +85,7 @@ class SLGameEngine extends GameEngine {
 
         let existingCar = this.world.getPlayerObject(playerId);
         if (existingCar) {
-            this.log.push(`player[${playerId}] already has car[${existingCar.id}]`);
+            // this.log.push(`player[${playerId}] already has car[${existingCar.id}]`);
             return existingCar;
         }
 
@@ -98,7 +98,7 @@ class SLGameEngine extends GameEngine {
         car.team = team;
         this.addObjectToWorld(car);
         this.numCars++;
-        this.log.push(`new car [${car.id}] for player[${playerId}]`);
+        // this.log.push(`new car [${car.id}] for player[${playerId}]`);
         if (this.numCars === 1)
             this.makeBall();
 
@@ -126,10 +126,10 @@ class SLGameEngine extends GameEngine {
 
     removeCar(playerId) {
         console.log(`removing car of player`, playerId);
-        this.log.push(`removing objects for player[${playerId}]`);
+        // this.log.push(`removing objects for player[${playerId}]`);
         let o = this.world.getPlayerObject(playerId);
         if (o) {
-            this.log.push(`removing car [${o.id}] for player[${playerId}]`);
+            // this.log.push(`removing car [${o.id}] for player[${playerId}]`);
             this.removeObjectFromWorld(o.id);
             this.numCars--;
         }
