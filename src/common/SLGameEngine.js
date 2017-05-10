@@ -83,6 +83,12 @@ class SLGameEngine extends GameEngine {
     makeCar(playerId, team) {
         console.log(`adding car of player`, playerId);
 
+        let existingCar = this.world.getPlayerObject(playerId);
+        if (existingCar) {
+            this.log.push(`player[${playerId}] already has car[${existingCar.id}]`);
+            return existingCar;
+        }
+
         // create a car for this client
         let x = Math.random() * 20 - 10;
         let z = Math.random() * 20 - 10;
