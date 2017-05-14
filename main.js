@@ -6,7 +6,7 @@ const path = require('path');
 
 // Constants
 const PORT = process.env.PORT || 3000;
-const INDEX = path.join(__dirname, './index.html');
+const INDEX = path.join(__dirname, './dist/index.html');
 
 // network servers
 const server = express();
@@ -29,7 +29,7 @@ new LancePro.MatchMakerTarget(server, serverEngine);
 // can define routes after the matchmaker
 server.get('/gameStatus', (req, res) => { res.send(serverEngine.gameStatus()); });
 server.get('/', (req, res) => { res.sendFile(INDEX); });
-server.use('/', express.static(path.join(__dirname, '.')));
+server.use('/', express.static(path.join(__dirname, './dist/')));
 
 // start the game
 serverEngine.start();

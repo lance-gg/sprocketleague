@@ -2,7 +2,7 @@ const qsOptions = require('query-string').parse(location.search);
 const SLClientEngine = require('./SLClientEngine');
 const SLGameEngine = require('../common/SLGameEngine');
 const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
-require('../../resources/sass/main.scss');
+require('../../dist/resources/sass/main.scss');
 
 // the official Lance.gg sprocketleague uses a matchmaker
 let matchmaker = null;
