@@ -11,6 +11,7 @@ deploy:
   secret_access_key:
     secure: hV5DYGIdsZ3ZREHQ3u0wNYHwj2r/dSM301dcPwe/RC66lQNCRQLItOk4paDzbRzds75k1yrOWreS+ngN19Y4ULltK9HBGC/VX/ZqsvRyOGOUrq5+5xlUQDiXSQjh1oPtbzMNz4moATHAPoxG2+5mWsWSXaj1V0hoawJkkhE9ZHb1WRelfdHQEx9Hqtz1fTXcUf3kSGE4or6S+eAUVuqzPKjKzYKdsiYDpIAMVYA3KTtJ4DxtvcbCAZjEwAkKoax9cs1PgoMurteCtOG8utPzaSf8EYMs22+do1cr8jFD0sMW+JItfcbQKtHmqht0AOBQbSAG14SlHmLlueO4OuFIux1jjKSGAZmaNpS+5N+pprVhGsIk0nCyrxqZTx8Ld1lwHWWqX3ir5XE4h+jB6sCi+e9rfGNG12eRYw96XA4L5re5zutb/YGf2rkyDZEwGhHs3StmpTjlgjxDIVf5yuFdYRjaY1a1aeh/JFvUKLM8OBArhpFIq56h37PD9H80nW2/6b6POYUtCBeB0YO/XdIgOMfkXFW6dRpgJZL6TVnu6Fh43PNaDVYuwJ3gOLSwF542/+mjWtgZlaBv6Bw9rodZk2+DOfDNRdoF15JGhNxvaw8/oQuuHMWl+8A+OG0skM6h1N5kulEa+MmaxwbgzPxlx6DYRFJNgyZlZusuzi31EME=
   bucket: "sprocketleague.lance.gg"
+  region: us-west-2
   local_dir: dist
   skip_cleanup: true
   on:
