@@ -44,8 +44,7 @@
     "start": "node main.js",
     "postinstall": "webpack",
     "build": "webpack",
-    "dev": "webpack --watch",
-    "test": "echo No tests configured in package.json"
+    "dev": "webpack --watch"
   },
   "repository": {
     "type": "git",
