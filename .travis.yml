@@ -1,4 +1,6 @@
 language: node_js
+cache:
+  yarn: true
 branches:
   only:
   - feature/static-dist
