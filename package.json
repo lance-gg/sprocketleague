@@ -42,7 +42,7 @@
   },
   "scripts": {
     "start": "node main.js",
-    "postinstall": "webpack",
+    "postinstall": "webpack --display-error-details",
     "build": "webpack",
     "dev": "webpack --watch"
   },
