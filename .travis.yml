@@ -36,8 +36,8 @@ jobs:
           access_key_id: $AWS_ACCESS_KEY_ID
           secret_access_key: $AWS_SECRET_ACCESS_KEY
     - stage: preinvalidate
-          # Allow `awscli` to make requests to CloudFront.
-          script: aws configure set preview.cloudfront true
+      # Allow `awscli` to make requests to CloudFront.
+      script: aws configure set preview.cloudfront true
     - stage: invalidate
       script: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
     - stage: invalidate
