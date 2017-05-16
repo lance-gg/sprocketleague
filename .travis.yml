@@ -4,6 +4,10 @@ cache:
 branches:
   only:
   - feature/static-dist
+install:
+  # Install any dependencies required for building your site here.
+  # `awscli` is required for invalidation of CloudFront distributions.
+  - pip install awscli
 deploy:
   provider: s3
   bucket: sprocketleague.lance.gg
@@ -13,7 +17,10 @@ deploy:
   skip_cleanup: true
   on:
     branch: feature/static-dist
-  secret_access_key:
-    secure: Cvf+jEoukIcDeEetOO3Zla8PqU2euT/3m2axmZWrfihxKjoUWzEjMOagdqmy03VHZgEgYe0V1s6cJHxKuHE1HMosIMTssGpmXF1XjyizIIYzSza1gvl/H+8beR1vGn82o3rPkjQsSOCCx22NewbfSuXDeJHvm/u+TdMGYcdDkYpRQbO5XybJT8PAGF4BF96JqJl+i2TOcFBCS4tLLlXKlGYbk+Srk/ojbYY4uB6g7YqzkEsAmvN/AR0yEQBZ1rMdaf8Ae7MAcB+feBySzS3CMZpsfeqTJGFs2n6SxakYCc+zvxIRcijx8WXAu/LLxRREuzRz3h+u4uSn5tL8gGvb9DNx/Mqw+O/Eb0YNUQeLWki24zNL4mzIds/RtZFxK2twydrdJj7I+S5xCtBwHuF9VLopwesywdxUNFL5aWacT22gNm0xQHB8drhTddAn3wovx0QPprtWkXAZRnmLTZ5LAnib7vMZ2DpR+ohTnRU9DyOxrri+q9N5bVw5zx6UItfh9KlgXECAIbC0tp52WHAZp09MENcvkml8P4/qti1XXATaA6mxtUayc97H5LT83u5A3neeJCVuRA4wv9Qji6/OxvFJuRyIRM3wx1VOqoYFMCHLriZ6VUXCOo2ajMpLWLe/NT71OLokD2IuNOnokLUBjERiFd/796EnciA8WdjcPWs=
-  access_key_id:
-    secure: sjbXUfRI3I+18pN1pG6fuSdcl5TidtmIUtZ1WL0oabDYt4AerppH3ajazLdkSnAkYoAHKFPZDCRiWkHU767HA8eMYF4NUl2H1fIWfQf0W383TA4+jgVDIpg5D9fAg9Q9UtpZhXS+hy9lWZNbEvdfSssR3LzKVTFQy+IM/PlirQ8k1GjnaMjfY0EbcxdcCLqW7Dvim5dpcweIUiFviBJJw1Hc0/z5E65vtIyu1Qj/TWJMSsc/9kZDZgQIeKmBs2LoXblF3H9tqqxPuDyVyH5/M2BX5Vpd1EgK6if8eGWUxr4MG6zZ8Rd9cnw6MoRL0yNPFx9Nra0cfOfCDlA2PXE+ia+drddD59/ui5UUu09BptiFqi4eyn7B+ZES/YKYthck1Nicxm2JHRZgjOyljyV6IejI/E7g6NvSZzF2UIvqpkARkKVEvtuSsxVGZn0nI1R0x0Es6I10FSC57NdyVzePnBpkcoQD83KQyeppU4XoRJpAwElAj14yJQeVBWhZy7AQHNeGpk7vf5sJ87HoWrGntvC/p/g6qEZsBpAVc0J6zDu++Rso3gzqjUh/M5fh5BvkM0H2mcG+2SaMTr+qawtlSKCdyelWfiMeD/tCH/a0cnUHv4uVv8OLQxsoroQ898Ai8K9CZmx+VfjX6dDnPuZTpTiPFMPbRcwhZaJPWQ06IgI=
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+after_deploy:
+  # Allow `awscli` to make requests to CloudFront.
+  - aws configure set preview.cloudfront true
+  # Invalidate every object in the targeted distribution.
+  - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
