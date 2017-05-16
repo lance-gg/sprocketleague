@@ -4,34 +4,41 @@ cache:
 branches:
   only:
   - feature/static-dist
+
 install:
   # Install any dependencies required for building your site here.
   # `awscli` is required for invalidation of CloudFront distributions.
   - pip install --user awscli
-deploy:
-  - provider: s3
-    bucket: sprocketleague.lance.gg
-    region: us-west-2
-    local_dir: dist
-    acl: public_read
-    skip_cleanup: true
-    on:
-      branch: feature/static-dist
-    access_key_id: $AWS_ACCESS_KEY_ID
-    secret_access_key: $AWS_SECRET_ACCESS_KEY
-  - provider: s3
-    bucket: sprocketleagueus.lance.gg
-    region: us-west-2
-    local_dir: dist
-    acl: public_read
-    skip_cleanup: true
-    on:
-      branch: feature/static-dist
-    access_key_id: $AWS_ACCESS_KEY_ID
-    secret_access_key: $AWS_SECRET_ACCESS_KEY
-after_deploy:
-  # Allow `awscli` to make requests to CloudFront.
-  - aws configure set preview.cloudfront true
-  # Invalidate every object in the targeted distribution.
-  - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
-  - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID2 --paths "/*"
+
+jobs:
+  include:
+    - stage: deploy
+      script: echo "Deploying to S3"
+      deploy:
+        - provider: s3
+          bucket: sprocketleague.lance.gg
+          region: us-west-2
+          local_dir: dist
+          acl: public_read
+          skip_cleanup: true
+          on:
+            branch: feature/static-dist
+          access_key_id: $AWS_ACCESS_KEY_ID
+          secret_access_key: $AWS_SECRET_ACCESS_KEY
+        - provider: s3
+          bucket: sprocketleagueus.lance.gg
+          region: us-west-2
+          local_dir: dist
+          acl: public_read
+          skip_cleanup: true
+          on:
+            branch: feature/static-dist
+          access_key_id: $AWS_ACCESS_KEY_ID
+          secret_access_key: $AWS_SECRET_ACCESS_KEY
+    - stage: preinvalidate
+          # Allow `awscli` to make requests to CloudFront.
+          script: aws configure set preview.cloudfront true
+    - stage: invalidate
+      script: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+    - stage: invalidate
+      script: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID2 --paths "/*"
