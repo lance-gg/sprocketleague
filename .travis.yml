@@ -6,7 +6,7 @@ branches:
   - feature/static-dist
 
 install:
-  # Install any dependencies required for building your site here.
+  # Install any dependencies required for building your site here. 
   # `awscli` is required for invalidation of CloudFront distributions.
   - pip install --user awscli
 
