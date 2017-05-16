@@ -7,7 +7,7 @@ branches:
 
 install:
   # Install any dependencies required for building your site here. 
-  # `awscli` is required for invalidation of CloudFront distributions.
+  # `awscli` is required for invalidation of CloudFront distributions. 
   - pip install --user awscli
 
 jobs:
