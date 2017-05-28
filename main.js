@@ -6,7 +6,7 @@ const path = require('path');
 
 // Constants
 const PORT = process.env.PORT || 3000;
-const INDEX = path.join(__dirname, './index.html');
+const INDEX = path.join(__dirname, './dist/index.html');
 
 // network servers
 const server = express();
@@ -21,7 +21,7 @@ const LancePro = require('lance-pro');
 
 // create instances
 const physicsEngine = new CannonPhysicsEngine();
-const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 0 });
+const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 1000 });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6, timeoutInterval: 20 });
 new LancePro.StatsCollector(gameEngine);
 new LancePro.MatchMakerTarget(server, serverEngine);
@@ -29,7 +29,7 @@ new LancePro.MatchMakerTarget(server, serverEngine);
 // can define routes after the matchmaker
 server.get('/gameStatus', (req, res) => { res.send(serverEngine.gameStatus()); });
 server.get('/', (req, res) => { res.sendFile(INDEX); });
-server.use('/', express.static(path.join(__dirname, '.')));
+server.use('/', express.static(path.join(__dirname, './dist/')));
 
 // start the game
 serverEngine.start();

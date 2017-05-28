@@ -2,11 +2,13 @@ const qsOptions = require('query-string').parse(location.search);
 const SLClientEngine = require('./SLClientEngine');
 const SLGameEngine = require('../common/SLGameEngine');
 const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
-require('../../resources/sass/main.scss');
+const path = require('path');
+require(path.join(__dirname, '../../dist/resources/sass/main.scss'));
 
 // the official Lance.gg sprocketleague uses a matchmaker
 let matchmaker = null;
-if (window.location.hostname === 'sprocketleagueus.lance.gg')
+if (window.location.hostname === 'sprocketleagueus.lance.gg' ||
+    window.location.hostname === 'sprocketleague.lance.gg')
     matchmaker = 'http://srv.lance.gg/sprocketleagueus.lance.gg/matchmaker';
 
 // default options, overwritten by query-string options

@@ -1,4 +1,4 @@
-@import "./../../node_modules/breakpoint-sass/stylesheets/breakpoint";
+@import "./../../../node_modules/breakpoint-sass/stylesheets/breakpoint";
 
 $breakpoint-mobile: (max-width 568px) (orientation portrait);
 $breakpoint-mobile-landscape: (max-width 568px) (orientation landscape);
@@ -232,13 +232,20 @@ button{
 
 .presentationContainer{
   display: none;
-  position: absolute;
-  opacity: 0.6;
-  left: 0;
-  bottom: 0;
-  font-size: 3rem;
-  color: white;
-  padding: 2rem;
+
+  div{
+    opacity: 0.6;
+    position: absolute;
+    bottom: 0;
+    font-size: 3rem;
+    color: white;
+    padding: 2rem;
+  }
+
+  .blueTeam{
+    left: 0;
+    background: #242b91;
+  }
 
 }
 

@@ -49,8 +49,8 @@ class SLGameEngine extends GameEngine {
 
 
     // the Sprocket League Game Engine Step.
-    step() {
-        super.step();
+    step(isReenact) {
+        super.step(isReenact);
 
         // car physics
         this.world.forEachObject((id, o) => {
