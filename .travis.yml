@@ -3,11 +3,11 @@ cache:
   yarn: true
 branches:
   only:
-  - feature/static-dist
+  - master
 
 install:
-  # Install any dependencies required for building your site here. 
-  # `awscli` is required for invalidation of CloudFront distributions. 
+  # Install any dependencies required for building your site here.
+  # `awscli` is required for invalidation of CloudFront distributions.
   - pip install --user awscli
 
 jobs:
@@ -22,7 +22,7 @@ jobs:
           acl: public_read
           skip_cleanup: true
           on:
-            branch: feature/static-dist
+            branch: master
           access_key_id: $AWS_ACCESS_KEY_ID
           secret_access_key: $AWS_SECRET_ACCESS_KEY
         - provider: s3
@@ -32,7 +32,7 @@ jobs:
           acl: public_read
           skip_cleanup: true
           on:
-            branch: feature/static-dist
+            branch: master
           access_key_id: $AWS_ACCESS_KEY_ID
           secret_access_key: $AWS_SECRET_ACCESS_KEY
     - stage: invalidate
