@@ -11,6 +11,8 @@ install:
   # Install any dependencies required for building your site here.
   # `awscli` is required for invalidation of CloudFront distributions.
   - pip install --user awscli
+  - npm install -g yarn
+  - yarn install
 
 jobs:
   include:
