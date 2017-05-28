@@ -21,7 +21,7 @@ const LancePro = require('lance-pro');
 
 // create instances
 const physicsEngine = new CannonPhysicsEngine();
-const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 0 });
+const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 1000 });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6, timeoutInterval: 20 });
 new LancePro.StatsCollector(gameEngine);
 new LancePro.MatchMakerTarget(server, serverEngine);
