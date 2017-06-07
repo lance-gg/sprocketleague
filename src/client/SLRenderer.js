@@ -16,7 +16,6 @@ class SLRenderer extends AFrameRenderer {
         super(gameEngine, clientEngine);
         this.scene = null;
 
-        this.gameEngine.on('objectAdded', this.addObject.bind(this));
         this.gameEngine.on('client__slowFrameRate', this.reportSlowness.bind(this));
     }
 
@@ -57,7 +56,7 @@ class SLRenderer extends AFrameRenderer {
     }
 
     tick(t, dt) {
-        super.draw(t, dt);
+        super.tick(t, dt);
         this.frameNum++;
         if (this.cannonDebugRenderer)
             this.cannonDebugRenderer.update();

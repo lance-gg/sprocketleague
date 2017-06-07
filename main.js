@@ -19,7 +19,7 @@ const SLGameEngine = require('./src/common/SLGameEngine.js');
 const LancePro = require('lance-pro');
 
 // create instances
-const gameEngine = new SLGameEngine({ traceLevel: 1000 });
+const gameEngine = new SLGameEngine({ traceLevel: 0 });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6, timeoutInterval: 20 });
 new LancePro.StatsCollector(gameEngine);
 new LancePro.MatchMakerTarget(server, serverEngine);
