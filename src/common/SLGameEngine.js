@@ -1,6 +1,7 @@
 'use strict';
 
 const GameEngine = require('lance-gg').GameEngine;
+const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
 const ThreeVector = require('lance-gg').serialize.ThreeVector;
 const CarControl = require('./CarControl');
 const Car = require('./Car');
@@ -16,6 +17,8 @@ class SLGameEngine extends GameEngine {
         super(options);
 
         this.log = [];
+        this.physicsEngine = new CannonPhysicsEngine();
+        this.physicsEngine.init({});
         CANNON = this.physicsEngine.CANNON;
         this.carControl = new CarControl({ CANNON });
 
@@ -49,8 +52,8 @@ class SLGameEngine extends GameEngine {
 
 
     // the Sprocket League Game Engine Step.
-    step(isReenact) {
-        super.step(isReenact);
+    step(isReenact, t, dt, physicsOnly) {
+        super.step(isReenact, t, dt, physicsOnly);
 
         // car physics
         this.world.forEachObject((id, o) => {

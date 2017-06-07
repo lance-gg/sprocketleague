@@ -56,8 +56,8 @@ class SLRenderer extends AFrameRenderer {
 
     }
 
-    draw(){
-        super.draw();
+    tick(t, dt) {
+        super.draw(t, dt);
         this.frameNum++;
         if (this.cannonDebugRenderer)
             this.cannonDebugRenderer.update();

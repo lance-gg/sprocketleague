@@ -18,6 +18,10 @@ class SLClientEngine extends ClientEngine {
         this.gameEngine.on('client__preStep', this.preStep, this);
     }
 
+    step(t, dt, physicsOnly) {
+        super.step(t, dt, physicsOnly);
+    }
+
     // start then client engine
     start() {
 
@@ -83,7 +87,7 @@ class SLClientEngine extends ClientEngine {
 
     onRendererReady() {
         this.connect();
-        
+
         //  Game input
         if (Utils.isTouchDevice()){
             this.controls = new MobileControls(this.renderer);

@@ -1,8 +1,6 @@
 const qsOptions = require('query-string').parse(location.search);
 const SLClientEngine = require('./SLClientEngine');
 const SLGameEngine = require('../common/SLGameEngine');
-const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
-const path = require('path');
 require('../../dist/resources/sass/main.scss');
 
 // the official Lance.gg sprocketleague uses a matchmaker
@@ -18,6 +16,7 @@ const defaults = {
     delayInputCount: 3,
     clientIDSpace: 1000000,
     matchmaker: matchmaker,
+    scheduler: 'render-schedule',
     syncOptions: {
         sync: qsOptions.sync || 'extrapolate',
         localObjBending: 0.6,
@@ -29,9 +28,7 @@ const defaults = {
 let options = Object.assign(defaults, qsOptions);
 
 // create the singletons
-const physicsEngine = new CannonPhysicsEngine();
-const gameOptions = Object.assign({ physicsEngine }, options);
-const gameEngine = new SLGameEngine(gameOptions);
+const gameEngine = new SLGameEngine(options);
 const clientEngine = new SLClientEngine(gameEngine, options);
 
 document.addEventListener('DOMContentLoaded', function(e) { clientEngine.start(); });
