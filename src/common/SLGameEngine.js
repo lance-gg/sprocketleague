@@ -14,11 +14,9 @@ let CANNON = null;
 class SLGameEngine extends GameEngine {
 
     constructor(options) {
-        super(options);
+        super(CannonPhysicsEngine, options);
 
         this.log = [];
-        this.physicsEngine = new CannonPhysicsEngine();
-        this.physicsEngine.init({});
         CANNON = this.physicsEngine.CANNON;
         this.carControl = new CarControl({ CANNON });
 
