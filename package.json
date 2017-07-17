@@ -2,7 +2,7 @@
   "name": "aframe-soccer-league",
   "version": "1.0.2",
   "engines": {
-    "node": "6.6.0"
+    "node": "6.11.1"
   },
   "description": "A sample A-Frame multiplayer with networked physics",
   "main": "main.js",
