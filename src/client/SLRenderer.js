@@ -16,7 +16,6 @@ class SLRenderer extends AFrameRenderer {
         super(gameEngine, clientEngine);
         this.scene = null;
 
-        this.gameEngine.on('objectAdded', this.addObject.bind(this));
         this.gameEngine.on('client__slowFrameRate', this.reportSlowness.bind(this));
     }
 
