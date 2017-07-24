@@ -16,6 +16,7 @@ class SLRenderer extends AFrameRenderer {
         super(gameEngine, clientEngine);
         this.scene = null;
 
+        gameEngine.on('objectAdded', this.joinPlayer.bind(this));
         this.gameEngine.on('client__slowFrameRate', this.reportSlowness.bind(this));
     }
 
@@ -25,7 +26,7 @@ class SLRenderer extends AFrameRenderer {
             document.body.classList.add('presentation');
 
         return super.init().then(() =>{
-            if (Utils.isTouchDevice()){
+            if (Utils.isTouchDevice()) {
                 document.body.classList.add('touch');
             }
 
@@ -44,7 +45,7 @@ class SLRenderer extends AFrameRenderer {
 
             this.frameNum = 0;
 
-            document.querySelector("a-assets").addEventListener('loaded', ()=>{
+            document.querySelector('a-assets').addEventListener('loaded', ()=>{
                 console.log('assets loaded');
                 document.body.classList.remove('loading');
 
@@ -55,7 +56,7 @@ class SLRenderer extends AFrameRenderer {
 
     }
 
-    draw(){
+    draw() {
         super.draw();
         this.frameNum++;
         if (this.cannonDebugRenderer)
@@ -71,14 +72,14 @@ class SLRenderer extends AFrameRenderer {
         console.log('ERROR: ' + SLOW_RENDER_MESSAGE);
     }
 
-    addObject(objData, options) {
+    joinPlayer(objData, options) {
 
         if (this.clientEngine.isOwnedByPlayer(objData)) {
-            //setup chase camera, disable default camera controls
+            // setup chase camera, disable default camera controls
             document.querySelector('.chaseCamera').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);
             document.querySelector('.chaseCamera').setAttribute('camera', 'active', true);
 
-            document.querySelector('.spectatorCamera').setAttribute('camera','active', false);
+            document.querySelector('.spectatorCamera').setAttribute('camera', 'active', false);
             // document.querySelector('a-entity[camera]').removeAttribute('look-controls');
             // document.querySelector('a-entity[camera]').removeAttribute('wasd-controls');
 
@@ -88,11 +89,11 @@ class SLRenderer extends AFrameRenderer {
         }
     }
 
-    onMetaDataUpdate(){
-        //update player teams
+    onMetaDataUpdate() {
+        // update player teams
         let metaData = this.gameEngine.metaData;
 
-        for(let x=0; x<metaData.teams.red.players.length;x++){
+        for(let x=0; x<metaData.teams.red.players.length; x++) {
             let playerId = metaData.teams.red.players[x];
             let playerCar = this.gameEngine.world.getPlayerObject(playerId);
             if (playerCar) {
@@ -101,15 +102,14 @@ class SLRenderer extends AFrameRenderer {
             }
         }
 
-        for(let x=0; x<metaData.teams.blue.players.length;x++){
+        for(let x=0; x<metaData.teams.blue.players.length; x++) {
             let playerId = metaData.teams.blue.players[x];
             let playerCar = this.gameEngine.world.getPlayerObject(playerId);
             if (playerCar) {
                 playerCar.team = 'blue';
                 playerCar.updateTeamColor();
                 // console.log(`changing player car of ${playerId} to blue`);
-            }
-            else{
+            } else{
                 // console.log(`no player car for player ${playerId}`);
             }
         }
@@ -118,12 +118,12 @@ class SLRenderer extends AFrameRenderer {
         qs('.scoreBoard .teamBlue').innerHTML = metaData.teams.blue.score;
     }
 
-    updateHUD(data){
-        if (data.RTT){ qs('.latencyData').innerHTML = data.RTT;}
-        if (data.RTTAverage){ qs('.averageLatencyData').innerHTML = truncateDecimals(data.RTTAverage, 2);}
+    updateHUD(data) {
+        if (data.RTT) { qs('.latencyData').innerHTML = data.RTT;}
+        if (data.RTTAverage) { qs('.averageLatencyData').innerHTML = truncateDecimals(data.RTTAverage, 2);}
     }
 
-    enableFullScreen(){
+    enableFullScreen() {
         let isInFullScreen = (document.fullScreenElement && document.fullScreenElement !== null) ||    // alternative standard method
             (document.mozFullScreen || document.webkitIsFullScreen);
 
@@ -140,7 +140,7 @@ class SLRenderer extends AFrameRenderer {
         }
     }
 
-    updateWheelRotation(amount){
+    updateWheelRotation(amount) {
         let rotation = amount * 60;
         qs('.wheel svg').style.transform = `rotate(${rotation}deg)`;
     }
