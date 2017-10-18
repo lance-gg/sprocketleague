@@ -1,14 +1,14 @@
 'use strict';
 
-const PhysicalObject = require('lance-gg').serialize.PhysicalObject;
+import PhysicalObject from 'lance/serialize/PhysicalObject';
 const RADIUS = 4;
 const MASS = 0.1;
 let CANNON = null;
 
 class Ball extends PhysicalObject {
 
-    constructor(id, gameEngine, position) {
-        super(id, position);
+    constructor(gameEngine, position) {
+        super(gameEngine, null, { position });
         this.class = Ball;
         this.gameEngine = gameEngine;
     }

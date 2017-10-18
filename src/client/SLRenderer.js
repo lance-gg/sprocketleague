@@ -1,9 +1,9 @@
 'use strict';
 
-const AFrameRenderer = require('lance-gg').render.AFrameRenderer;
-const aframeCubeMapComponent = require('aframe-cubemap-component');
-const aframeChaseLookControls = require('./chase-look-controls');
-const Utils = require('./Utils');
+import AFrameRenderer from 'lance/render/AFrameRenderer';
+import aframeCubeMapComponent from 'aframe-cubemap-component';
+import aframeChaseLookControls from './chase-look-controls';
+import Utils from './Utils';
 
 const debugWireframes = false;
 const SLOW_RENDER_MESSAGE = 'Frame rate appears to be low. Try to shrink the window size. Maybe that will help? ¯\_(ツ)_/¯';

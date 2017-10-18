@@ -1,12 +1,13 @@
 'use strict';
 
-const GameEngine = require('lance-gg').GameEngine;
-const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
-const ThreeVector = require('lance-gg').serialize.ThreeVector;
-const CarControl = require('./CarControl');
-const Car = require('./Car');
-const Ball = require('./Ball');
-const Arena = require('./Arena');
+import GameEngine from 'lance/GameEngine';
+import CannonPhysicsEngine from 'lance/physics/CannonPhysicsEngine';
+import ThreeVector from 'lance/serialize/ThreeVector';
+import CarControl from './CarControl';
+import Car from './Car';
+import Ball from './Ball';
+import Arena from './Arena';
+
 
 // todo check if this should be global
 let CANNON = null;
@@ -14,9 +15,10 @@ let CANNON = null;
 class SLGameEngine extends GameEngine {
 
     constructor(options) {
-        super(CannonPhysicsEngine, options);
+        super(options);
 
         this.log = [];
+        this.physicsEngine = new CannonPhysicsEngine({ gameEngine: this });
         CANNON = this.physicsEngine.CANNON;
         this.carControl = new CarControl({ CANNON });
 
@@ -39,7 +41,7 @@ class SLGameEngine extends GameEngine {
     }
 
     gameInit() {
-        this.arena = new Arena(++this.world.idCount, this);
+        this.arena = new Arena(this);
         this.arena.position.y = -15.4;
         this.addObjectToWorld(this.arena);
     }
@@ -94,7 +96,7 @@ class SLGameEngine extends GameEngine {
         let x = Math.random() * 20 - 10;
         let z = Math.random() * 20 - 10;
         let position = new ThreeVector(x, 10, z);
-        let car = new Car(++this.world.idCount, this, position);
+        let car = new Car(this, position);
         car.playerId = playerId;
         car.team = team;
         this.addObjectToWorld(car);
@@ -112,7 +114,7 @@ class SLGameEngine extends GameEngine {
 
         console.log(`adding ball`);
         let position = new ThreeVector(0, 10, 0);
-        this.ball = new Ball(++this.world.idCount, this, position);
+        this.ball = new Ball(this, position);
         this.ball.playerId = 0;
         this.numBalls++;
         this.addObjectToWorld(this.ball);

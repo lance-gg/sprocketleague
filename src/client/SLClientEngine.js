@@ -1,8 +1,8 @@
-const ClientEngine = require('lance-gg').ClientEngine;
-const MobileControls = require('../client/MobileControls');
-const KeyboardControls = require('../client/KeyboardControls');
-const SLRenderer = require('./SLRenderer');
-const Utils = require('./Utils');
+import ClientEngine from 'lance/ClientEngine';
+import MobileControls from '../client/MobileControls';
+import KeyboardControls from '../client/KeyboardControls';
+import SLRenderer from './SLRenderer';
+import Utils from './Utils';
 
 // The SoccerLeague client-side engine
 class SLClientEngine extends ClientEngine {

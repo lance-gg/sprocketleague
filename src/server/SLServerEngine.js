@@ -1,8 +1,9 @@
 'use strict';
 
-const ServerEngine = require('lance-gg').ServerEngine;
+import ServerEngine from 'lance/ServerEngine';
 
 class SLServerEngine extends ServerEngine {
+    
     constructor(io, gameEngine, inputOptions) {
         super(io, gameEngine, inputOptions);
         this.serializer.registerClass(require('../common/Car'));

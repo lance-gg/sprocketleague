@@ -1,6 +1,6 @@
 'use strict';
 
-const PhysicalObject = require('lance-gg').serialize.PhysicalObject;
+import PhysicalObject from 'lance/serialize/PhysicalObject';
 const MASS = 0;
 const ARENA_SCALE = 0.2;
 
@@ -25,8 +25,8 @@ const CORNER_RADIUS = 80 * ARENA_SCALE;
 // the X axis, and the goals are at the North end and the South end.
 class Arena extends PhysicalObject {
 
-    constructor(id, gameEngine, position) {
-        super(id, position);
+    constructor(gameEngine) {
+        super(gameEngine);
         this.class = Arena;
         this.gameEngine = gameEngine;
         this.walls = [];
