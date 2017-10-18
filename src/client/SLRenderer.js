@@ -73,7 +73,7 @@ class SLRenderer extends AFrameRenderer {
 
     addObject(objData, options) {
 
-        if (this.clientEngine.isOwnedByPlayer(objData)) {
+        if (this.gameEngine.isOwnedByPlayer(objData)) {
             //setup chase camera, disable default camera controls
             document.querySelector('.chaseCamera').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);
             document.querySelector('.chaseCamera').setAttribute('camera', 'active', true);
@@ -94,7 +94,7 @@ class SLRenderer extends AFrameRenderer {
 
         for(let x=0; x<metaData.teams.red.players.length;x++){
             let playerId = metaData.teams.red.players[x];
-            let playerCar = this.gameEngine.world.getPlayerObject(playerId);
+            let playerCar = this.gameEngine.world.queryObject({ playerId });
             if (playerCar) {
                 playerCar.team = 'red';
                 playerCar.updateTeamColor();
@@ -103,7 +103,7 @@ class SLRenderer extends AFrameRenderer {
 
         for(let x=0; x<metaData.teams.blue.players.length;x++){
             let playerId = metaData.teams.blue.players[x];
-            let playerCar = this.gameEngine.world.getPlayerObject(playerId);
+            let playerCar = this.gameEngine.world.queryObject({ playerId });
             if (playerCar) {
                 playerCar.team = 'blue';
                 playerCar.updateTeamColor();
