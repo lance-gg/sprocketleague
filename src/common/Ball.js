@@ -5,7 +5,7 @@ const RADIUS = 4;
 const MASS = 0.1;
 let CANNON = null;
 
-class Ball extends PhysicalObject {
+export default class Ball extends PhysicalObject {
 
     constructor(gameEngine, position) {
         super(gameEngine, null, { position });
@@ -203,5 +203,3 @@ class Ball extends PhysicalObject {
     }
 
 }
-
-module.exports = Ball;

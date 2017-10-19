@@ -1,6 +1,7 @@
-const qsOptions = require('query-string').parse(location.search);
-const SLClientEngine = require('./SLClientEngine');
-const SLGameEngine = require('../common/SLGameEngine');
+import querystring from 'query-string';
+import SLClientEngine from './SLClientEngine';
+import SLGameEngine from '../common/SLGameEngine';
+const qsOptions = querystring.parse(location.search);
 require('../../dist/resources/sass/main.scss');
 
 // the official Lance.gg sprocketleague uses a matchmaker
@@ -14,7 +15,6 @@ if (window.location.hostname === 'sprocketleagueus.lance.gg' ||
 const defaults = {
     traceLevel: 1000,
     delayInputCount: 3,
-    clientIDSpace: 1000000,
     matchmaker: matchmaker,
     scheduler: 'render-schedule',
     syncOptions: {

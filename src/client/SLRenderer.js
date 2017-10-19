@@ -9,7 +9,7 @@ const debugWireframes = false;
 const SLOW_RENDER_MESSAGE = 'Frame rate appears to be low. Try to shrink the window size. Maybe that will help? ¯\_(ツ)_/¯';
 
 
-class SLRenderer extends AFrameRenderer {
+export default class SLRenderer extends AFrameRenderer {
 
     // constructor
     constructor(gameEngine, clientEngine) {
@@ -157,5 +157,3 @@ function truncateDecimals(number, digits) {
 
     return truncatedNum / multiplier;
 };
-
-module.exports = SLRenderer;

@@ -12,7 +12,7 @@ import Arena from './Arena';
 // todo check if this should be global
 let CANNON = null;
 
-class SLGameEngine extends GameEngine {
+export default class SLGameEngine extends GameEngine {
 
     constructor(options) {
         super(options);
@@ -80,6 +80,12 @@ class SLGameEngine extends GameEngine {
                 this.emit('scoreChange');
             }
         }
+    }
+
+    registerClasses(serializer) {
+        this.serializer.registerClass(Car);
+        this.serializer.registerClass(Ball);
+        this.serializer.registerClass(Arena);
     }
 
     // server-side function to add a new player
@@ -152,5 +158,3 @@ class SLGameEngine extends GameEngine {
         }
     }
 }
-
-module.exports = SLGameEngine;

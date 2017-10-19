@@ -1,8 +1,8 @@
 'use strict';
 
-const express = require('express');
-const socketIO = require('socket.io');
-const path = require('path');
+import express from 'express';
+import socketIO from 'socket.io';
+import path from 'path';
 
 // Constants
 const PORT = process.env.PORT || 3000;

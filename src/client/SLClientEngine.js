@@ -5,15 +5,11 @@ import SLRenderer from './SLRenderer';
 import Utils from './Utils';
 
 // The SoccerLeague client-side engine
-class SLClientEngine extends ClientEngine {
+export default class SLClientEngine extends ClientEngine {
 
     // constructor
     constructor(gameEngine, options) {
         super(gameEngine, options, SLRenderer);
-
-        this.serializer.registerClass(require('../common/Car'));
-        this.serializer.registerClass(require('../common/Ball'));
-        this.serializer.registerClass(require('../common/Arena'));
 
         this.gameEngine.on('client__preStep', this.preStep, this);
     }
@@ -129,6 +125,3 @@ class SLClientEngine extends ClientEngine {
     }
 
 }
-
-
-module.exports = SLClientEngine;

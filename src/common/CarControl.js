@@ -7,7 +7,7 @@ const SMALL_TURNING_VELOCITY = 8.0;
 const BOOST_VELOCITY = 3.0;
 let CANNON = null;
 
-class CarControl {
+export default class CarControl {
 
     constructor(options) {
         CANNON = options.CANNON;
@@ -66,5 +66,3 @@ class CarControl {
         car.physicsObj.angularVelocity.vadd(deltaAngularVelocity, car.physicsObj.angularVelocity);
     }
 }
-
-module.exports = CarControl;

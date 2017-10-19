@@ -6,7 +6,7 @@ const Utils = require('../client/Utils');
 
 let CANNON = null;
 
-class Car extends PhysicalObject {
+export default class Car extends PhysicalObject {
 
     constructor(gameEngine, position) {
         super(gameEngine, null, { position });
@@ -212,5 +212,3 @@ class Car extends PhysicalObject {
     }
 
 }
-
-module.exports = Car;
