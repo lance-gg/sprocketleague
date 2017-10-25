@@ -83,9 +83,9 @@ export default class SLGameEngine extends GameEngine {
     }
 
     registerClasses(serializer) {
-        this.serializer.registerClass(Car);
-        this.serializer.registerClass(Ball);
-        this.serializer.registerClass(Arena);
+        serializer.registerClass(Car);
+        serializer.registerClass(Ball);
+        serializer.registerClass(Arena);
     }
 
     // server-side function to add a new player

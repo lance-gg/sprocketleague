@@ -14,8 +14,8 @@ const requestHandler = server.listen(PORT, () => console.log(`Listening on ${POR
 const io = socketIO(requestHandler);
 
 // get game classes
-const SLServerEngine = require('./src/server/SLServerEngine.js');
-const SLGameEngine = require('./src/common/SLGameEngine.js');
+import SLServerEngine from './src/server/SLServerEngine.js';
+import SLGameEngine from './src/common/SLGameEngine.js';
 const LancePro = require('lance-pro');
 
 // create instances
