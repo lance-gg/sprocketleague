@@ -16,10 +16,11 @@ const io = socketIO(requestHandler);
 // get game classes
 import SLServerEngine from './src/server/SLServerEngine.js';
 import SLGameEngine from './src/common/SLGameEngine.js';
+import Trace from 'lance/lib/Trace';
 const LancePro = require('lance-pro');
 
 // create instances
-const gameEngine = new SLGameEngine({ traceLevel: 0 });
+const gameEngine = new SLGameEngine({ traceLevel: Trace.TRACE_NONE });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6, timeoutInterval: 20 });
 new LancePro.StatsCollector(gameEngine);
 new LancePro.MatchMakerTarget(server, serverEngine);
