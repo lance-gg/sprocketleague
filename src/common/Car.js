@@ -161,9 +161,7 @@ export default class Car extends PhysicalObject {
 
                 // refractive windows
                 let refracCubeTexture;
-                if (this.gameEngine.renderer.cubeTexture) {
-                    let cubeTexture = this.gameEngine.renderer.cubeTexture;
-                } else {
+                if (!this.gameEngine.renderer.cubeTexture) {
                     let path = 'resources/images/flame/';
                     let format = '.jpg';
                     let urls = [

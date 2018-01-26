@@ -31,11 +31,11 @@ export default class SLClientEngine extends ClientEngine {
         }
 
         // save reference to the ball
-        this.gameEngine.on('objectAdded', obj => {
-            if(obj.constructor.name == 'Ball'){
+        this.gameEngine.on('objectAdded', (obj) => {
+            if(obj.constructor.name == 'Ball') {
                 this.gameEngine.ball = obj;
             }
-            if(obj.constructor.name == 'Arena'){
+            if(obj.constructor.name == 'Arena') {
                 this.gameEngine.arena = obj;
             }
         });
@@ -50,14 +50,14 @@ export default class SLClientEngine extends ClientEngine {
     connect() {
         return super.connect().then(() => {
 
-            this.socket.on('disconnect', e => {
+            this.socket.on('disconnect', (e) => {
                 console.log('disconnected');
                 document.body.classList.add('disconnected');
                 document.body.classList.remove('gameActive');
                 document.querySelector('#reconnect').disabled = false;
             });
 
-            this.socket.on('metaDataUpdate', e => {
+            this.socket.on('metaDataUpdate', (e) => {
                 console.log('metaDataUpdate', e);
                 this.gameEngine.metaData = e;
                 this.renderer.onMetaDataUpdate();
@@ -72,11 +72,11 @@ export default class SLClientEngine extends ClientEngine {
                 this.socket.emit('requestRestart', Utils.getUrlVars().jointeam);
             }
 
-            //in presentation mode make sure to not idle
+            // in presentation mode make sure to not idle
             if ('presentation' in Utils.getUrlVars()) {
                 setInterval(() =>{
                     this.socket.emit('keepAlive');
-                }, 1000 * 10)
+                }, 1000 * 10);
             }
         });
     }
@@ -85,14 +85,14 @@ export default class SLClientEngine extends ClientEngine {
         this.connect();
 
         //  Game input
-        if (Utils.isTouchDevice()){
+        if (Utils.isTouchDevice()) {
             this.controls = new MobileControls(this.renderer);
         } else {
             this.controls = new KeyboardControls(this.renderer);
         }
 
         document.querySelector('#joinGame').addEventListener('click', () => {
-            if (Utils.isTouchDevice()){
+            if (Utils.isTouchDevice()) {
                 this.renderer.enableFullScreen();
             }
             this.socket.emit('requestRestart');

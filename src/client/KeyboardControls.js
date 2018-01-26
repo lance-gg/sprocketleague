@@ -16,9 +16,9 @@ const keyCodeTable = {
 /**
  * This class handles keyboard device controls
  */
-class KeyboardControls{
+class KeyboardControls {
 
-    constructor(){
+    constructor() {
         Object.assign(this, EventEmitter.prototype);
 
         this.setupListeners();
@@ -32,7 +32,7 @@ class KeyboardControls{
         };
     }
 
-    setupListeners(){
+    setupListeners() {
         // add special handler for space key
         document.addEventListener('keydown', (e) => {
             if (e.keyCode == '32' && !this.activeInput.space) {

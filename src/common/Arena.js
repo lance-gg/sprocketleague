@@ -88,9 +88,8 @@ export default class Arena extends PhysicalObject {
             el.setAttribute('scale', `${ARENA_MODEL_SCALE} ${ARENA_MODEL_SCALE} ${ARENA_MODEL_SCALE}`);
             el.setAttribute('rotate', `0 90 0`);
             el.setAttribute('game-object-id', this.id);
-        }
-        else{
-            console.log("Tried to add arena object but renderer not ready")
+        } else {
+            console.log('Tried to add arena object but renderer not ready');
         }
     }
 
