@@ -1,15 +1,15 @@
 'use strict';
 
-const PhysicalObject = require('lance-gg').serialize.PhysicalObject;
+import PhysicalObject from 'lance/serialize/PhysicalObject';
 const MASS = 2;
 const Utils = require('../client/Utils');
 
 let CANNON = null;
 
-class Car extends PhysicalObject {
+export default class Car extends PhysicalObject {
 
-    constructor(id, gameEngine, position) {
-        super(id, position);
+    constructor(gameEngine, position) {
+        super(gameEngine, null, { position });
         this.class = Car;
         this.gameEngine = gameEngine;
     }
@@ -161,9 +161,7 @@ class Car extends PhysicalObject {
 
                 // refractive windows
                 let refracCubeTexture;
-                if (this.gameEngine.renderer.cubeTexture) {
-                    let cubeTexture = this.gameEngine.renderer.cubeTexture;
-                } else {
+                if (!this.gameEngine.renderer.cubeTexture) {
                     let path = 'resources/images/flame/';
                     let format = '.jpg';
                     let urls = [
@@ -212,5 +210,3 @@ class Car extends PhysicalObject {
     }
 
 }
-
-module.exports = Car;

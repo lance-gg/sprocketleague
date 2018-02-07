@@ -1,21 +1,24 @@
 'use strict';
 
-const GameEngine = require('lance-gg').GameEngine;
-const ThreeVector = require('lance-gg').serialize.ThreeVector;
-const CarControl = require('./CarControl');
-const Car = require('./Car');
-const Ball = require('./Ball');
-const Arena = require('./Arena');
+import GameEngine from 'lance/GameEngine';
+import CannonPhysicsEngine from 'lance/physics/CannonPhysicsEngine';
+import ThreeVector from 'lance/serialize/ThreeVector';
+import CarControl from './CarControl';
+import Car from './Car';
+import Ball from './Ball';
+import Arena from './Arena';
+
 
 // todo check if this should be global
 let CANNON = null;
 
-class SLGameEngine extends GameEngine {
+export default class SLGameEngine extends GameEngine {
 
     constructor(options) {
         super(options);
 
         this.log = [];
+        this.physicsEngine = new CannonPhysicsEngine({ gameEngine: this });
         CANNON = this.physicsEngine.CANNON;
         this.carControl = new CarControl({ CANNON });
 
@@ -38,7 +41,7 @@ class SLGameEngine extends GameEngine {
     }
 
     gameInit() {
-        this.arena = new Arena(++this.world.idCount, this);
+        this.arena = new Arena(this);
         this.arena.position.y = -15.4;
         this.addObjectToWorld(this.arena);
     }
@@ -49,8 +52,8 @@ class SLGameEngine extends GameEngine {
 
 
     // the Sprocket League Game Engine Step.
-    step(isReenact) {
-        super.step(isReenact);
+    step(isReenact, t, dt, physicsOnly) {
+        super.step(isReenact, t, dt, physicsOnly);
 
         // car physics
         this.world.forEachObject((id, o) => {
@@ -79,11 +82,17 @@ class SLGameEngine extends GameEngine {
         }
     }
 
+    registerClasses(serializer) {
+        serializer.registerClass(Car);
+        serializer.registerClass(Ball);
+        serializer.registerClass(Arena);
+    }
+
     // server-side function to add a new player
     makeCar(playerId, team) {
         console.log(`adding car of player`, playerId);
 
-        let existingCar = this.world.getPlayerObject(playerId);
+        let existingCar = this.world.queryObject({ playerId });
         if (existingCar) {
             // this.log.push(`player[${playerId}] already has car[${existingCar.id}]`);
             return existingCar;
@@ -93,7 +102,7 @@ class SLGameEngine extends GameEngine {
         let x = Math.random() * 20 - 10;
         let z = Math.random() * 20 - 10;
         let position = new ThreeVector(x, 10, z);
-        let car = new Car(++this.world.idCount, this, position);
+        let car = new Car(this, position);
         car.playerId = playerId;
         car.team = team;
         this.addObjectToWorld(car);
@@ -111,7 +120,7 @@ class SLGameEngine extends GameEngine {
 
         console.log(`adding ball`);
         let position = new ThreeVector(0, 10, 0);
-        this.ball = new Ball(++this.world.idCount, this, position);
+        this.ball = new Ball(this, position);
         this.ball.playerId = 0;
         this.numBalls++;
         this.addObjectToWorld(this.ball);
@@ -127,13 +136,13 @@ class SLGameEngine extends GameEngine {
     removeCar(playerId) {
         console.log(`removing car of player`, playerId);
         // this.log.push(`removing objects for player[${playerId}]`);
-        let o = this.world.getPlayerObject(playerId);
+        let o = this.world.queryObject({ playerId });
         if (o) {
             // this.log.push(`removing car [${o.id}] for player[${playerId}]`);
             this.removeObjectFromWorld(o.id);
             this.numCars--;
         }
-        if (this.numCars == 0){
+        if (this.numCars == 0) {
             this.metaData.teams.red.score = 0;
             this.metaData.teams.blue.score = 0;
         }
@@ -141,7 +150,7 @@ class SLGameEngine extends GameEngine {
 
     processInput(inputData, playerId) {
         super.processInput(inputData, playerId);
-        let playerCar = this.world.getPlayerObject(playerId);
+        let playerCar = this.world.queryObject({ playerId });
         if (playerCar) {
             if (['up', 'down'].includes(inputData.input)) this.carControl.accelerate(playerCar, inputData.input);
             if (['right', 'left'].includes(inputData.input)) this.carControl.turn(playerCar, inputData.input);
@@ -149,5 +158,3 @@ class SLGameEngine extends GameEngine {
         }
     }
 }
-
-module.exports = SLGameEngine;

@@ -1,21 +1,21 @@
-const ClientEngine = require('lance-gg').ClientEngine;
-const MobileControls = require('../client/MobileControls');
-const KeyboardControls = require('../client/KeyboardControls');
-const SLRenderer = require('./SLRenderer');
-const Utils = require('./Utils');
+import ClientEngine from 'lance/ClientEngine';
+import MobileControls from '../client/MobileControls';
+import KeyboardControls from '../client/KeyboardControls';
+import SLRenderer from './SLRenderer';
+import Utils from './Utils';
 
 // The SoccerLeague client-side engine
-class SLClientEngine extends ClientEngine {
+export default class SLClientEngine extends ClientEngine {
 
     // constructor
     constructor(gameEngine, options) {
         super(gameEngine, options, SLRenderer);
 
-        this.serializer.registerClass(require('../common/Car'));
-        this.serializer.registerClass(require('../common/Ball'));
-        this.serializer.registerClass(require('../common/Arena'));
-
         this.gameEngine.on('client__preStep', this.preStep, this);
+    }
+
+    step(t, dt, physicsOnly) {
+        super.step(t, dt, physicsOnly);
     }
 
     // start then client engine
@@ -31,11 +31,11 @@ class SLClientEngine extends ClientEngine {
         }
 
         // save reference to the ball
-        this.gameEngine.on('objectAdded', obj => {
-            if(obj.constructor.name == 'Ball'){
+        this.gameEngine.on('objectAdded', (obj) => {
+            if(obj.constructor.name == 'Ball') {
                 this.gameEngine.ball = obj;
             }
-            if(obj.constructor.name == 'Arena'){
+            if(obj.constructor.name == 'Arena') {
                 this.gameEngine.arena = obj;
             }
         });
@@ -50,14 +50,14 @@ class SLClientEngine extends ClientEngine {
     connect() {
         return super.connect().then(() => {
 
-            this.socket.on('disconnect', e => {
+            this.socket.on('disconnect', (e) => {
                 console.log('disconnected');
                 document.body.classList.add('disconnected');
                 document.body.classList.remove('gameActive');
                 document.querySelector('#reconnect').disabled = false;
             });
 
-            this.socket.on('metaDataUpdate', e => {
+            this.socket.on('metaDataUpdate', (e) => {
                 console.log('metaDataUpdate', e);
                 this.gameEngine.metaData = e;
                 this.renderer.onMetaDataUpdate();
@@ -72,27 +72,27 @@ class SLClientEngine extends ClientEngine {
                 this.socket.emit('requestRestart', Utils.getUrlVars().jointeam);
             }
 
-            //in presentation mode make sure to not idle
+            // in presentation mode make sure to not idle
             if ('presentation' in Utils.getUrlVars()) {
                 setInterval(() =>{
                     this.socket.emit('keepAlive');
-                }, 1000 * 10)
+                }, 1000 * 10);
             }
         });
     }
 
     onRendererReady() {
         this.connect();
-        
+
         //  Game input
-        if (Utils.isTouchDevice()){
+        if (Utils.isTouchDevice()) {
             this.controls = new MobileControls(this.renderer);
         } else {
             this.controls = new KeyboardControls(this.renderer);
         }
 
         document.querySelector('#joinGame').addEventListener('click', () => {
-            if (Utils.isTouchDevice()){
+            if (Utils.isTouchDevice()) {
                 this.renderer.enableFullScreen();
             }
             this.socket.emit('requestRestart');
@@ -125,6 +125,3 @@ class SLClientEngine extends ClientEngine {
     }
 
 }
-
-
-module.exports = SLClientEngine;

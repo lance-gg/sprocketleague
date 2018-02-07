@@ -1,15 +1,15 @@
 'use strict';
 
-const AFrameRenderer = require('lance-gg').render.AFrameRenderer;
-const aframeCubeMapComponent = require('aframe-cubemap-component');
-const aframeChaseLookControls = require('./chase-look-controls');
-const Utils = require('./Utils');
+import AFrameRenderer from 'lance/render/AFrameRenderer';
+import aframeCubeMapComponent from 'aframe-cubemap-component';
+import aframeChaseLookControls from './chase-look-controls';
+import Utils from './Utils';
 
 const debugWireframes = false;
 const SLOW_RENDER_MESSAGE = 'Frame rate appears to be low. Try to shrink the window size. Maybe that will help? ¯\_(ツ)_/¯';
 
 
-class SLRenderer extends AFrameRenderer {
+export default class SLRenderer extends AFrameRenderer {
 
     // constructor
     constructor(gameEngine, clientEngine) {
@@ -56,8 +56,8 @@ class SLRenderer extends AFrameRenderer {
 
     }
 
-    draw() {
-        super.draw();
+    tick(t, dt) {
+        super.tick(t, dt);
         this.frameNum++;
         if (this.cannonDebugRenderer)
             this.cannonDebugRenderer.update();
@@ -74,7 +74,7 @@ class SLRenderer extends AFrameRenderer {
 
     joinPlayer(objData, options) {
 
-        if (this.clientEngine.isOwnedByPlayer(objData)) {
+        if (this.gameEngine.isOwnedByPlayer(objData)) {
             // setup chase camera, disable default camera controls
             document.querySelector('.chaseCamera').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);
             document.querySelector('.chaseCamera').setAttribute('camera', 'active', true);
@@ -95,7 +95,7 @@ class SLRenderer extends AFrameRenderer {
 
         for(let x=0; x<metaData.teams.red.players.length; x++) {
             let playerId = metaData.teams.red.players[x];
-            let playerCar = this.gameEngine.world.getPlayerObject(playerId);
+            let playerCar = this.gameEngine.world.queryObject({ playerId });
             if (playerCar) {
                 playerCar.team = 'red';
                 playerCar.updateTeamColor();
@@ -104,7 +104,7 @@ class SLRenderer extends AFrameRenderer {
 
         for(let x=0; x<metaData.teams.blue.players.length; x++) {
             let playerId = metaData.teams.blue.players[x];
-            let playerCar = this.gameEngine.world.getPlayerObject(playerId);
+            let playerCar = this.gameEngine.world.queryObject({ playerId });
             if (playerCar) {
                 playerCar.team = 'blue';
                 playerCar.updateTeamColor();
@@ -157,5 +157,3 @@ function truncateDecimals(number, digits) {
 
     return truncatedNum / multiplier;
 };
-
-module.exports = SLRenderer;

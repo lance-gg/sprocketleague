@@ -1,13 +1,11 @@
 'use strict';
 
-const ServerEngine = require('lance-gg').ServerEngine;
+import ServerEngine from 'lance/ServerEngine';
 
-class SLServerEngine extends ServerEngine {
+export default class SLServerEngine extends ServerEngine {
+
     constructor(io, gameEngine, inputOptions) {
         super(io, gameEngine, inputOptions);
-        this.serializer.registerClass(require('../common/Car'));
-        this.serializer.registerClass(require('../common/Ball'));
-        this.serializer.registerClass(require('../common/Arena'));
 
         gameEngine.on('scoreChange', this.updateMetaData, this);
     }
@@ -17,15 +15,16 @@ class SLServerEngine extends ServerEngine {
 
         let makePlayerCar = (team) => {
             let playerTeam;
-            if (team == 'red'){ playerTeam = 'red'}
-            else if (team == 'blue'){ playerTeam = 'blue'}
-            else {
-                //make sure players join the right team
-                if (this.gameEngine.metaData.teams.red.players.length < this.gameEngine.metaData.teams.blue.players.length){
-                    playerTeam = 'red'
-                }
-                else{
-                    playerTeam = 'blue'
+            if (team == 'red') {
+                playerTeam = 'red';
+            } else if (team == 'blue') {
+                playerTeam = 'blue';
+            } else {
+                // make sure players join the right team
+                if (this.gameEngine.metaData.teams.red.players.length < this.gameEngine.metaData.teams.blue.players.length) {
+                    playerTeam = 'red';
+                } else{
+                    playerTeam = 'blue';
                 }
             }
 
@@ -34,8 +33,7 @@ class SLServerEngine extends ServerEngine {
                 this.gameEngine.metaData.teams[playerTeam].players.push(socket.playerId);
                 this.gameEngine.makeCar(socket.playerId, playerTeam);
                 this.updateMetaData();
-            }
-            else{
+            } else{
                 console.error('no such team', playerTeam);
             }
         };
@@ -57,7 +55,7 @@ class SLServerEngine extends ServerEngine {
         super.onPlayerDisconnected(socketId, playerId);
         this.gameEngine.removeCar(playerId);
 
-        //remove player from team
+        // remove player from team
         let redTeam = this.gameEngine.metaData.teams['red'];
         let blueTeam = this.gameEngine.metaData.teams['blue'];
 
@@ -75,11 +73,11 @@ class SLServerEngine extends ServerEngine {
     }
 
 
-    updateMetaData(socket){
-        if (socket){
+    updateMetaData(socket) {
+        if (socket) {
             socket.emit('metaDataUpdate', this.gameEngine.metaData);
         } else{
-            //emit to all
+            // emit to all
             // delay so player socket can catch up
             setTimeout(() => {
                 this.io.sockets.emit('metaDataUpdate', this.gameEngine.metaData);
@@ -97,5 +95,3 @@ class SLServerEngine extends ServerEngine {
         return statusString;
     }
 }
-
-module.exports = SLServerEngine;

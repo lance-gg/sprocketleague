@@ -1,6 +1,6 @@
 'use strict';
 
-const PhysicalObject = require('lance-gg').serialize.PhysicalObject;
+import PhysicalObject from 'lance/serialize/PhysicalObject';
 const MASS = 0;
 const ARENA_SCALE = 0.2;
 
@@ -23,10 +23,10 @@ const CORNER_RADIUS = 80 * ARENA_SCALE;
 // The X and Z axis are the floor of the arena, and the Y axis is the height.
 // Using the X axis as the North, the Arena is laid out so that it is wide is along
 // the X axis, and the goals are at the North end and the South end.
-class Arena extends PhysicalObject {
+export default class Arena extends PhysicalObject {
 
-    constructor(id, gameEngine, position) {
-        super(id, position);
+    constructor(gameEngine) {
+        super(gameEngine);
         this.class = Arena;
         this.gameEngine = gameEngine;
         this.walls = [];
@@ -88,9 +88,8 @@ class Arena extends PhysicalObject {
             el.setAttribute('scale', `${ARENA_MODEL_SCALE} ${ARENA_MODEL_SCALE} ${ARENA_MODEL_SCALE}`);
             el.setAttribute('rotate', `0 90 0`);
             el.setAttribute('game-object-id', this.id);
-        }
-        else{
-            console.log("Tried to add arena object but renderer not ready")
+        } else {
+            console.log('Tried to add arena object but renderer not ready');
         }
     }
 
@@ -111,5 +110,3 @@ class Arena extends PhysicalObject {
     }
 
 }
-
-module.exports = Arena;

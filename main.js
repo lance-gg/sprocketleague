@@ -1,8 +1,8 @@
 'use strict';
 
-const express = require('express');
-const socketIO = require('socket.io');
-const path = require('path');
+import express from 'express';
+import socketIO from 'socket.io';
+import path from 'path';
 
 // Constants
 const PORT = process.env.PORT || 3000;
@@ -14,14 +14,13 @@ const requestHandler = server.listen(PORT, () => console.log(`Listening on ${POR
 const io = socketIO(requestHandler);
 
 // get game classes
-const SLServerEngine = require('./src/server/SLServerEngine.js');
-const SLGameEngine = require('./src/common/SLGameEngine.js');
-const CannonPhysicsEngine = require('lance-gg').physics.CannonPhysicsEngine;
+import SLServerEngine from './src/server/SLServerEngine.js';
+import SLGameEngine from './src/common/SLGameEngine.js';
+import Trace from 'lance/lib/Trace';
 const LancePro = require('lance-pro');
 
 // create instances
-const physicsEngine = new CannonPhysicsEngine();
-const gameEngine = new SLGameEngine({ physicsEngine, traceLevel: 1000 });
+const gameEngine = new SLGameEngine({ traceLevel: Trace.TRACE_NONE });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6, timeoutInterval: 20 });
 new LancePro.StatsCollector(gameEngine);
 new LancePro.MatchMakerTarget(server, serverEngine);
