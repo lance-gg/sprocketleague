@@ -1,6 +1,6 @@
 {
   "name": "sprocketleague",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "engines": {
     "node": "6.6.0"
   },
@@ -21,7 +21,7 @@
     "express": "^4.14.0",
     "file-loader": "^0.9.0",
     "json-loader": "^0.5.4",
-    "lance-gg": "~1.0.7",
+    "lance-gg": "~2.0.0",
     "lance-pro": "^0.0.7",
     "node-sass": "^4.1.1",
     "null-loader": "^0.1.1",
