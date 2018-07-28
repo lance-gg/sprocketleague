@@ -1,12 +1,12 @@
 'use strict';
 
-import PhysicalObject from 'lance/serialize/PhysicalObject';
+import PhysicalObject3D from 'lance/serialize/PhysicalObject3D';
 const MASS = 2;
 const Utils = require('../client/Utils');
 
 let CANNON = null;
 
-export default class Car extends PhysicalObject {
+export default class Car extends PhysicalObject3D {
 
     constructor(gameEngine, position) {
         super(gameEngine, null, { position });

@@ -1,11 +1,11 @@
 'use strict';
 
-import PhysicalObject from 'lance/serialize/PhysicalObject';
+import PhysicalObject3D from 'lance/serialize/PhysicalObject3D';
 const RADIUS = 4;
 const MASS = 0.1;
 // let CANNON = null;
 
-export default class Ball extends PhysicalObject {
+export default class Ball extends PhysicalObject3D {
 
     constructor(gameEngine, position) {
         super(gameEngine, null, { position });

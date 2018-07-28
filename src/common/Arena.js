@@ -1,6 +1,6 @@
 'use strict';
 
-import PhysicalObject from 'lance/serialize/PhysicalObject';
+import PhysicalObject3D from 'lance/serialize/PhysicalObject3D';
 const MASS = 0;
 const ARENA_SCALE = 0.2;
 
@@ -23,7 +23,7 @@ const CORNER_RADIUS = 80 * ARENA_SCALE;
 // The X and Z axis are the floor of the arena, and the Y axis is the height.
 // Using the X axis as the North, the Arena is laid out so that it is wide is along
 // the X axis, and the goals are at the North end and the South end.
-export default class Arena extends PhysicalObject {
+export default class Arena extends PhysicalObject3D {
 
     constructor(gameEngine) {
         super(gameEngine);
