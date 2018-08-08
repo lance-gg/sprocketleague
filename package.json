@@ -2,7 +2,7 @@
   "name": "sprocketleague",
   "version": "2.0.1",
   "engines": {
-    "node": "6.11.1"
+    "node": ">=8.0.0"
   },
   "description": "A sample A-Frame multiplayer with networked physics",
   "main": "main.js",
