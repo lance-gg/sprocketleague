@@ -2,7 +2,6 @@
 
 import AFrameRenderer from 'lance/render/AFrameRenderer';
 import aframeCubeMapComponent from 'aframe-cubemap-component';
-import aframeChaseLookControls from './chase-look-controls';
 import Utils from './Utils';
 
 const debugWireframes = false;
@@ -76,12 +75,8 @@ export default class SLRenderer extends AFrameRenderer {
 
         if (this.gameEngine.isOwnedByPlayer(objData)) {
             // setup chase camera, disable default camera controls
-            document.querySelector('.chaseCamera').setAttribute('chase-look-controls', `target: a-entity[game-object-id="${objData.id}"]`);
             document.querySelector('.chaseCamera').setAttribute('camera', 'active', true);
-
             document.querySelector('.spectatorCamera').setAttribute('camera', 'active', false);
-            // document.querySelector('a-entity[camera]').removeAttribute('look-controls');
-            // document.querySelector('a-entity[camera]').removeAttribute('wasd-controls');
 
             document.body.classList.add('gameActive');
             document.querySelector('#joinGame').disabled = true;
