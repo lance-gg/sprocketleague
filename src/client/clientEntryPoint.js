@@ -1,6 +1,7 @@
 import querystring from 'query-string';
 import SLClientEngine from './SLClientEngine';
 import SLGameEngine from '../common/SLGameEngine';
+import Trace from 'lance/lib/Trace';
 const qsOptions = querystring.parse(location.search);
 require('../../dist/resources/sass/main.scss');
 
@@ -13,7 +14,7 @@ if (window.location.hostname === 'sprocketleagueus.lance.gg' ||
 // default options, overwritten by query-string options
 // is sent to both game engine and client engine
 const defaults = {
-    traceLevel: 1000,
+    traceLevel: Trace.TRACE_NONE,
     delayInputCount: 3,
     matchmaker: matchmaker,
     scheduler: 'render-schedule',

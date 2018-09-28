@@ -11,7 +11,7 @@ const INDEX = path.join(__dirname, './dist/index.html');
 // network servers
 const server = express();
 const requestHandler = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
-const io = socketIO(requestHandler);
+const io = socketIO(requestHandler, { transports: ['websocket', 'polling'] });
 
 // get game classes
 import SLServerEngine from './src/server/SLServerEngine.js';
