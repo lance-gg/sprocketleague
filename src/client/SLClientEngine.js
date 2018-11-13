@@ -48,7 +48,7 @@ export default class SLClientEngine extends ClientEngine {
 
     // extend ClientEngine connect to add own events
     connect() {
-        return super.connect({ transports: ['websocket', 'polling'] }).then(() => {
+        return super.connect().then(() => {
 
             this.socket.on('disconnect', (e) => {
                 console.log('disconnected');
