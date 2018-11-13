@@ -30,6 +30,7 @@
     "sass-loader": "^4.1.1",
     "shader-particle-engine": "^1.0.6",
     "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
     "style-loader": "^0.13.1",
     "three": "^0.84.0",
     "tween": "^0.9.0",

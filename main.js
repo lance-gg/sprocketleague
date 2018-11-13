@@ -10,8 +10,6 @@ const INDEX = path.join(__dirname, './dist/index.html');
 
 // network servers
 const server = express();
-const requestHandler = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
-const io = socketIO(requestHandler, { transports: ['websocket', 'polling'] });
 
 // get game classes
 import SLServerEngine from './src/server/SLServerEngine.js';
@@ -29,6 +27,8 @@ new LancePro.MatchMakerTarget(server, serverEngine);
 server.get('/gameStatus', (req, res) => { res.send(serverEngine.gameStatus()); });
 server.get('/', (req, res) => { res.sendFile(INDEX); });
 server.use('/', express.static(path.join(__dirname, './dist/')));
+const requestHandler = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
+const io = socketIO(requestHandler);
 
 // start the game
 serverEngine.start();
