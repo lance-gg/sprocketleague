@@ -1,2 +1,2 @@
 #!/bin/bash
-pkill -f sprocketleague
+pkill -f sprocketleague || true
