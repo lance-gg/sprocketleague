@@ -1,4 +1,5 @@
 import path from 'path';
+import cors from 'cors';
 import express from 'express';
 import socketIO from 'socket.io';
 import Trace from 'lance/lib/Trace';
@@ -10,6 +11,7 @@ const INDEX = path.join(__dirname, './dist/index.html');
 
 // define routes and socket
 const server = express();
+server.use(cors({ credentials: true, origin: true }));
 server.get('/', (req, res) => { res.sendFile(INDEX); });
 server.use('/', express.static(path.join(__dirname, './dist/')));
 const requestHandler = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
