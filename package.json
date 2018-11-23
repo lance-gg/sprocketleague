@@ -13,6 +13,7 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-module-resolver": "^2.7.1",
+    "babel-preset-env": "^1.7.0",
     "breakpoint-sass": "^2.7.1",
     "browserify": "^13.0.1",
     "cors": "^2.8.5",
@@ -38,7 +39,6 @@
     "webpack": "^3.8.1"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
     "babelify": "^7.3.0",
     "eslint": "^3.14.1",
     "eslint-config-google": "^0.7.1",
