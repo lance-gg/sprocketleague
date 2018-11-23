@@ -196,6 +196,10 @@ export default class Ball extends PhysicalObject3D {
         return `Ball::${super.toString()}`;
     }
 
+    syncTo(other) {
+        super.syncTo(other);
+    }
+
     destroy() {
         this.gameEngine.removeListener('client__postStep', this.onClientPostStep);
         this.gameEngine.physicsEngine.removeObject(this.physicsObj);

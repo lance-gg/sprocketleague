@@ -32,6 +32,10 @@ export default class Arena extends PhysicalObject3D {
         this.walls = [];
     }
 
+    syncTo(other) {
+        super.syncTo(other);
+    }
+
     // add a wall
     // (x, y, z) are position
     // (dx, dy, dz) are dimensions

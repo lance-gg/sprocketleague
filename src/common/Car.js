@@ -205,6 +205,10 @@ export default class Car extends PhysicalObject3D {
         return `Car::${super.toString()}`;
     }
 
+    syncTo(other) {
+        super.syncTo(other);
+    }
+
     destroy() {
         this.gameEngine.physicsEngine.removeObject(this.physicsObj);
     }
