@@ -13,8 +13,9 @@ const server = express();
 server.get('/', (req, res) => { res.sendFile(INDEX); });
 server.use('/', express.static(path.join(__dirname, './dist/')));
 const requestHandler = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
+const io = socketIO(requestHandler);
 
-// create instances
+// Game Instances
 const gameEngine = new SLGameEngine({ traceLevel: Trace.TRACE_NONE });
 const serverEngine = new SLServerEngine(io, gameEngine, { debug: {}, updateRate: 6, timeoutInterval: 20 });
 
