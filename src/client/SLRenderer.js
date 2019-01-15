@@ -130,7 +130,9 @@ export default class SLRenderer extends AFrameRenderer {
             } else if (docElm.mozRequestFullScreen) {
                 docElm.mozRequestFullScreen();
             } else if (docElm.webkitRequestFullScreen) {
-                docElm.webkitRequestFullScreen();
+                // NOTE: disabled on iOS/Safari, because it generated a
+                // phishing warning.
+                // docElm.webkitRequestFullScreen();
             }
         }
     }
