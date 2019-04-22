@@ -1,8 +1,4 @@
-'use strict';
-
-import GameEngine from 'lance/GameEngine';
-import CannonPhysicsEngine from 'lance/physics/CannonPhysicsEngine';
-import ThreeVector from 'lance/serialize/ThreeVector';
+import { GameEngine, CannonPhysicsEngine, ThreeVector } from 'lance-gg';
 import CarControl from './CarControl';
 import Car from './Car';
 import Ball from './Ball';

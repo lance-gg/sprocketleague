@@ -1,13 +1,11 @@
-'use strict';
-
-import ServerEngine from 'lance/ServerEngine';
+import { ServerEngine } from 'lance-gg';
 
 export default class SLServerEngine extends ServerEngine {
 
     constructor(io, gameEngine, inputOptions) {
         super(io, gameEngine, inputOptions);
 
-        gameEngine.on('scoreChange', this.updateMetaData, this);
+        gameEngine.on('scoreChange', this.updateMetaData.bind(this));
     }
 
     onPlayerConnected(socket) {

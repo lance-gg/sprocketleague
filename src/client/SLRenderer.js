@@ -1,6 +1,4 @@
-'use strict';
-
-import AFrameRenderer from 'lance/render/AFrameRenderer';
+import { AFrameRenderer } from 'lance-gg';
 import aframeCubeMapComponent from 'aframe-cubemap-component';
 import Utils from './Utils';
 
@@ -48,7 +46,7 @@ export default class SLRenderer extends AFrameRenderer {
                 console.log('assets loaded');
                 document.body.classList.remove('loading');
 
-                this.emit('ready');
+                this.gameEngine.emit('_SLRENDERER_ready');
                 this.isReady = true;
             });
         });

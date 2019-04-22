@@ -1,4 +1,4 @@
-import ClientEngine from 'lance/ClientEngine';
+import { ClientEngine } from 'lance-gg';
 import MobileControls from '../client/MobileControls';
 import KeyboardControls from '../client/KeyboardControls';
 import SLRenderer from './SLRenderer';
@@ -11,7 +11,7 @@ export default class SLClientEngine extends ClientEngine {
     constructor(gameEngine, options) {
         super(gameEngine, options, SLRenderer);
 
-        this.gameEngine.on('client__preStep', this.preStep, this);
+        this.gameEngine.on('client__preStep', this.preStep.bind(this));
     }
 
     step(t, dt, physicsOnly) {
@@ -27,7 +27,7 @@ export default class SLClientEngine extends ClientEngine {
         if (this.renderer.isReady) {
             this.onRendererReady();
         } else {
-            this.renderer.once('ready', this.onRendererReady, this);
+            this.gameEngine.once('_SLRENDERER_ready', this.onRendererReady.bind(this));
         }
 
         // save reference to the ball

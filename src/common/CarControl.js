@@ -1,4 +1,3 @@
-'use strict';
 const FORWARD_IMPULSE = 0.45;
 const MAX_VELOCITY = 25;
 const MIN_TURNING_VELOCITY = 4.0;

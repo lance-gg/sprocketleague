@@ -1,5 +1,5 @@
 import querystring from 'query-string';
-import Trace from 'lance/lib/Trace';
+import { Lib } from 'lance-gg';
 import SLClientEngine from './SLClientEngine';
 import SLGameEngine from '../common/SLGameEngine';
 const qsOptions = querystring.parse(location.search);
@@ -8,7 +8,7 @@ require('../../dist/resources/sass/main.scss');
 // default options, overwritten by query-string options
 // is sent to both game engine and client engine
 const defaults = {
-    traceLevel: Trace.TRACE_NONE,
+    traceLevel: Lib.Trace.TRACE_NONE,
     delayInputCount: 3,
     scheduler: 'render-schedule',
     syncOptions: {

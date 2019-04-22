@@ -1,6 +1,4 @@
-'use strict';
-
-import PhysicalObject3D from 'lance/serialize/PhysicalObject3D';
+import { PhysicalObject3D } from 'lance-gg';
 const MASS = 0;
 const ARENA_SCALE = 0.2;
 
